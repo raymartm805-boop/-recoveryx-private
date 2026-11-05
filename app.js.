@@ -1,0 +1,53 @@
+
+document.addEventListener("DOMContentLoaded", () => {
+    const detectionForm = document.getElementById("detectionForm");
+    const recoveryForm = document.getElementById("recoveryForm");
+
+    if (detectionForm) {
+        detectionForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const url = document.getElementById("profileUrl").value.trim();
+            const result = document.getElementById("profileResult");
+
+            try {
+                const parsed = new URL(url);
+                const allowed = [
+                    "facebook.com",
+                    "www.facebook.com",
+                    "instagram.com",
+                    "www.instagram.com",
+                    "tiktok.com",
+                    "www.tiktok.com",
+                    "x.com",
+                    "www.x.com"
+                ];
+
+                if (!allowed.includes(parsed.hostname)) {
+                    throw new Error("Unsupported platform");
+                }
+
+                if (result) {
+                    result.hidden = false;
+                    document.getElementById("platform").textContent =
+                        parsed.hostname.replace("www.", "");
+                    document.getElementById("username").textContent =
+                        parsed.pathname.split("/").filter(Boolean)[0] || "Unknown";
+                    document.getElementById("profileId").textContent =
+                        "Not publicly verified";
+                    document.getElementById("lookupStatus").textContent =
+                        "URL format checked only";
+                }
+            } catch {
+                alert("Please enter a valid supported profile URL.");
+            }
+        });
+    }
+
+    if (recoveryForm) {
+        recoveryForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            alert("Recovery request form validated successfully.");
+        });
+    }
+});
