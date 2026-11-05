@@ -2,16 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RecoveryX Private</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoveryX Private</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
 <div class="app">
 
+    <!-- SIDEBAR MENU -->
     <aside class="sidebar">
+
         <h2 class="menu-title">⚙ MENU</h2>
 
         <nav>
@@ -22,15 +24,18 @@
             <a class="menu-item" href="admin.html">ADMIN</a>
             <a class="menu-item" href="#panel">PANEL</a>
             <a class="menu-item" href="#config">CONFIG</a>
+            <a class="menu-item" href="#notice">NOTICE</a>
         </nav>
 
         <div class="side-footer">
             <span>🛡️</span>
             <p>RECOVERYX PRIVATE</p>
-            <small>DEMO INTERFACE</small>
+            <small>ACCOUNT ASSISTANCE</small>
         </div>
+
     </aside>
 
+    <!-- MAIN CONTENT -->
     <main class="main-content">
 
         <header class="header" id="home">
@@ -38,16 +43,20 @@
                 <h1>RECOVERYX <span>⚙</span></h1>
                 <p>PRIVATE MANAGEMENT PANEL</p>
             </div>
+
             <div class="switch-label">
-                <span class="online-dot"></span> ONLINE
+                <span class="online-dot"></span>
+                INTERFACE ONLINE
             </div>
         </header>
 
+        <!-- MAIN PANEL -->
         <section class="panel" id="panel">
 
             <h2 class="panel-title">RECOVERYX CONTROL PANEL</h2>
 
             <div class="form-grid">
+
                 <select id="platform">
                     <option value="Facebook">Facebook</option>
                     <option value="Instagram">Instagram</option>
@@ -60,12 +69,16 @@
                     <option value="Locked Account">Locked Account</option>
                     <option value="Login Problem">Login Problem</option>
                 </select>
+
             </div>
 
             <div class="field">
                 <label>ACCOUNT PROFILE URL</label>
-                <input id="profileUrl" type="url"
-                placeholder="Enter your public profile URL">
+                <input
+                    id="profileUrl"
+                    type="url"
+                    placeholder="Enter public profile URL"
+                >
             </div>
 
             <button class="submit-btn" id="submitBtn">
@@ -74,78 +87,154 @@
 
             <div class="result" id="result">
                 <span class="result-dot"></span>
-                <span id="resultText">DEMO SYSTEM READY</span>
+                <span id="resultText">SYSTEM READY</span>
             </div>
 
             <div class="reference">
                 <h3>RX-PRIVATE</h3>
-                <p>ACCOUNT ASSISTANCE</p>
+                <p>ACCOUNT ASSISTANCE PANEL</p>
             </div>
+
         </section>
 
+        <!-- STATUS -->
         <section class="panel" id="status">
+
             <h2 class="panel-title">SYSTEM STATUS</h2>
+
             <div class="status-row">
                 <span>Interface Status</span>
                 <strong>ONLINE</strong>
             </div>
+
             <div class="status-row">
                 <span>Database</span>
                 <strong>NOT CONNECTED</strong>
             </div>
+
             <div class="status-row">
                 <span>Platform Connection</span>
-                <strong>DEMO ONLY</strong>
+                <strong>NOT CONNECTED</strong>
             </div>
+
         </section>
 
+        <!-- TOOLS -->
         <section class="panel" id="tools">
-            <h2 class="panel-title">TOOLS</h2>
+
+            <h2 class="panel-title">OFFICIAL RECOVERY TOOLS</h2>
+
             <a class="tool-link"
-            href="https://www.facebook.com/hacked"
-            target="_blank" rel="noopener noreferrer">
-                FACEBOOK OFFICIAL RECOVERY ↗
+               href="https://www.facebook.com/hacked"
+               target="_blank"
+               rel="noopener noreferrer">
+                FACEBOOK RECOVERY ↗
             </a>
+
             <a class="tool-link"
-            href="https://www.instagram.com/hacked/"
-            target="_blank" rel="noopener noreferrer">
-                INSTAGRAM OFFICIAL RECOVERY ↗
+               href="https://www.instagram.com/hacked/"
+               target="_blank"
+               rel="noopener noreferrer">
+                INSTAGRAM RECOVERY ↗
             </a>
+
             <a class="tool-link"
-            href="https://support.tiktok.com/"
-            target="_blank" rel="noopener noreferrer">
-                TIKTOK OFFICIAL SUPPORT ↗
+               href="https://support.tiktok.com/"
+               target="_blank"
+               rel="noopener noreferrer">
+                TIKTOK SUPPORT ↗
             </a>
+
         </section>
 
+        <!-- KEY -->
         <section class="panel" id="key">
+
             <h2 class="panel-title">KEY INFORMATION</h2>
-            <p class="description">
-                No API keys, passwords, OTPs, or recovery codes
-                are requested or stored by this demonstration.
-            </p>
+
+            <div class="status-row">
+                <span>API Configuration</span>
+                <strong>NOT SET</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Authentication</span>
+                <strong>NOT CONFIGURED</strong>
+            </div>
+
         </section>
 
+        <!-- CONFIG -->
         <section class="panel" id="config">
+
             <h2 class="panel-title">CONFIGURATION</h2>
+
             <div class="status-row">
-                <span>Display Mode</span>
+                <span>Interface Theme</span>
                 <strong>NEON DARK</strong>
             </div>
+
             <div class="status-row">
                 <span>Version</span>
-                <strong>1.0 DEMO</strong>
+                <strong>1.0</strong>
             </div>
+
+        </section>
+
+        <!-- NOTICE -->
+        <section class="panel" id="notice">
+
+            <h2 class="panel-title">SYSTEM NOTICE</h2>
+
+            <div class="status-row">
+                <span>System Mode</span>
+                <strong>DEMONSTRATION</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Interface</span>
+                <strong>SIMULATION MODE</strong>
+            </div>
+
+            <div class="status-row">
+                <span>Account Access</span>
+                <strong>NOT CONNECTED</strong>
+            </div>
+
+            <div class="notice-content">
+                <h3>IMPORTANT INFORMATION</h3>
+
+                <p>
+                    RecoveryX Private is an independent
+                    account assistance interface.
+                </p>
+
+                <p>
+                    This interface does not directly access,
+                    unlock, trace, or recover social media accounts.
+                </p>
+
+                <p>
+                    Account recovery must be completed through
+                    the official platform recovery procedures.
+                </p>
+
+                <p>
+                    Never provide passwords, OTPs, or recovery codes.
+                </p>
+            </div>
+
         </section>
 
         <footer>
             RECOVERYX PRIVATE © 2026
-            <p>Independent demonstration interface.</p>
+            <p>Account Assistance Management Interface</p>
         </footer>
 
     </main>
 </div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
