@@ -1,167 +1,114 @@
 
-:root {
-  --bg: #080d16;
-  --panel: #111a29;
-  --panel2: #162236;
-  --line: #26364d;
-  --text: #edf4ff;
-  --muted: #91a3bc;
-  --blue: #48a8ff;
-  --green: #35d49a;
-  --orange: #ffbd59;
-}
-
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 20px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    line-height: 1.6;
 }
 
 .container {
-  width: 100%;
-  max-width: 1000px;
-  margin: auto;
+    width: 92%;
+    max-width: 1100px;
+    margin: auto;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 28px;
+    background: #ffffff;
+    padding: 22px 0;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px #0000000a;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
-  letter-spacing: 1px;
-}
-
-header p,
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.status {
-  color: var(--green);
-  font-size: 12px;
-  border: 1px solid var(--green);
-  border-radius: 20px;
-  padding: 7px 12px;
+h1 {
+    color: #2563eb;
+    font-size: 26px;
 }
 
 h2 {
-  font-size: 17px;
-  margin-top: 0;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+p {
+    color: #64748b;
 }
 
 .card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 18px;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0 14px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel2);
-  color: var(--text);
-  font-size: 14px;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 1px solid var(--blue);
-  border-color: var(--blue);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 22px;
+    border-radius: 14px;
+    margin: 22px 0;
+    box-shadow: 0 4px 15px #0000000a;
 }
 
 button {
-  width: 100%;
-  padding: 13px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--blue);
-  color: #06111f;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
+    color: #ffffff;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    margin-top: 10px;
 }
 
-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
+/* System button */
+#checkSystem {
+    background: #16a34a;
 }
 
-.result,
-.activity-item {
-  background: var(--panel2);
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 13px;
-  margin-top: 12px;
-  overflow-wrap: anywhere;
+/* Profile checker */
+#detectionForm button {
+    background: #2563eb;
 }
 
-.progress-track {
-  height: 10px;
-  width: 100%;
-  background: #26364d;
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 14px 0;
+/* Recovery request */
+#recoveryForm button {
+    background: #9333ea;
 }
 
-.progress-bar {
-  width: 0;
-  height: 100%;
-  background: var(--green);
-  transition: width .3s ease;
+button:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
 }
 
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  color: var(--muted);
-  font-size: 13px;
+input, select {
+    width: 100%;
+    padding: 13px;
+    margin: 9px 0 16px;
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+}
+
+input:focus, select:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+}
+
+label {
+    font-weight: bold;
+    color: #334155;
+}
+
+.result {
+    background: #eff6ff;
+    padding: 16px;
+    margin-top: 18px;
+    border-radius: 10px;
+    border: 1px solid #bfdbfe;
 }
 
 footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-  padding: 20px 0;
-}
-
-@media (max-width: 600px) {
-  body {
-    padding: 13px;
-  }
-
-  header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  header h1 {
-    font-size: 22px;
-  }
-
-  .card {
-    padding: 15px;
-  }
+    text-align: center;
+    padding: 25px 0;
+    border-top: 1px solid #e2e8f0;
 }
