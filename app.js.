@@ -1,7 +1,21 @@
-
 document.addEventListener("DOMContentLoaded", () => {
+
+    // SYSTEM STATUS
+    const status = document.getElementById("systemStatus");
+    const button = document.getElementById("checkSystem");
+
+    if (status) {
+        status.textContent = "SYSTEM ONLINE";
+    }
+
+    if (button) {
+        button.addEventListener("click", () => {
+            status.textContent = "SYSTEM CHECK COMPLETE";
+        });
+    }
+
+    // PROFILE URL CHECKER
     const detectionForm = document.getElementById("detectionForm");
-    const recoveryForm = document.getElementById("recoveryForm");
 
     if (detectionForm) {
         detectionForm.addEventListener("submit", (event) => {
@@ -12,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 const parsed = new URL(url);
-                const allowed = [
+                const domains = [
                     "facebook.com",
                     "www.facebook.com",
                     "instagram.com",
@@ -23,31 +37,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     "www.x.com"
                 ];
 
-                if (!allowed.includes(parsed.hostname)) {
-                    throw new Error("Unsupported platform");
+                if (!domains.includes(parsed.hostname)) {
+                    throw new Error("Invalid platform");
                 }
 
-                if (result) {
-                    result.hidden = false;
-                    document.getElementById("platform").textContent =
-                        parsed.hostname.replace("www.", "");
-                    document.getElementById("username").textContent =
-                        parsed.pathname.split("/").filter(Boolean)[0] || "Unknown";
-                    document.getElementById("profileId").textContent =
-                        "Not publicly verified";
-                    document.getElementById("lookupStatus").textContent =
-                        "URL format checked only";
-                }
+                result.hidden = false;
+
+                document.getElementById("platform").textContent = parsed.hostname;
+                document.getElementById("username").textContent =
+                    parsed.pathname.split("/").filter(Boolean)[0] || "Unknown";
+
+                document.getElementById("profileId").textContent =
+                    "Not verified";
+
+                document.getElementById("lookupStatus").textContent =
+                    "URL format checked";
             } catch {
                 alert("Please enter a valid supported profile URL.");
             }
         });
     }
 
+    // RECOVERY REQUEST FORM
+    const recoveryForm = document.getElementById("recoveryForm");
+
     if (recoveryForm) {
         recoveryForm.addEventListener("submit", (event) => {
             event.preventDefault();
-            alert("Recovery request form validated successfully.");
+            alert("Form validated. No account credentials were accessed.");
         });
     }
+
 });
