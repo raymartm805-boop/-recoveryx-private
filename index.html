@@ -1,1 +1,90 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecoveryX Private</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>RecoveryX Private</h1>
+        <p>Private Recovery Management System</p>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="card">
+        <h2>System Status</h2>
+        <p id="systemStatus">SYSTEM ONLINE</p>
+        <button id="checkSystem" type="button">CHECK SYSTEM</button>
+    </section>
+
+    <section class="card">
+        <h2>Profile URL Checker</h2>
+        <p>Check the format of a public profile URL.</p>
+
+        <form id="detectionForm">
+            <label for="profileUrl">Profile URL</label>
+            <input
+                type="url"
+                id="profileUrl"
+                placeholder="https://www.facebook.com/username"
+                required
+            >
+            <button type="submit">CHECK PROFILE URL</button>
+        </form>
+
+        <div id="profileResult" class="result" hidden>
+            <h3>URL Information</h3>
+            <p>Platform: <span id="platform"></span></p>
+            <p>Username: <span id="username"></span></p>
+            <p>Profile ID: <span id="profileId"></span></p>
+            <p>Status: <span id="lookupStatus"></span></p>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Recovery Request</h2>
+
+        <form id="recoveryForm">
+            <label for="accountName">Account Username</label>
+            <input id="accountName" type="text" required>
+
+            <label for="accountPlatform">Platform</label>
+            <select id="accountPlatform" required>
+                <option value="Facebook">Facebook</option>
+                <option value="Instagram">Instagram</option>
+                <option value="TikTok">TikTok</option>
+                <option value="X">X</option>
+            </select>
+
+            <label for="issue">Account Issue</label>
+            <select id="issue" required>
+                <option value="Locked">Locked Account</option>
+                <option value="Disabled">Disabled Account</option>
+                <option value="Restricted">Restricted Account</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="contactEmail">Contact Email</label>
+            <input id="contactEmail" type="email" required>
+
+            <button type="submit">SUBMIT REQUEST</button>
+        </form>
+    </section>
+
+</main>
+
+<footer class="container">
+    <p>RecoveryX Private &copy; 2026</p>
+    <p>Authorized account recovery assistance only.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
