@@ -1,220 +1,186 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#ffffff">
-
     <title>RecoveryX Private</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="container">
-            <h1>🛡️ RecoveryX Private</h1>
-            <p>Account Recovery Management System</p>
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🛡️</div>
+            <h2>RecoveryX<br><span>Private</span></h2>
+            <p>Account Recovery<br>Management System</p>
         </div>
-    </header>
 
-    <main class="container">
+        <nav class="side-nav">
+            <a href="index.html" class="active">🏠 Main Dashboard</a>
+            <a href="admin.html">⚙️ Admin Dashboard</a>
 
-        <!-- NAVIGATION -->
-        <section class="card">
-            <h2>Navigation</h2>
+            <h3>System</h3>
+            <a href="#system">📊 System Status</a>
+            <a href="#system">✓ Check System</a>
 
-            <a href="index.html">
-                <button type="button">MAIN DASHBOARD</button>
-            </a>
+            <h3>Tools</h3>
+            <a href="#checker">🔗 Profile URL Checker</a>
+            <a href="#recovery">🔄 Recovery Request</a>
+            <a href="#resources">📁 Resources</a>
 
-            <a href="admin.html">
-                <button type="button" class="admin-button">
-                    ADMIN DASHBOARD
+            <h3>Support</h3>
+            <a href="#resources">🎧 Support Resources</a>
+            <a href="#about">ⓘ About</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="footer-shield">🛡️</div>
+            <p>RecoveryX Private © 2026</p>
+            <small>All Rights Reserved</small>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h2>🛡️ RecoveryX <span>Private</span></h2>
+                <p>Account Recovery Management System</p>
+            </div>
+            <div class="online-status">
+                <span></span> System Online
+            </div>
+        </header>
+
+        <section class="dashboard-card">
+            <h2>➤ Navigation</h2>
+            <div class="button-row">
+                <a class="action-button blue" href="index.html">
+                    ▦ Main Dashboard
+                </a>
+                <a class="action-button cyan" href="admin.html">
+                    🛡️ Admin Dashboard
+                </a>
+            </div>
+        </section>
+
+        <section class="dashboard-card" id="system">
+            <h2>▣ System Status</h2>
+            <div class="status-content">
+                <strong id="systemStatus">SYSTEM ONLINE</strong>
+                <button id="checkSystem" class="action-button blue">
+                    ✓ Check System
                 </button>
-            </a>
+            </div>
         </section>
 
-        <!-- SYSTEM STATUS -->
-        <section class="card">
-            <h2>System Status</h2>
+        <section class="dashboard-card" id="checker">
+            <h2>🔗 Profile URL Checker</h2>
+            <p>Validate the format of a public social media profile URL.</p>
 
-            <p id="systemStatus">SYSTEM ONLINE</p>
-
-            <button id="checkSystem" type="button">
-                CHECK SYSTEM
-            </button>
-        </section>
-
-        <!-- PROFILE URL CHECKER -->
-        <section class="card">
-
-            <h2>Profile URL Checker</h2>
-
-            <p>Validate a public social media profile URL.</p>
-
-            <form id="detectionForm">
-
-                <label for="profileUrl">Profile URL</label>
-
+            <form id="detectionForm" class="form-row">
                 <input
                     type="url"
                     id="profileUrl"
                     placeholder="https://www.facebook.com/username"
                     required
                 >
-
-                <button type="submit">
-                    CHECK PROFILE URL
+                <button type="submit" class="action-button blue">
+                    🔍 Check Profile URL
                 </button>
-
             </form>
 
-            <div id="profileResult" class="result" hidden>
-
-                <h3>URL Information</h3>
-
-                <p>Platform: <span id="platform"></span></p>
-
-                <p>Username: <span id="username"></span></p>
-
-                <p>Profile ID: <span id="profileId"></span></p>
-
-                <p>Status: <span id="lookupStatus"></span></p>
-
+            <div id="profileResult" hidden>
+                <p>Platform: <strong id="platform"></strong></p>
+                <p>Username: <strong id="username"></strong></p>
+                <p>Profile ID: <strong id="profileId"></strong></p>
+                <p>Status: <strong id="lookupStatus"></strong></p>
+                <p>This checks URL format only, not account ownership.</p>
             </div>
-
         </section>
 
-        <!-- RECOVERY REQUEST -->
-        <section class="card">
-
-            <h2>Recovery Request</h2>
-
+        <section class="dashboard-card" id="recovery">
+            <h2>🔄 Recovery Request</h2>
             <p>Submit an assistance request for your own account.</p>
 
-            <form id="recoveryForm">
-
-                <label for="accountName">Account Username</label>
-
+            <form id="recoveryForm" class="form-row">
                 <input
                     type="text"
-                    id="accountName"
-                    placeholder="Enter username"
+                    id="accountUsername"
+                    placeholder="Account Username"
                     required
                 >
 
-                <label for="accountPlatform">Platform</label>
-
                 <select id="accountPlatform" required>
+                    <option value="">Platform</option>
                     <option value="Facebook">Facebook</option>
                     <option value="Instagram">Instagram</option>
                     <option value="TikTok">TikTok</option>
-                    <option value="X">X</option>
                 </select>
 
-                <label for="issue">Account Issue</label>
-
-                <select id="issue" required>
-                    <option value="Locked">Locked Account</option>
-                    <option value="Disabled">Disabled Account</option>
-                    <option value="Restricted">Restricted Account</option>
-                    <option value="Other">Other</option>
+                <select id="accountIssue" required>
+                    <option value="">Account Issue</option>
+                    <option value="Locked Account">Locked Account</option>
+                    <option value="Login Problem">Login Problem</option>
+                    <option value="Compromised Account">Compromised Account</option>
                 </select>
-
-                <label for="contactEmail">Contact Email</label>
 
                 <input
                     type="email"
                     id="contactEmail"
-                    placeholder="Enter contact email"
+                    placeholder="Contact Email"
                     required
                 >
 
-                <button type="submit">
-                    SUBMIT REQUEST
+                <button type="submit" class="action-button blue">
+                    ➤ Submit Request
                 </button>
-
             </form>
 
-            <p>
-                Never provide passwords, OTPs, or recovery codes.
+            <p class="notice">
+                ℹ Never provide passwords, OTPs, or recovery codes.
             </p>
-
+            <p class="demo-note">
+                Demo form only. No information is stored or transmitted.
+            </p>
         </section>
 
-        <!-- OFFICIAL RESOURCES -->
-        <section class="card">
-
-            <h2>Official Recovery Resources</h2>
-
+        <section class="dashboard-card" id="resources">
+            <h2>▣ Official Recovery Resources</h2>
             <p>Visit the official support services.</p>
 
-            <a
-                href="https://www.facebook.com/hacked"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <button type="button">FACEBOOK RECOVERY</button>
-            </a>
+            <div class="resource-buttons">
+                <a href="https://www.facebook.com/hacked"
+                   target="_blank" rel="noopener noreferrer"
+                   class="action-button facebook">
+                    f &nbsp; Facebook Recovery
+                </a>
 
-            <a
-                href="https://www.instagram.com/hacked/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <button type="button">INSTAGRAM RECOVERY</button>
-            </a>
+                <a href="https://www.instagram.com/hacked/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="action-button instagram">
+                    ◎ &nbsp; Instagram Recovery
+                </a>
 
-            <a
-                href="https://support.tiktok.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <button type="button">TIKTOK SUPPORT</button>
-            </a>
-
+                <a href="https://support.tiktok.com/"
+                   target="_blank" rel="noopener noreferrer"
+                   class="action-button tiktok">
+                    ♪ &nbsp; TikTok Support
+                </a>
+            </div>
         </section>
 
-        <!-- PRIVACY -->
-        <section class="card">
-
-            <h2>Privacy & Security</h2>
-
-            <p>
-                RecoveryX Private is an independent
-                account recovery assistance dashboard.
-            </p>
-
-            <p>
-                Account recovery must follow official
-                platform procedures.
-            </p>
-
-            <p>
-                No passwords or authentication codes
-                should be collected.
-            </p>
-
-        </section>
+        <footer id="about">
+            <p>RecoveryX Private © 2026</p>
+            <small>Independent demonstration interface. Official platform procedures apply.</small>
+        </footer>
 
     </main>
+</div>
 
-    <!-- FOOTER -->
-    <footer class="container">
-
-        <p>RecoveryX Private © 2026</p>
-
-        <p>Private Recovery Management System</p>
-
-    </footer>
-
-    <!-- JAVASCRIPT -->
-    <script src="app.js"></script>
-
+<script src="app.js"></script>
 </body>
 </html>
