@@ -1,13 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="theme-color" content="#ffffff">
 
-    <title>RecoveryX Private | Control Center</title>
+    <title>RecoveryX Private</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,20 +18,32 @@
     <header>
         <div class="container">
             <h1>🛡️ RecoveryX Private</h1>
-            <p>Private Recovery Management System</p>
+            <p>Account Recovery Management System</p>
         </div>
     </header>
 
-    <!-- MAIN DASHBOARD -->
     <main class="container">
+
+        <!-- NAVIGATION -->
+        <section class="card">
+            <h2>Navigation</h2>
+
+            <a href="index.html">
+                <button type="button">MAIN DASHBOARD</button>
+            </a>
+
+            <a href="admin.html">
+                <button type="button" class="admin-button">
+                    ADMIN DASHBOARD
+                </button>
+            </a>
+        </section>
 
         <!-- SYSTEM STATUS -->
         <section class="card">
             <h2>System Status</h2>
 
-            <p id="systemStatus">
-                SYSTEM ONLINE
-            </p>
+            <p id="systemStatus">SYSTEM ONLINE</p>
 
             <button id="checkSystem" type="button">
                 CHECK SYSTEM
@@ -43,16 +55,11 @@
 
             <h2>Profile URL Checker</h2>
 
-            <p>
-                Validate a publicly accessible social media
-                profile URL.
-            </p>
+            <p>Validate a public social media profile URL.</p>
 
             <form id="detectionForm">
 
-                <label for="profileUrl">
-                    Profile URL
-                </label>
+                <label for="profileUrl">Profile URL</label>
 
                 <input
                     type="url"
@@ -67,30 +74,17 @@
 
             </form>
 
-            <!-- PROFILE RESULT -->
             <div id="profileResult" class="result" hidden>
 
                 <h3>URL Information</h3>
 
-                <p>
-                    Platform:
-                    <span id="platform"></span>
-                </p>
+                <p>Platform: <span id="platform"></span></p>
 
-                <p>
-                    Username:
-                    <span id="username"></span>
-                </p>
+                <p>Username: <span id="username"></span></p>
 
-                <p>
-                    Profile ID:
-                    <span id="profileId"></span>
-                </p>
+                <p>Profile ID: <span id="profileId"></span></p>
 
-                <p>
-                    Lookup Status:
-                    <span id="lookupStatus"></span>
-                </p>
+                <p>Status: <span id="lookupStatus"></span></p>
 
             </div>
 
@@ -101,16 +95,11 @@
 
             <h2>Recovery Request</h2>
 
-            <p>
-                Submit a request for assistance with
-                your own social media account.
-            </p>
+            <p>Submit an assistance request for your own account.</p>
 
             <form id="recoveryForm">
 
-                <label for="accountName">
-                    Account Username
-                </label>
+                <label for="accountName">Account Username</label>
 
                 <input
                     type="text"
@@ -119,46 +108,25 @@
                     required
                 >
 
-                <label for="accountPlatform">
-                    Platform
-                </label>
+                <label for="accountPlatform">Platform</label>
 
                 <select id="accountPlatform" required>
-
                     <option value="Facebook">Facebook</option>
                     <option value="Instagram">Instagram</option>
                     <option value="TikTok">TikTok</option>
                     <option value="X">X</option>
-
                 </select>
 
-                <label for="issue">
-                    Account Issue
-                </label>
+                <label for="issue">Account Issue</label>
 
                 <select id="issue" required>
-
-                    <option value="Locked">
-                        Locked Account
-                    </option>
-
-                    <option value="Disabled">
-                        Disabled Account
-                    </option>
-
-                    <option value="Restricted">
-                        Restricted Account
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
+                    <option value="Locked">Locked Account</option>
+                    <option value="Disabled">Disabled Account</option>
+                    <option value="Restricted">Restricted Account</option>
+                    <option value="Other">Other</option>
                 </select>
 
-                <label for="contactEmail">
-                    Contact Email
-                </label>
+                <label for="contactEmail">Contact Email</label>
 
                 <input
                     type="email"
@@ -174,30 +142,24 @@
             </form>
 
             <p>
-                Never submit passwords, OTPs,
-                or recovery codes.
+                Never provide passwords, OTPs, or recovery codes.
             </p>
 
         </section>
 
-        <!-- OFFICIAL RECOVERY RESOURCES -->
+        <!-- OFFICIAL RESOURCES -->
         <section class="card">
 
             <h2>Official Recovery Resources</h2>
 
-            <p>
-                Access the official recovery and support
-                services of each platform.
-            </p>
+            <p>Visit the official support services.</p>
 
             <a
                 href="https://www.facebook.com/hacked"
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <button type="button">
-                    Facebook Recovery
-                </button>
+                <button type="button">FACEBOOK RECOVERY</button>
             </a>
 
             <a
@@ -205,9 +167,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <button type="button">
-                    Instagram Recovery
-                </button>
+                <button type="button">INSTAGRAM RECOVERY</button>
             </a>
 
             <a
@@ -215,14 +175,12 @@
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <button type="button">
-                    TikTok Support
-                </button>
+                <button type="button">TIKTOK SUPPORT</button>
             </a>
 
         </section>
 
-        <!-- PRIVACY INFORMATION -->
+        <!-- PRIVACY -->
         <section class="card">
 
             <h2>Privacy & Security</h2>
@@ -233,13 +191,13 @@
             </p>
 
             <p>
-                Account recovery must be completed
-                through official platform procedures.
+                Account recovery must follow official
+                platform procedures.
             </p>
 
             <p>
-                No passwords, OTPs, or private
-                authentication codes should be collected.
+                No passwords or authentication codes
+                should be collected.
             </p>
 
         </section>
@@ -249,13 +207,9 @@
     <!-- FOOTER -->
     <footer class="container">
 
-        <p>
-            © 2026 RecoveryX Private
-        </p>
+        <p>RecoveryX Private © 2026</p>
 
-        <p>
-            Private Recovery Management System
-        </p>
+        <p>Private Recovery Management System</p>
 
     </footer>
 
