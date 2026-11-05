@@ -1,0 +1,167 @@
+
+:root {
+  --bg: #080d16;
+  --panel: #111a29;
+  --panel2: #162236;
+  --line: #26364d;
+  --text: #edf4ff;
+  --muted: #91a3bc;
+  --blue: #48a8ff;
+  --green: #35d49a;
+  --orange: #ffbd59;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+  letter-spacing: 1px;
+}
+
+header p,
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.status {
+  color: var(--green);
+  font-size: 12px;
+  border: 1px solid var(--green);
+  border-radius: 20px;
+  padding: 7px 12px;
+}
+
+h2 {
+  font-size: 17px;
+  margin-top: 0;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel2);
+  color: var(--text);
+  font-size: 14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 1px solid var(--blue);
+  border-color: var(--blue);
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--blue);
+  color: #06111f;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.result,
+.activity-item {
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 13px;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+
+.progress-track {
+  height: 10px;
+  width: 100%;
+  background: #26364d;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--green);
+  transition: width .3s ease;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 20px 0;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 13px;
+  }
+
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+}
