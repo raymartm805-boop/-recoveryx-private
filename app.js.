@@ -1,81 +1,62 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // MOBILE MENU
-    const menuToggle = document.getElementById("menuToggle");
+    const links = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(".page-section");
     const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
 
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener("click", () => {
-            const isOpen = sidebar.classList.toggle("open");
+    function showPage(targetId) {
 
-            menuToggle.setAttribute("aria-expanded", isOpen);
-            menuToggle.textContent = isOpen ? "✕" : "☰";
+        const target = document.getElementById(targetId);
+
+        if (!target) return;
+
+        sections.forEach(section => {
+            section.hidden = section.id !== targetId;
         });
 
-        sidebar.querySelectorAll(".nav-link").forEach(link => {
-            link.addEventListener("click", () => {
-                sidebar.classList.remove("open");
-                menuToggle.setAttribute("aria-expanded", "false");
-                menuToggle.textContent = "☰";
-            });
+        links.forEach(link => {
+            link.classList.toggle(
+                "active",
+                link.getAttribute("href") === "#" + targetId
+            );
+        });
+
+        history.replaceState(null, "", "#" + targetId);
+
+        sidebar?.classList.remove("open");
+        menuToggle?.setAttribute("aria-expanded", "false");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
         });
     }
 
-
-    // PROFILE URL FORMAT CHECK
-    const form = document.getElementById("recoveryForm");
-    const resultBox = document.getElementById("resultBox");
-    const resultText = document.getElementById("resultText");
-
-    if (form) {
-        form.addEventListener("submit", event => {
+    links.forEach(link => {
+        link.addEventListener("click", event => {
             event.preventDefault();
 
-            const platform = document.getElementById("platform").value;
-            const issue = document.getElementById("issue").value;
-            const profileUrl = document.getElementById("profileUrl").value.trim();
-
-            try {
-                const parsed = new URL(profileUrl);
-
-                const allowedDomains = {
-                    "facebook.com": [
-                        "facebook.com",
-                        "www.facebook.com",
-                        "m.facebook.com"
-                    ],
-                    "instagram.com": [
-                        "instagram.com",
-                        "www.instagram.com"
-                    ],
-                    "tiktok.com": [
-                        "tiktok.com",
-                        "www.tiktok.com",
-                        "m.tiktok.com"
-                    ]
-                };
-
-                const validDomain =
-                    allowedDomains[platform].includes(parsed.hostname);
-
-                if (
-                    !["https:", "http:"].includes(parsed.protocol) ||
-                    !validDomain
-                ) {
-                    throw new Error("Invalid URL");
-                }
-
-                resultText.textContent =
-                    "URL FORMAT VALID. Selected issue: " + issue +
-                    ". No account access or recovery was performed.";
-
-            } catch (error) {
-                resultText.textContent =
-                    "INVALID PROFILE URL. Please check the platform and URL.";
-            }
-
-            resultBox.hidden = false;
+            const targetId = link.getAttribute("href").substring(1);
+            showPage(targetId);
         });
-    }
+    });
+
+    menuToggle?.addEventListener("click", () => {
+        const isOpen = sidebar.classList.toggle("open");
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+    });
+
+    const initialPage = location.hash.substring(1);
+
+    showPage(
+        document.getElementById(initialPage)
+            ? initialPage
+            : "dashboard"
+    );
 
 });
