@@ -1,352 +1,259 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = (id) => document.getElementById(id);
+  const links = [...document.querySelectorAll(".nav-link")];
+  const sections = [...document.querySelectorAll(".page-section")];
+  const sidebar = document.getElementById("sidebar");
+  const menuToggle = document.getElementById("menuToggle");
+  const dialog = document.getElementById("accountDialog");
+  const toast = document.getElementById("toast");
 
-  const STORAGE = {
-    profile: "recoveryx_profile",
-    accounts: "recoveryx_accounts",
-    settings: "recoveryx_settings"
+  const STORAGE_KEYS = {
+    accounts: "recoveryx_accounts_v1",
+    profile: "recoveryx_profile_v1",
+    compact: "recoveryx_compact_v1",
+    confirmDelete: "recoveryx_confirm_delete_v1"
   };
 
-  let accounts = load(STORAGE.accounts, []);
-  let profile = load(STORAGE.profile, {});
-  let settings = load(STORAGE.settings, {
-    compact: false,
-    confirmDelete: true
+  let accounts = readStorage(STORAGE_KEYS.accounts, []);
+  let profile = readStorage(STORAGE_KEYS.profile, {
+    fullName: "Account Owner", email: "", displayName: ""
   });
 
-  function load(key, fallback) {
+  function readStorage(key, fallback) {
     try {
-      const value = JSON.parse(localStorage.getItem(key));
-      return value ?? fallback;
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
     } catch {
       return fallback;
     }
   }
 
-  function save(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    })[char]);
-  }
-
-  function toast(message) {
-    const element = $("toast");
-    if (!element) return;
-
-    element.textContent = message;
-    element.classList.add("show");
-
-    clearTimeout(toast.timer);
-    toast.timer = setTimeout(() => {
-      element.classList.remove("show");
-    }, 2500);
-  }
-
-  // PAGE NAVIGATION
-
-  const sections = [...document.querySelectorAll(".page-section")];
-  const navLinks = [...document.querySelectorAll(".nav-link")];
-
-  function showPage(page) {
-    const target = $(page);
-
-    if (!target || !target.classList.contains("page-section")) {
-      page = "dashboard";
+  function writeStorage(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch {
+      showToast("Unable to save. Browser storage may be unavailable.");
+      return false;
     }
-
-    sections.forEach(section => {
-      section.hidden = section.id !== page;
-    });
-
-    navLinks.forEach(link => {
-      link.classList.toggle(
-        "active",
-        link.dataset.page === page
-      );
-    });
-
-    if (location.hash !== "#" + page) {
-      history.replaceState(null, "", "#" + page);
-    }
-
-    $("sidebar")?.classList.remove("open");
   }
 
-  navLinks.forEach(link => {
-    link.addEventListener("click", event => {
-      event.preventDefault();
-      showPage(link.dataset.page);
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    window.clearTimeout(showToast.timer);
+    showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+
+  function navigate(pageId, updateHash = true) {
+    const target = document.getElementById(pageId);
+    if (!target || !target.classList.contains("page-section")) return;
+
+    sections.forEach(section => { section.hidden = section.id !== pageId; });
+    links.forEach(link => {
+      const active = link.getAttribute("href") === `#${pageId}`;
+      link.classList.toggle("active", active);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
     });
-  });
+
+    if (updateHash) history.replaceState(null, "", `#${pageId}`);
+    sidebar.classList.remove("open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  links.forEach(link => link.addEventListener("click", event => {
+    event.preventDefault();
+    navigate(link.getAttribute("href").slice(1));
+  }));
 
   document.querySelectorAll("[data-go]").forEach(button => {
-    button.addEventListener("click", () => {
-      showPage(button.dataset.go);
-    });
+    button.addEventListener("click", () => navigate(button.dataset.go));
   });
 
-  window.addEventListener("hashchange", () => {
-    showPage(location.hash.replace("#", "") || "dashboard");
-  });
-
-  showPage(location.hash.replace("#", "") || "dashboard");
-
-  // MOBILE MENU
-
-  $("menuToggle")?.addEventListener("click", () => {
-    $("sidebar")?.classList.toggle("open");
+  menuToggle.addEventListener("click", () => {
+    const opened = sidebar.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(opened));
   });
 
   document.addEventListener("click", event => {
-    const sidebar = $("sidebar");
-    const toggle = $("menuToggle");
-
-    if (
-      window.innerWidth <= 720 &&
-      sidebar?.classList.contains("open") &&
-      !sidebar.contains(event.target) &&
-      !toggle?.contains(event.target)
-    ) {
+    if (window.innerWidth <= 760 && sidebar.classList.contains("open") &&
+        !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
       sidebar.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
     }
   });
 
-  // PROFILE
+  window.addEventListener("hashchange", () => {
+    const id = location.hash.slice(1);
+    if (document.getElementById(id)?.classList.contains("page-section")) navigate(id, false);
+  });
 
+  // Profile
+  const profileForm = document.getElementById("profileForm");
+  const profileMessage = document.getElementById("profileMessage");
   function renderProfile() {
-    const name = profile.fullName || "User Profile";
-    const initial = name.charAt(0).toUpperCase() || "U";
+    document.getElementById("fullName").value = profile.fullName || "";
+    document.getElementById("email").value = profile.email || "";
+    document.getElementById("displayName").value = profile.displayName || "";
+    const label = profile.displayName || profile.fullName || "Account Owner";
+    document.getElementById("profileNameHeading").textContent = label;
+    document.getElementById("profileInitial").textContent = label.trim().charAt(0).toUpperCase() || "A";
+    document.querySelector(".avatar").textContent = label.trim().charAt(0).toUpperCase() || "A";
+  }
+  profileForm.addEventListener("submit", event => {
+    event.preventDefault();
+    profile = {
+      fullName: document.getElementById("fullName").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      displayName: document.getElementById("displayName").value.trim()
+    };
+    if (writeStorage(STORAGE_KEYS.profile, profile)) {
+      renderProfile();
+      profileMessage.textContent = "Profile updated.";
+      showToast("Profile saved.");
+    }
+  });
 
-    $("fullName").value = profile.fullName || "";
-    $("email").value = profile.email || "";
-    $("displayName").value = profile.displayName || "";
+  // Account list
+  const tableBody = document.getElementById("accountTableBody");
+  const searchInput = document.getElementById("accountSearch");
+  const platformFilter = document.getElementById("platformFilter");
+  const statusFilter = document.getElementById("statusFilter");
 
-    $("profileNameHeading").textContent = name;
-    $("profileAvatar").textContent = initial;
-    $("profileInitial").textContent = initial;
+  function safeText(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
   }
 
-  $("profileForm")?.addEventListener("submit", event => {
+  function statusClass(status) {
+    return ({
+      "Pending": "status-pending",
+      "In Review": "status-review",
+      "Completed": "status-completed",
+      "Closed": "status-closed"
+    })[status] || "status-closed";
+  }
+
+  function renderAccounts() {
+    const query = searchInput.value.trim().toLowerCase();
+    const platform = platformFilter.value;
+    const status = statusFilter.value;
+    const filtered = accounts.filter(item =>
+      (!query || item.name.toLowerCase().includes(query) || item.id.toLowerCase().includes(query)) &&
+      (!platform || item.platform === platform) &&
+      (!status || item.status === status)
+    );
+
+    if (!filtered.length) {
+      tableBody.innerHTML = `<tr><td colspan="7" class="table-empty">${accounts.length ? "No matching records found." : "No account records yet."}</td></tr>`;
+    } else {
+      tableBody.innerHTML = filtered.map(item => `
+        <tr>
+          <td><strong>${safeText(item.id)}</strong></td>
+          <td>${safeText(item.name)}</td>
+          <td>${safeText(item.platform)}</td>
+          <td>${safeText(item.issue)}</td>
+          <td>${safeText(item.date)}</td>
+          <td><span class="status-pill ${statusClass(item.status)}">${safeText(item.status)}</span></td>
+          <td><button class="table-action" type="button" data-delete="${safeText(item.id)}">Remove</button></td>
+        </tr>`).join("");
+    }
+
+    document.getElementById("totalAccounts").textContent = accounts.length;
+    document.getElementById("pendingAccounts").textContent = accounts.filter(x => x.status === "Pending" || x.status === "In Review").length;
+    document.getElementById("completedAccounts").textContent = accounts.filter(x => x.status === "Completed").length;
+    renderRecentActivity();
+  }
+
+  function renderRecentActivity() {
+    const container = document.getElementById("recentActivity");
+    const latest = [...accounts].slice(-4).reverse();
+    if (!latest.length) {
+      container.innerHTML = `<span class="empty-icon">▤</span><strong>No recent activity</strong><p>Account activity will appear here.</p>`;
+      return;
+    }
+    container.innerHTML = latest.map(item => `
+      <div class="activity-row">
+        <span class="activity-dot"></span>
+        <div><strong>${safeText(item.name)}</strong><p>${safeText(item.platform)} · ${safeText(item.status)} · ${safeText(item.date)}</p></div>
+      </div>`).join("");
+  }
+
+  searchInput.addEventListener("input", renderAccounts);
+  platformFilter.addEventListener("change", renderAccounts);
+  statusFilter.addEventListener("change", renderAccounts);
+
+  document.getElementById("addAccountBtn").addEventListener("click", () => dialog.showModal());
+  function closeDialog() { dialog.close(); }
+  document.getElementById("closeDialog").addEventListener("click", closeDialog);
+  document.getElementById("cancelDialog").addEventListener("click", closeDialog);
+
+  document.getElementById("accountForm").addEventListener("submit", event => {
     event.preventDefault();
+    const name = document.getElementById("recordName").value.trim();
+    if (!name) return;
 
-    profile = {
-      fullName: $("fullName").value.trim(),
-      email: $("email").value.trim(),
-      displayName: $("displayName").value.trim()
+    const record = {
+      id: "RX-" + Date.now().toString().slice(-8),
+      name,
+      platform: document.getElementById("recordPlatform").value,
+      issue: document.getElementById("recordIssue").value,
+      status: document.getElementById("recordStatus").value,
+      date: new Date().toLocaleDateString()
     };
+    accounts.push(record);
+    if (writeStorage(STORAGE_KEYS.accounts, accounts)) {
+      renderAccounts();
+      event.target.reset();
+      closeDialog();
+      showToast("Account record added.");
+    }
+  });
 
-    save(STORAGE.profile, profile);
-    renderProfile();
-    $("profileMessage").textContent = "Profile saved successfully.";
-    toast("Profile updated.");
+  tableBody.addEventListener("click", event => {
+    const button = event.target.closest("[data-delete]");
+    if (!button) return;
+    const shouldConfirm = document.getElementById("confirmDeleteToggle").checked;
+    if (shouldConfirm && !window.confirm("Remove this account record?")) return;
+    accounts = accounts.filter(item => item.id !== button.dataset.delete);
+    if (writeStorage(STORAGE_KEYS.accounts, accounts)) {
+      renderAccounts();
+      showToast("Account record removed.");
+    }
+  });
+
+  // Support form: stores no message remotely; it only provides local feedback.
+  document.getElementById("supportForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const name = document.getElementById("supportName").value.trim();
+    const email = document.getElementById("supportEmail").value.trim();
+    const message = document.getElementById("supportMessage").value.trim();
+    if (!name || !email || !message) return;
+    const ticket = "RX-" + Date.now().toString().slice(-8);
+    document.getElementById("supportFeedback").textContent =
+      `Request prepared. Reference: ${ticket}. This form is not connected to a support server.`;
+    event.target.reset();
+  });
+
+  // Settings
+  const compactToggle = document.getElementById("compactToggle");
+  const confirmDeleteToggle = document.getElementById("confirmDeleteToggle");
+  compactToggle.checked = readStorage(STORAGE_KEYS.compact, false);
+  confirmDeleteToggle.checked = readStorage(STORAGE_KEYS.confirmDelete, true);
+  document.body.classList.toggle("compact", compactToggle.checked);
+
+  compactToggle.addEventListener("change", () => {
+    document.body.classList.toggle("compact", compactToggle.checked);
+    writeStorage(STORAGE_KEYS.compact, compactToggle.checked);
+  });
+  confirmDeleteToggle.addEventListener("change", () => {
+    writeStorage(STORAGE_KEYS.confirmDelete, confirmDeleteToggle.checked);
   });
 
   renderProfile();
-
-  // ACCOUNT RECORDS
-
-  function renderAccounts() {
-    const body = $("accountTableBody");
-    const search = $("accountSearch").value.toLowerCase();
-    const platform = $("platformFilter").value;
-    const status = $("statusFilter").value;
-
-    const filtered = accounts.filter(account => {
-      const matchesSearch = [
-        account.name,
-        account.platform,
-        account.issue
-      ].join(" ").toLowerCase().includes(search);
-
-      const matchesPlatform =
-        !platform || account.platform === platform;
-
-      const matchesStatus =
-        !status || account.status === status;
-
-      return matchesSearch && matchesPlatform && matchesStatus;
-    });
-
-    if (!filtered.length) {
-      body.innerHTML = `
-        <tr>
-          <td colspan="5" class="table-empty">
-            No matching records found.
-          </td>
-        </tr>
-      `;
-    } else {
-      body.innerHTML = filtered.map(account => `
-        <tr>
-          <td>${escapeHTML(account.name)}</td>
-          <td>${escapeHTML(account.platform)}</td>
-          <td>${escapeHTML(account.issue)}</td>
-          <td>${escapeHTML(account.status)}</td>
-          <td>
-            <button
-              class="button button-secondary delete-record"
-              type="button"
-              data-id="${escapeHTML(account.id)}">
-              Delete
-            </button>
-          </td>
-        </tr>
-      `).join("");
-    }
-
-    updateDashboard();
-  }
-
-  function updateDashboard() {
-    $("totalAccounts").textContent = accounts.length;
-
-    $("pendingAccounts").textContent =
-      accounts.filter(a => a.status === "Pending").length;
-
-    $("completedAccounts").textContent =
-      accounts.filter(a => a.status === "Completed").length;
-
-    const activity = $("recentActivity");
-
-    if (!accounts.length) {
-      activity.textContent = "No recent activity.";
-    } else {
-      activity.innerHTML = accounts
-        .slice(-4)
-        .reverse()
-        .map(account => `
-          <p class="activity-item">
-            <strong>${escapeHTML(account.name)}</strong>
-            — ${escapeHTML(account.status)}
-          </p>
-        `).join("");
-    }
-  }
-
-  ["accountSearch", "platformFilter", "statusFilter"].forEach(id => {
-    $(id)?.addEventListener("input", renderAccounts);
-    $(id)?.addEventListener("change", renderAccounts);
-  });
-
-  // ADD RECORD DIALOG
-
-  const dialog = $("accountDialog");
-
-  $("addAccountBtn")?.addEventListener("click", () => {
-    dialog.showModal();
-  });
-
-  $("cancelDialog")?.addEventListener("click", () => {
-    dialog.close();
-  });
-
-  $("accountForm")?.addEventListener("submit", event => {
-    event.preventDefault();
-
-    const name = $("recordName").value.trim();
-    const issue = $("recordIssue").value.trim();
-
-    if (!name || !issue) {
-      toast("Please complete the required fields.");
-      return;
-    }
-
-    const record = {
-      id: crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()),
-      name,
-      platform: $("recordPlatform").value,
-      issue,
-      status: $("recordStatus").value
-    };
-
-    accounts.push(record);
-    save(STORAGE.accounts, accounts);
-
-    $("accountForm").reset();
-    dialog.close();
-
-    renderAccounts();
-    toast("Record saved successfully.");
-  });
-
-  // DELETE RECORD
-
-  $("accountTableBody")?.addEventListener("click", event => {
-    const button = event.target.closest(".delete-record");
-    if (!button) return;
-
-    const id = button.dataset.id;
-
-    if (
-      settings.confirmDelete &&
-      !window.confirm("Delete this saved record?")
-    ) {
-      return;
-    }
-
-    accounts = accounts.filter(account => account.id !== id);
-
-    save(STORAGE.accounts, accounts);
-    renderAccounts();
-    toast("Record deleted.");
-  });
-
-  // CUSTOMER SUPPORT
-
-  $("supportForm")?.addEventListener("submit", event => {
-    event.preventDefault();
-
-    const name = $("supportName").value.trim();
-    const email = $("supportEmail").value.trim();
-    const message = $("supportMessage").value.trim();
-
-    if (!name || !email || !message) {
-      toast("Please complete the form.");
-      return;
-    }
-
-    $("supportFeedback").textContent =
-      "Your request has been prepared on this device. No message was sent.";
-
-    $("supportForm").reset();
-  });
-
-  // SETTINGS
-
-  function renderSettings() {
-    $("compactToggle").checked = settings.compact;
-    $("confirmDeleteToggle").checked = settings.confirmDelete;
-
-    document.body.classList.toggle(
-      "compact-mode",
-      settings.compact
-    );
-  }
-
-  $("compactToggle")?.addEventListener("change", event => {
-    settings.compact = event.target.checked;
-    save(STORAGE.settings, settings);
-    renderSettings();
-    toast("Layout preference updated.");
-  });
-
-  $("confirmDeleteToggle")?.addEventListener("change", event => {
-    settings.confirmDelete = event.target.checked;
-    save(STORAGE.settings, settings);
-    toast("Settings updated.");
-  });
-
-  renderSettings();
   renderAccounts();
+  const initial = location.hash.slice(1);
+  navigate(document.getElementById(initial)?.classList.contains("page-section") ? initial : "dashboard", false);
 });
