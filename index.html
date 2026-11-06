@@ -1,28 +1,339 @@
 
-<nav class="navigation" id="navigation">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RecoveryX Private</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <a href="#dashboard" class="nav-link active">
-        <span>▦</span> Dashboard
-    </a>
+<div class="app-shell">
 
-    <a href="#account" class="nav-link">
-        <span>♙</span> Account
-    </a>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">R</div>
+      <div class="brand-copy">
+        <strong>RecoveryX</strong>
+        <small>PRIVATE PORTAL</small>
+      </div>
+    </div>
 
-    <a href="#account-list" class="nav-link">
-        <span>▤</span> Account List
-    </a>
+    <p class="nav-heading">MAIN MENU</p>
 
-    <a href="#recovery-tools" class="nav-link">
-        <span>⌘</span> Recovery Tools
-    </a>
+    <nav class="navigation" id="navigation">
+      <a href="#dashboard" class="nav-link active" data-page="dashboard">Dashboard</a>
+      <a href="#account" class="nav-link" data-page="account">Account</a>
+      <a href="#account-list" class="nav-link" data-page="account-list">Account List</a>
+      <a href="#recovery-tools" class="nav-link" data-page="recovery-tools">Recovery Tools</a>
+      <a href="#customer-support" class="nav-link" data-page="customer-support">Customer Support</a>
+      <a href="#settings" class="nav-link" data-page="settings">Settings</a>
+    </nav>
 
-    <a href="#customer-support" class="nav-link">
-        <span>✉</span> Customer Support
-    </a>
+    <div class="sidebar-bottom">
+      <span class="status-dot"></span>
+      Portal ready
+    </div>
+  </aside>
 
-    <a href="#settings" class="nav-link">
-        <span>⚙</span> Settings
-    </a>
+  <main class="main-content">
 
-</nav>
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+      <div class="topbar-heading">
+        <strong>RecoveryX Private</strong>
+        <small>Account assistance portal</small>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-status">Online</span>
+        <div class="avatar" data-go="account" id="profileInitial">U</div>
+      </div>
+    </header>
+
+    <div class="page-wrap">
+
+      <section class="page-section" id="dashboard">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">OVERVIEW</span>
+            <h1>Dashboard</h1>
+            <p>Welcome to your account assistance portal.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-label">Total Accounts</span>
+            <strong class="stat-value" id="totalAccounts">0</strong>
+            <span class="stat-note">Saved records</span>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">Pending</span>
+            <strong class="stat-value" id="pendingAccounts">0</strong>
+            <span class="stat-note">Awaiting review</span>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-label">Completed</span>
+            <strong class="stat-value" id="completedAccounts">0</strong>
+            <span class="stat-note">Finished records</span>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <div class="panel">
+            <h2>Recent Activity</h2>
+            <div id="recentActivity" class="empty-state">
+              No recent activity.
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Quick Actions</h2>
+            <button class="quick-action" data-go="account-list" type="button">View Account List</button>
+            <button class="quick-action" data-go="recovery-tools" type="button">Open Recovery Tools</button>
+            <button class="quick-action" data-go="customer-support" type="button">Contact Support</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="account" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">PERSONAL DETAILS</span>
+            <h1>Account</h1>
+            <p>Manage your portal profile information.</p>
+          </div>
+        </div>
+
+        <div class="panel profile-panel">
+          <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+            <div>
+              <h2 id="profileNameHeading">User Profile</h2>
+              <p>Portal profile</p>
+            </div>
+          </div>
+
+          <form id="profileForm">
+            <div class="form-grid">
+              <label class="field">
+                Full Name
+                <input id="fullName" type="text" placeholder="Enter your name">
+              </label>
+
+              <label class="field">
+                Email Address
+                <input id="email" type="email" placeholder="Enter your email">
+              </label>
+
+              <label class="field">
+                Display Name
+                <input id="displayName" type="text" placeholder="Enter display name">
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="button button-primary" type="submit">Save Changes</button>
+            </div>
+            <p id="profileMessage"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="page-section" id="account-list" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">RECORD MANAGEMENT</span>
+            <h1>Account List</h1>
+            <p>Manage account assistance records with permission.</p>
+          </div>
+          <button class="button button-primary" id="addAccountBtn" type="button">+ Add Record</button>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <input id="accountSearch" type="search" placeholder="Search records...">
+
+            <select id="platformFilter">
+              <option value="">All Platforms</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Google">Google</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <select id="statusFilter">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Account Name</th>
+                  <th>Platform</th>
+                  <th>Issue</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="accountTableBody">
+                <tr>
+                  <td colspan="5" class="table-empty">No records available.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="recovery-tools" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">HELP CENTER</span>
+            <h1>Recovery Tools</h1>
+            <p>Official account support resources.</p>
+          </div>
+        </div>
+
+        <div class="tools-grid">
+          <article class="resource-card">
+            <h2>Facebook</h2>
+            <p>Official account recovery and security assistance.</p>
+            <a href="https://www.facebook.com/login/identify/" target="_blank" rel="noopener">Open Facebook Help</a>
+          </article>
+
+          <article class="resource-card">
+            <h2>Instagram</h2>
+            <p>Official login and account access assistance.</p>
+            <a href="https://www.instagram.com/hacked/" target="_blank" rel="noopener">Open Instagram Help</a>
+          </article>
+
+          <article class="resource-card">
+            <h2>Google</h2>
+            <p>Official Google account recovery.</p>
+            <a href="https://accounts.google.com/signin/recovery" target="_blank" rel="noopener">Open Google Recovery</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="page-section" id="customer-support" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">ASSISTANCE</span>
+            <h1>Customer Support</h1>
+            <p>Prepare a support request.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <form id="supportForm" class="stack-form">
+            <label class="field">
+              Full Name
+              <input id="supportName" type="text" required>
+            </label>
+
+            <label class="field">
+              Email Address
+              <input id="supportEmail" type="email" required>
+            </label>
+
+            <label class="field">
+              Message
+              <textarea id="supportMessage" rows="5" required></textarea>
+            </label>
+
+            <button class="button button-primary" type="submit">Prepare Request</button>
+            <p id="supportFeedback"></p>
+            <small>This form prepares a message locally. It does not send it to a server.</small>
+          </form>
+        </div>
+      </section>
+
+      <section class="page-section" id="settings" hidden>
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">PREFERENCES</span>
+            <h1>Settings</h1>
+            <p>Customize your portal experience.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="setting-row">
+            <div>
+              <strong>Compact Layout</strong>
+              <p>Use reduced spacing across the portal.</p>
+            </div>
+            <input type="checkbox" id="compactToggle">
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <strong>Confirm Before Delete</strong>
+              <p>Ask before removing a saved record.</p>
+            </div>
+            <input type="checkbox" id="confirmDeleteToggle" checked>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        RecoveryX Private · Account assistance portal
+      </footer>
+
+    </div>
+  </main>
+</div>
+
+<dialog id="accountDialog">
+  <form id="accountForm" class="stack-form">
+    <h2>Add Account Record</h2>
+
+    <label class="field">
+      Account Name
+      <input id="recordName" type="text" required>
+    </label>
+
+    <label class="field">
+      Platform
+      <select id="recordPlatform" required>
+        <option value="Facebook">Facebook</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Google">Google</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+
+    <label class="field">
+      Issue
+      <input id="recordIssue" type="text" placeholder="Example: Login assistance" required>
+    </label>
+
+    <label class="field">
+      Status
+      <select id="recordStatus">
+        <option>Pending</option>
+        <option>In Progress</option>
+        <option>Completed</option>
+      </select>
+    </label>
+
+    <div class="form-actions">
+      <button class="button button-secondary" id="cancelDialog" type="button">Cancel</button>
+      <button class="button button-primary" type="submit">Save Record</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
