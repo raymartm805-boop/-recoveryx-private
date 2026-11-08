@@ -1,0 +1,10 @@
+{
+  "name": "RecoveryX Private Portal",
+  "short_name": "RecoveryX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050d1c",
+  "theme_color": "#06152d",
+  "description": "Local account assistance record organizer"
+}
