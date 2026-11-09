@@ -975,8 +975,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart();
   });
 
-  console.log("RecoveryX workspace initialized.");
-});
+  window.addEventListener("resize", () => {
+    renderChart();
+  });
+
   // RECOVERYX LIVE CLOCK
   function updateLiveClock() {
     const now = new Date();
@@ -1007,4 +1009,4 @@ document.addEventListener("DOMContentLoaded", () => {
   window.setInterval(updateLiveClock, 1000);
 
   console.log("RecoveryX workspace initialized.");
-});
+});  
