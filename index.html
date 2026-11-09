@@ -1,495 +1,513 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06152d">
-  <meta name="description" content="RecoveryX Private Portal - Account assistance records and support workspace">
+  <meta name="description" content="RecoveryX local account assistance records">
   <title>RecoveryX Private Portal</title>
-
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="./style.css?v=6">
-  <link rel="icon" href="./RecoveryX_Middle_Finger_Animated_Logo.gif">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
-
 <body>
-  <div class="app-container">
+  <div class="app-shell">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <img
-          src="./RecoveryX_Middle_Finger_Animated_Logo.gif"
-          alt="RecoveryX Logo"
-          class="brand-logo"
-        >
-        <div class="brand-text">
-          <h2>RecoveryX</h2>
-          <span>PRIVATE PORTAL</span>
+        <img class="brand-mark"
+          src="RecoveryX_Middle_Finger_Animated_Logo.gif"
+          alt="RecoveryX logo"
+          onerror="this.style.display='none'">
+        <div class="brand-copy">
+          <strong>Recovery<span>X</span></strong>
+          <small>PRIVATE PORTAL</small>
         </div>
       </div>
 
-      <nav class="sidebar-nav">
-        <p class="nav-label">MAIN MENU</p>
+      <div class="nav-heading">WORKSPACE</div>
 
+      <nav class="navigation">
         <a href="#dashboard" class="nav-link active" data-page="dashboard">
-          <span>▦</span> Dashboard
+          <span class="nav-icon">▦</span> Dashboard
         </a>
-
         <a href="#account" class="nav-link" data-page="account">
-          <span>▤</span> Account Records
+          <span class="nav-icon">▤</span> Account Records
         </a>
-
         <a href="#recovery-tools" class="nav-link" data-page="recovery-tools">
-          <span>⌕</span> Recovery Resources
+          <span class="nav-icon">⌘</span> Recovery Resources
         </a>
-
         <a href="#customer-support" class="nav-link" data-page="customer-support">
-          <span>✉</span> Customer Support
+          <span class="nav-icon">✉</span> Customer Support
         </a>
-
-        <p class="nav-label">PREFERENCES</p>
-
         <a href="#settings" class="nav-link" data-page="settings">
-          <span>⚙</span> Settings
+          <span class="nav-icon">⚙</span> Settings
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="footer-indicator"></div>
-        <span>Local workspace</span>
+      <div class="sidebar-card">
+        <div class="shield">✓</div>
+        <strong>Local Workspace</strong>
+        <span>Records are saved in this browser.</span>
+      </div>
+
+      <div class="sidebar-bottom">
+        <span class="status-dot"></span>
+        PRIVATE WORKSPACE
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
-
-      <!-- TOPBAR -->
       <header class="topbar">
-        <div class="topbar-left">
-          <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu">
-            ☰
-          </button>
-          <div>
-            <h1 id="pageTitle">Dashboard</h1>
-            <p>Account assistance workspace</p>
-          </div>
+        <button class="menu-toggle" id="menuToggle"
+          type="button" aria-label="Toggle menu">☰</button>
+
+        <div class="topbar-heading">
+          <strong id="pageTitle">Dashboard</strong>
+          <span>RecoveryX account assistance workspace</span>
         </div>
 
         <div class="topbar-right">
-          <div class="account-owner">
-            <div class="owner-avatar" id="profileInitial">R</div>
-            <div>
-              <strong id="profileNameHeading">Account Owner</strong>
-              <small>Workspace owner</small>
-            </div>
-          </div>
+          <span class="topbar-status">● LOCAL MODE</span>
+          <button class="avatar" id="avatarButton"
+            type="button" aria-label="Open settings">A</button>
         </div>
       </header>
 
-      <!-- DASHBOARD PAGE -->
-      <section class="page-section active" id="dashboard">
-        <div class="welcome-section">
-          <div>
-            <p class="eyebrow">OVERVIEW</p>
-            <h2>Welcome to RecoveryX</h2>
-            <p>Manage your authorized account assistance records.</p>
+      <div class="page-wrap">
+
+        <!-- DASHBOARD -->
+        <section class="page-section active" id="dashboard">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">OVERVIEW</div>
+              <h1>Dashboard</h1>
+              <p>Monitor your locally saved account assistance records.</p>
+            </div>
+            <button class="button button-primary" id="addAccountBtn"
+              type="button">＋ Add Record</button>
           </div>
 
-          <button type="button" class="primary-btn" id="addAccountBtn">
-            + Add Record
-          </button>
-        </div>
-
-        <div class="stats-grid">
-          <article class="stat-card stat-blue">
-            <div class="stat-icon">▤</div>
-            <p>Total Records</p>
-            <h2 id="totalAccounts">0</h2>
-          </article>
-
-          <article class="stat-card stat-orange">
-            <div class="stat-icon">◷</div>
-            <p>Pending</p>
-            <h2 id="pendingAccounts">0</h2>
-          </article>
-
-          <article class="stat-card stat-green">
-            <div class="stat-icon">✓</div>
-            <p>Recovered</p>
-            <h2 id="completedAccounts">0</h2>
-          </article>
-
-          <article class="stat-card stat-purple">
-            <div class="stat-icon">▥</div>
-            <p>Review Rate</p>
-            <h2 id="reviewPercent">0%</h2>
-          </article>
-        </div>
-
-        <div class="dashboard-grid">
-          <article class="panel">
-            <div class="panel-header">
-              <div>
-                <h3>Record Activity</h3>
-                <p>Overview of saved records</p>
+          <div class="stats-grid">
+            <article class="stat-card stat-blue">
+              <div class="stat-top">
+                <span class="stat-label">TOTAL RECORDS</span>
+                <span class="stat-icon">▤</span>
               </div>
-            </div>
+              <strong class="stat-value" id="totalAccounts">0</strong>
+              <span class="stat-note">All saved records</span>
+            </article>
 
-            <div class="chart-container">
-              <canvas id="activityChart" height="180"></canvas>
-            </div>
-          </article>
-
-          <article class="panel">
-            <div class="panel-header">
-              <div>
-                <h3>Progress Overview</h3>
-                <p>Current record status</p>
+            <article class="stat-card stat-orange">
+              <div class="stat-top">
+                <span class="stat-label">PENDING</span>
+                <span class="stat-icon">◷</span>
               </div>
-            </div>
+              <strong class="stat-value" id="pendingAccounts">0</strong>
+              <span class="stat-note">Waiting for review</span>
+            </article>
 
-            <div class="progress-content">
-              <div class="progress-ring" id="progressRing">
-                <div class="progress-ring-inner">
-                  <strong id="progressPercent">0%</strong>
-                  <span>Recovered</span>
+            <article class="stat-card stat-purple">
+              <div class="stat-top">
+                <span class="stat-label">IN REVIEW</span>
+                <span class="stat-icon">⌕</span>
+              </div>
+              <strong class="stat-value" id="reviewAccounts">0</strong>
+              <span class="stat-note">Currently being reviewed</span>
+            </article>
+
+            <article class="stat-card stat-green">
+              <div class="stat-top">
+                <span class="stat-label">RECOVERED</span>
+                <span class="stat-icon">✓</span>
+              </div>
+              <strong class="stat-value" id="completedAccounts">0</strong>
+              <span class="stat-note">Owner-confirmed recovery</span>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel chart-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="eyebrow">RECORD SUMMARY</div>
+                  <h2>Account Status Overview</h2>
+                </div>
+                <span class="panel-chip">LIVE LOCAL DATA</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="activityChart" height="190"
+                  aria-label="Account status chart"></canvas>
+              </div>
+              <div class="chart-legend">
+                <span><i class="legend-dot dot-orange"></i> Pending</span>
+                <span><i class="legend-dot dot-purple"></i> Review</span>
+                <span><i class="legend-dot dot-green"></i> Recovered</span>
+                <span><i class="legend-dot dot-gray"></i> Closed</span>
+              </div>
+            </section>
+
+            <section class="panel progress-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="eyebrow">PROGRESS</div>
+                  <h2>Recovery Summary</h2>
+                </div>
+              </div>
+              <div class="progress-content">
+                <div class="progress-ring" id="progressRing">
+                  <div class="progress-ring-inner">
+                    <strong id="progressPercent">0%</strong>
+                    <small>Recovered</small>
+                  </div>
+                </div>
+                <div class="progress-copy">
+                  <strong id="progressTitle">No completed records</strong>
+                  <p id="progressDescription">
+                    Your record summary will appear here.
+                  </p>
+                  <div class="progress-track">
+                    <span id="progressBar"></span>
+                  </div>
+                  <small id="progressCounts">0 of 0 records</small>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel history-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="eyebrow">RECENT ACTIVITY</div>
+                  <h2>Activity History</h2>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr><th>ACTION</th><th>DETAILS</th><th>DATE</th></tr>
+                  </thead>
+                  <tbody id="historyTableBody">
+                    <tr><td colspan="3" class="table-empty">No activity yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel quick-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="eyebrow">SHORTCUTS</div>
+                  <h2>Quick Actions</h2>
                 </div>
               </div>
 
-              <h3 id="progressTitle">No completed records</h3>
-              <p id="progressDescription">Your record summary will appear here.</p>
+              <button class="quick-action" id="addAccountBtn2" type="button">
+                <span class="quick-icon blue">＋</span>
+                <span><strong>Add a record</strong><small>Create a local record</small></span>
+                <b>›</b>
+              </button>
 
-              <div class="progress-bar">
-                <div id="progressBar" style="width: 0%"></div>
-              </div>
+              <button class="quick-action" type="button" data-go="account">
+                <span class="quick-icon green">▤</span>
+                <span><strong>View records</strong><small>Search saved records</small></span>
+                <b>›</b>
+              </button>
 
-              <p class="progress-counts" id="progressCounts">
-                0 of 0 records
+              <button class="quick-action" type="button" data-go="recovery-tools">
+                <span class="quick-icon purple">⌘</span>
+                <span><strong>Official resources</strong><small>Visit platform help pages</small></span>
+                <b>›</b>
+              </button>
+
+              <p class="privacy-note">
+                This workspace does not recover accounts or connect to social
+                media platforms. Use official platform support channels.
               </p>
-            </div>
-          </article>
-        </div>
+            </section>
+          </div>
+        </section>
 
-        <article class="panel">
-          <div class="panel-header">
+        <!-- ACCOUNT RECORDS -->
+        <section class="page-section" id="account">
+          <div class="page-heading">
             <div>
-              <h3>Recent Activity</h3>
-              <p>Latest changes in this workspace</p>
+              <div class="eyebrow">WORKSPACE</div>
+              <h1>Account Records</h1>
+              <p>Manage non-sensitive notes about assistance requests.</p>
             </div>
+            <button class="button button-primary" id="addAccountBtn3"
+              type="button">＋ Add Record</button>
           </div>
 
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Activity</th>
-                  <th>Details</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody id="historyTableBody">
-                <tr>
-                  <td colspan="3">No activity yet.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-      </section>
+          <section class="panel">
+            <div class="toolbar">
+              <label class="search-box">
+                <span>⌕</span>
+                <input id="accountSearch" type="search"
+                  placeholder="Search records..." aria-label="Search records">
+              </label>
 
-      <!-- ACCOUNT RECORDS PAGE -->
-      <section class="page-section" id="account">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">WORKSPACE</p>
-            <h2>Account Records</h2>
-            <p>Keep track of authorized assistance requests.</p>
-          </div>
-
-          <button type="button" class="primary-btn" id="addAccountBtn2"
-            onclick="document.getElementById('addAccountBtn').click()">
-            + Add Record
-          </button>
-        </div>
-
-        <article class="panel">
-          <div class="toolbar">
-            <input
-              type="search"
-              id="accountSearch"
-              placeholder="Search records..."
-              aria-label="Search records"
-            >
-
-            <select id="platformFilter" aria-label="Filter by platform">
-              <option value="all">All Platforms</option>
-              <option value="Gmail">Gmail</option>
-              <option value="Facebook">Facebook</option>
-              <option value="Instagram">Instagram</option>
-              <option value="TikTok">TikTok</option>
-              <option value="Other">Other</option>
-            </select>
-
-            <select id="statusFilter" aria-label="Filter by status">
-              <option value="all">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="In Review">In Review</option>
-              <option value="Recovered">Recovered</option>
-              <option value="Closed">Closed</option>
-            </select>
-          </div>
-
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Case Reference</th>
-                  <th>Record Name</th>
-                  <th>Platform</th>
-                  <th>Status</th>
-                  <th>Created</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-
-              <tbody id="accountTableBody">
-                <tr>
-                  <td colspan="6">No records found. Add your first record.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-      </section>
-
-      <!-- RECOVERY RESOURCES PAGE -->
-      <section class="page-section" id="recovery-tools">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">OFFICIAL RESOURCES</p>
-            <h2>Recovery Resources</h2>
-            <p>Use official platform support pages for account recovery.</p>
-          </div>
-        </div>
-
-        <div class="resource-grid">
-          <article class="panel resource-card">
-            <h3>Google / Gmail</h3>
-            <p>Official Google Account recovery assistance.</p>
-            <a href="https://support.google.com/accounts/" target="_blank" rel="noopener noreferrer">
-              Visit Google Support ↗
-            </a>
-          </article>
-
-          <article class="panel resource-card">
-            <h3>Facebook</h3>
-            <p>Use Facebook's official compromised account process.</p>
-            <a href="https://www.facebook.com/hacked" target="_blank" rel="noopener noreferrer">
-              Visit Facebook Recovery ↗
-            </a>
-          </article>
-
-          <article class="panel resource-card">
-            <h3>Instagram</h3>
-            <p>Official help for login and account access problems.</p>
-            <a href="https://www.instagram.com/hacked/" target="_blank" rel="noopener noreferrer">
-              Visit Instagram Recovery ↗
-            </a>
-          </article>
-
-          <article class="panel resource-card">
-            <h3>TikTok</h3>
-            <p>Official TikTok account and login support.</p>
-            <a href="https://support.tiktok.com/" target="_blank" rel="noopener noreferrer">
-              Visit TikTok Support ↗
-            </a>
-          </article>
-        </div>
-
-        <div class="notice">
-          <strong>Security reminder</strong>
-          <p>Never ask anyone for passwords, one-time codes, recovery codes, or secret phrases. Use official platform recovery pages.</p>
-        </div>
-      </section>
-
-      <!-- CUSTOMER SUPPORT PAGE -->
-      <section class="page-section" id="customer-support">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">HELP CENTER</p>
-            <h2>Customer Support</h2>
-            <p>Prepare a support request for your own records.</p>
-          </div>
-        </div>
-
-        <article class="panel form-panel">
-          <form id="supportForm">
-            <div class="form-group">
-              <label for="supportName">Name</label>
-              <input type="text" id="supportName" placeholder="Enter your name">
-            </div>
-
-            <div class="form-group">
-              <label for="supportEmail">Email</label>
-              <input type="email" id="supportEmail" placeholder="Enter your email">
-            </div>
-
-            <div class="form-group">
-              <label for="supportCategory">Category</label>
-              <select id="supportCategory">
-                <option value="General inquiry">General inquiry</option>
-                <option value="Account access">Account access</option>
-                <option value="Technical issue">Technical issue</option>
+              <select id="platformFilter" aria-label="Filter platform">
+                <option value="all">All platforms</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Gmail">Gmail</option>
+                <option value="TikTok">TikTok</option>
                 <option value="Other">Other</option>
+              </select>
+
+              <select id="statusFilter" aria-label="Filter status">
+                <option value="all">All statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="In Review">In Review</option>
+                <option value="Recovered">Recovered</option>
+                <option value="Closed">Closed</option>
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="supportMessage">Message</label>
-              <textarea id="supportMessage" rows="5" placeholder="Write your message..."></textarea>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>REFERENCE</th>
+                    <th>RECORD NAME</th>
+                    <th>PLATFORM</th>
+                    <th>STATUS</th>
+                    <th>DATE ADDED</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="accountTableBody">
+                  <tr><td colspan="6" class="table-empty">No records found.</td></tr>
+                </tbody>
+              </table>
             </div>
+          </section>
+        </section>
 
-            <button type="submit" class="primary-btn">Prepare Message</button>
-            <p id="supportFeedback" class="form-feedback" aria-live="polite"></p>
-          </form>
-
-          <p class="small-note">
-            This form only prepares a local draft. It does not send information to a server.
-          </p>
-        </article>
-      </section>
-
-      <!-- SETTINGS PAGE -->
-      <section class="page-section" id="settings">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">PREFERENCES</p>
-            <h2>Settings</h2>
-            <p>Manage your local workspace preferences.</p>
+        <!-- RECOVERY RESOURCES -->
+        <section class="page-section" id="recovery-tools">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">OFFICIAL HELP</div>
+              <h1>Recovery Resources</h1>
+              <p>Official support links for account owners.</p>
+            </div>
           </div>
-        </div>
 
-        <article class="panel form-panel">
-          <h3>Workspace Profile</h3>
+          <div class="resource-grid">
+            <a class="resource-card" href="https://www.facebook.com/hacked/"
+              target="_blank" rel="noopener noreferrer">
+              <span class="resource-logo facebook">f</span>
+              <span><strong>Facebook</strong><small>Official hacked account help</small></span>
+              <b>↗</b>
+            </a>
 
-          <form id="profileForm">
-            <div class="form-group">
-              <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" placeholder="Enter your name">
+            <a class="resource-card" href="https://www.instagram.com/hacked/"
+              target="_blank" rel="noopener noreferrer">
+              <span class="resource-logo instagram">◎</span>
+              <span><strong>Instagram</strong><small>Official account recovery</small></span>
+              <b>↗</b>
+            </a>
+
+            <a class="resource-card" href="https://support.google.com/accounts/"
+              target="_blank" rel="noopener noreferrer">
+              <span class="resource-logo google">G</span>
+              <span><strong>Google / Gmail</strong><small>Google Account Help</small></span>
+              <b>↗</b>
+            </a>
+
+            <a class="resource-card" href="https://support.tiktok.com/"
+              target="_blank" rel="noopener noreferrer">
+              <span class="resource-logo tiktok">♪</span>
+              <span><strong>TikTok</strong><small>Official TikTok support</small></span>
+              <b>↗</b>
+            </a>
+          </div>
+
+          <div class="notice">
+            <strong>Security reminder</strong>
+            <p>Never ask anyone to share passwords, OTPs, recovery codes,
+              secret phrases, or private authentication details. Account
+              owners should complete recovery directly through official
+              platform websites.</p>
+          </div>
+        </section>
+
+        <!-- CUSTOMER SUPPORT -->
+        <section class="page-section" id="customer-support">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">HELP CENTER</div>
+              <h1>Customer Support</h1>
+              <p>Prepare a support message locally on this device.</p>
+            </div>
+          </div>
+
+          <div class="support-grid">
+            <section class="panel form-panel">
+              <div class="panel-heading">
+                <div><div class="eyebrow">MESSAGE</div><h2>Support Draft</h2></div>
+              </div>
+
+              <form id="supportForm" class="stack-form">
+                <label class="field">Name
+                  <input id="supportName" maxlength="80" required>
+                </label>
+                <label class="field">Email
+                  <input id="supportEmail" type="email" maxlength="120" required>
+                </label>
+                <label class="field">Category
+                  <select id="supportCategory">
+                    <option>General question</option>
+                    <option>Technical issue</option>
+                    <option>Record management</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label class="field">Message
+                  <textarea id="supportMessage" rows="5" maxlength="2000"
+                    required></textarea>
+                </label>
+                <button class="button button-primary" type="submit">
+                  Prepare Support Draft
+                </button>
+                <p id="supportFeedback" class="form-feedback" aria-live="polite"></p>
+                <p class="small-note">This form prepares a local draft only.
+                  It does not send messages to a server.</p>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div><div class="eyebrow">INFORMATION</div><h2>Frequently Asked Questions</h2></div>
+              </div>
+              <div class="faq">
+                <details>
+                  <summary>Where are my records saved?</summary>
+                  <p>Records are saved in this browser's local storage on this device.</p>
+                </details>
+                <details>
+                  <summary>Are records sent to RecoveryX servers?</summary>
+                  <p>No. This version does not include a server or cloud sync.</p>
+                </details>
+                <details>
+                  <summary>Can RecoveryX unlock an account?</summary>
+                  <p>No. Use the official recovery process provided by the platform.</p>
+                </details>
+                <details>
+                  <summary>Should I enter my password or OTP?</summary>
+                  <p>No. Never store passwords, OTPs, recovery codes, or secret phrases here.</p>
+                </details>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section class="page-section" id="settings">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">PREFERENCES</div>
+              <h1>Settings</h1>
+              <p>Manage your local workspace profile and preferences.</p>
+            </div>
+          </div>
+
+          <section class="panel profile-panel">
+            <div class="profile-header">
+              <div class="profile-avatar" id="profileInitial">A</div>
+              <div>
+                <h2 id="profileNameHeading">Account Owner</h2>
+                <p>Local workspace profile</p>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label for="email">Email Address</label>
-              <input type="email" id="email" placeholder="Enter your email">
+            <form id="profileForm" class="form-grid">
+              <label class="field">Full name
+                <input id="fullName" maxlength="100" autocomplete="name">
+              </label>
+              <label class="field">Email
+                <input id="email" type="email" maxlength="120" autocomplete="email">
+              </label>
+              <label class="field">Display name
+                <input id="displayName" maxlength="60">
+              </label>
+              <div class="form-actions">
+                <button class="button button-primary" type="submit">Save Profile</button>
+                <span id="profileMessage" class="form-message" aria-live="polite"></span>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel settings-panel">
+            <div class="panel-heading">
+              <div><div class="eyebrow">PREFERENCES</div><h2>Display & Privacy</h2></div>
             </div>
-
-            <div class="form-group">
-              <label for="displayName">Display Name</label>
-              <input type="text" id="displayName" placeholder="Account Owner">
+            <div class="settings-list">
+              <div class="setting-row">
+                <div><strong>Compact display</strong><p>Reduce spacing in cards and tables.</p></div>
+                <label class="switch">
+                  <input id="compactToggle" type="checkbox">
+                  <span></span>
+                </label>
+              </div>
+              <div class="setting-row">
+                <div><strong>Confirm before deleting</strong><p>Ask before removing a record.</p></div>
+                <label class="switch">
+                  <input id="confirmDeleteToggle" type="checkbox" checked>
+                  <span></span>
+                </label>
+              </div>
             </div>
+          </section>
 
-            <button type="submit" class="primary-btn">Save Profile</button>
-            <p id="profileMessage" class="form-feedback" aria-live="polite"></p>
-          </form>
-        </article>
+          <div class="notice">
+            <strong>Local data notice</strong>
+            <p>Clearing browser data may permanently remove your saved records.
+              Export or back up non-sensitive information before clearing it.</p>
+          </div>
+        </section>
 
-        <article class="panel settings-panel">
-          <h3>Display Preferences</h3>
-
-          <label class="setting-row">
-            <span>
-              <strong>Compact View</strong>
-              <small>Use a more compact workspace layout.</small>
-            </span>
-            <input type="checkbox" id="compactToggle">
-          </label>
-
-          <label class="setting-row">
-            <span>
-              <strong>Confirm Before Delete</strong>
-              <small>Ask for confirmation before deleting a record.</small>
-            </span>
-            <input type="checkbox" id="confirmDeleteToggle" checked>
-          </label>
-        </article>
-
-        <div class="notice">
-          <strong>Local data notice</strong>
-          <p>Records and profile settings are stored in this browser on this device. They are not automatically backed up or synced to another device.</p>
-        </div>
-      </section>
-
-      <!-- FOOTER -->
-      <footer class="app-footer">
-        <p>RecoveryX Private Portal</p>
-        <small>Independent record-management workspace. Not affiliated with Google, Meta, Instagram, or TikTok.</small>
-      </footer>
+        <footer class="app-footer">
+          <span>RECOVERYX PRIVATE PORTAL</span>
+          <span>LOCAL WORKSPACE · NOT AN OFFICIAL PLATFORM SERVICE</span>
+        </footer>
+      </div>
     </main>
   </div>
 
   <!-- ADD RECORD DIALOG -->
-  <dialog id="accountDialog" class="account-dialog">
-    <div class="dialog-header">
-      <div>
-        <p class="eyebrow">NEW ENTRY</p>
-        <h2>Add Account Record</h2>
-      </div>
-      <button type="button" id="closeDialog" class="close-btn" aria-label="Close dialog">×</button>
-    </div>
-
+  <dialog class="modal" id="accountDialog">
     <form id="accountForm">
-      <div class="form-group">
-        <label for="recordName">Record Name / Case Label</label>
-        <input
-          type="text"
-          id="recordName"
-          placeholder="Example: Personal Gmail case"
-          required
-        >
+      <div class="dialog-header">
+        <div>
+          <div class="eyebrow">NEW ENTRY</div>
+          <h2>Add Account Record</h2>
+        </div>
+        <button class="icon-button" id="closeDialog" type="button"
+          aria-label="Close dialog">×</button>
       </div>
 
-      <div class="form-group">
-        <label for="recordPlatform">Platform</label>
+      <label class="field">Record name
+        <input id="recordName" maxlength="100" required
+          placeholder="Example: Personal Facebook">
+      </label>
+
+      <label class="field">Platform
         <select id="recordPlatform" required>
-          <option value="Gmail">Gmail</option>
-          <option value="Facebook">Facebook</option>
-          <option value="Instagram">Instagram</option>
-          <option value="TikTok">TikTok</option>
-          <option value="Other">Other</option>
+          <option value="">Select platform</option>
+          <option>Facebook</option>
+          <option>Instagram</option>
+          <option>Gmail</option>
+          <option>TikTok</option>
+          <option>Other</option>
         </select>
-      </div>
+      </label>
 
-      <div class="form-group">
-        <label for="recordIssue">Issue Description</label>
-        <textarea
-          id="recordIssue"
-          rows="4"
-          placeholder="Describe the issue without passwords or verification codes."
-        ></textarea>
-      </div>
+      <label class="field">Notes (no passwords or codes)
+        <textarea id="recordIssue" rows="3" maxlength="500"
+          placeholder="Add a non-sensitive note"></textarea>
+      </label>
 
-      <div class="form-group">
-        <label for="recordStatus">Status</label>
-        <select id="recordStatus" required>
-          <option value="Pending">Pending</option>
-          <option value="In Review">In Review</option>
-          <option value="Recovered">Recovered</option>
-          <option value="Closed">Closed</option>
-        </select>
-      </div>
-
-      <div class="dialog-actions">
-        <button type="button" id="cancelDialog" class="secondary-btn">Cancel</button>
-        <button type="submit" class="primary-btn">Save Record</button>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- TOAST -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script src="./app.js?v=4" defer></script>
-</body>
-</html>
+      <label class="field">Status
+        <select id="recordStatus" req
