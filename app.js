@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
@@ -7,17 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // =====================================
 
   const STORAGE = {
-    records: "rx_records_v4",
-    history: "rx_history_v4",
-    profile: "rx_profile_v4",
-    compact: "rx_compact_v4",
-    confirmDelete: "rx_confirm_delete_v4"
+    records: "rx_records_v5",
+    history: "rx_history_v5",
+    profile: "rx_profile_v5",
+    compact: "rx_compact_v5",
+    confirmDelete: "rx_confirm_delete_v5"
   };
 
   const PLATFORMS = [
-    "Gmail",
     "Facebook",
     "Instagram",
+    "Gmail",
     "TikTok",
     "Other"
   ];
@@ -29,16 +28,24 @@ document.addEventListener("DOMContentLoaded", () => {
     "Closed"
   ];
 
+  const PAGE_NAMES = {
+    dashboard: "Dashboard",
+    account: "Account Records",
+    "recovery-tools": "Recovery Resources",
+    "customer-support": "Customer Support",
+    settings: "Settings"
+  };
+
   const $ = (id) => document.getElementById(id);
 
   // =====================================
-  // SAFE STORAGE
+  // LOCAL STORAGE
   // =====================================
 
   function readStorage(key, fallback) {
     try {
       const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : fallback;
+      return value === null ? fallback : JSON.parse(value);
     } catch (error) {
       console.error("Storage read error:", error);
       return fallback;
@@ -57,7 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let records = readStorage(STORAGE.records, []);
-  let history = readStorage(STORAGE.history, []);
+  let activityHistory = readStorage(STORAGE.history, []);
+
   let profile = readStorage(STORAGE.profile, {
     fullName: "",
     email: "",
@@ -65,22 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (!Array.isArray(records)) records = [];
-  if (!Array.isArray(history)) history = [];
+  if (!Array.isArray(activityHistory)) activityHistory = [];
 
-  // Normalize saved records safely.
-  records = records.map((record) => ({
-    id: String(record.id || createReference()),
-    name: String(record.name || "Untitled record"),
-    platform: PLATFORMS.includes(record.platform)
-      ? record.platform
-      : "Other",
-    issue: String(record.issue || ""),
-    status: STATUSES.includes(record.status)
-      ? record.status
-      : "Pending",
-    createdAt: record.createdAt || new Date().toISOString(),
-    updatedAt: record.updatedAt || record.createdAt || new Date().toISOString()
-  }));
+  if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
+    profile = {
+      fullName: "",
+      email: "",
+      displayName: "Account Owner"
+    };
+  }
 
   // =====================================
   // HELPERS
@@ -119,13 +120,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveRecords() {
-    writeStorage(STORAGE.records, records);
+    return writeStorage(STORAGE.records, records);
   }
 
   function saveHistory() {
-    history = history.slice(0, 50);
-    writeStorage(STORAGE.history, history);
+    activityHistory = activityHistory.slice(0, 50);
+    return writeStorage(STORAGE.history, activityHistory);
   }
+
+  let toastTimer;
 
   function showToast(message) {
     const toast = $("toast");
@@ -135,24 +138,59 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.textContent = message;
     toast.classList.add("show");
 
-    window.clearTimeout(showToast.timeout);
+    window.clearTimeout(toastTimer);
 
-    showToast.timeout = window.setTimeout(() => {
+    toastTimer = window.setTimeout(() => {
       toast.classList.remove("show");
     }, 2800);
   }
 
   function addHistory(action, details) {
-    history.unshift({
+    activityHistory.unshift({
       id: createReference(),
-      action,
-      details,
+      action: String(action),
+      details: String(details),
       date: new Date().toISOString()
     });
 
     saveHistory();
     renderHistory();
   }
+
+  function statusClass(status) {
+    const classes = {
+      "Pending": "status-pending",
+      "In Review": "status-review",
+      "Recovered": "status-completed",
+      "Closed": "status-closed"
+    };
+
+    return classes[status] || "status-pending";
+  }
+
+  // =====================================
+  // NORMALIZE RECORDS
+  // =====================================
+
+  records = records.map((record) => {
+    record = record && typeof record === "object" ? record : {};
+
+    return {
+      id: String(record.id || createReference()),
+      name: String(record.name || "Untitled record"),
+      platform: PLATFORMS.includes(record.platform)
+        ? record.platform
+        : "Other",
+      issue: String(record.issue || ""),
+      status: STATUSES.includes(record.status)
+        ? record.status
+        : "Pending",
+      createdAt: record.createdAt || new Date().toISOString(),
+      updatedAt: record.updatedAt ||
+        record.createdAt ||
+        new Date().toISOString()
+    };
+  });
 
   // =====================================
   // NAVIGATION
@@ -161,18 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll(".nav-link");
   const pages = document.querySelectorAll(".page-section");
 
-  const pageNames = {
-    dashboard: "Dashboard",
-    account: "Account Records",
-    "recovery-tools": "Recovery Resources",
-    "customer-support": "Customer Support",
-    settings: "Settings"
-  };
-
   function showPage(pageId) {
-    const target = $(pageId);
-
-    if (!target || !target.classList.contains("page-section")) {
+    if (!PAGE_NAMES[pageId] || !$(pageId)) {
       pageId = "dashboard";
     }
 
@@ -181,19 +209,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     navLinks.forEach((link) => {
-      link.classList.toggle(
-        "active",
-        link.dataset.page === pageId
-      );
+      const active = link.dataset.page === pageId;
+
+      link.classList.toggle("active", active);
+
+      if (active) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
     });
 
     const title = $("pageTitle");
 
     if (title) {
-      title.textContent = pageNames[pageId] || "Dashboard";
+      title.textContent = PAGE_NAMES[pageId];
     }
 
     $("sidebar")?.classList.remove("open");
+
+    if (pageId === "dashboard") {
+      renderChart();
+    }
   }
 
   navLinks.forEach((link) => {
@@ -204,16 +241,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showPage(pageId);
 
-      history.replaceState(null, "", "#" + pageId);
+      // Use the browser history, not the activityHistory array.
+      window.history.replaceState(null, "", "#" + pageId);
     });
   });
 
-  // =====================================
-  // MOBILE MENU
-  // =====================================
+  document.querySelectorAll("[data-go]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const pageId = button.dataset.go;
+
+      showPage(pageId);
+      window.history.replaceState(null, "", "#" + pageId);
+    });
+  });
 
   $("menuToggle")?.addEventListener("click", () => {
     $("sidebar")?.classList.toggle("open");
+  });
+
+  $("avatarButton")?.addEventListener("click", () => {
+    showPage("settings");
+    window.history.replaceState(null, "", "#settings");
   });
 
   // =====================================
@@ -224,18 +272,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const accountForm = $("accountForm");
 
   function openDialog() {
-    if (!dialog) return;
+    if (!dialog || !accountForm) return;
 
-    accountForm?.reset();
+    accountForm.reset();
 
-    const statusInput = $("recordStatus");
-
-    if (statusInput) {
-      statusInput.value = "Pending";
+    if ($("recordStatus")) {
+      $("recordStatus").value = "Pending";
     }
 
     if (typeof dialog.showModal === "function") {
-      dialog.showModal();
+      if (!dialog.open) dialog.showModal();
     } else {
       dialog.setAttribute("open", "");
     }
@@ -252,8 +298,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $("addAccountBtn")?.addEventListener("click", openDialog);
+  $("addAccountBtn2")?.addEventListener("click", openDialog);
+  $("addAccountBtn3")?.addEventListener("click", openDialog);
+
   $("closeDialog")?.addEventListener("click", closeDialog);
   $("cancelDialog")?.addEventListener("click", closeDialog);
+
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      closeDialog();
+    }
+  });
 
   // =====================================
   // ADD RECORD
@@ -262,10 +317,10 @@ document.addEventListener("DOMContentLoaded", () => {
   accountForm?.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const name = $("recordName")?.value.trim();
-    const platform = $("recordPlatform")?.value;
-    const issue = $("recordIssue")?.value.trim();
-    const status = $("recordStatus")?.value;
+    const name = $("recordName")?.value.trim() || "";
+    const platform = $("recordPlatform")?.value || "";
+    const issue = $("recordIssue")?.value.trim() || "";
+    const status = $("recordStatus")?.value || "";
 
     if (!name) {
       showToast("Please enter a record name.");
@@ -296,7 +351,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     records.unshift(newRecord);
 
-    saveRecords();
+    if (!saveRecords()) {
+      records.shift();
+      return;
+    }
 
     addHistory(
       "Record added",
@@ -310,19 +368,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =====================================
-  // RECORD STATUS
+  // UPDATE STATUS
   // =====================================
-
-  function statusClass(status) {
-    const classes = {
-      "Pending": "status-pending",
-      "In Review": "status-review",
-      "Recovered": "status-completed",
-      "Closed": "status-closed"
-    };
-
-    return classes[status] || "status-pending";
-  }
 
   function updateStatus(id, newStatus) {
     if (!STATUSES.includes(newStatus)) return;
@@ -331,22 +378,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!record) return;
 
-    if (
-      newStatus === "Recovered" &&
-      !window.confirm(
+    if (newStatus === "Recovered") {
+      const confirmed = window.confirm(
         "Has the account owner confirmed that access has been restored?"
-      )
-    ) {
-      renderAccounts();
-      return;
+      );
+
+      if (!confirmed) {
+        renderAccounts();
+        return;
+      }
     }
 
     const oldStatus = record.status;
+    const oldUpdatedAt = record.updatedAt;
 
     record.status = newStatus;
     record.updatedAt = new Date().toISOString();
 
-    saveRecords();
+    if (!saveRecords()) {
+      record.status = oldStatus;
+      record.updatedAt = oldUpdatedAt;
+      renderAccounts();
+      return;
+    }
 
     addHistory(
       "Status updated",
@@ -379,9 +433,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const oldRecords = records.slice();
+
     records = records.filter((item) => item.id !== id);
 
-    saveRecords();
+    if (!saveRecords()) {
+      records = oldRecords;
+      renderAccounts();
+      return;
+    }
 
     addHistory(
       "Record deleted",
@@ -393,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================================
-  // RENDER RECORDS
+  // RENDER ACCOUNT RECORDS
   // =====================================
 
   function renderAccounts() {
@@ -430,20 +490,17 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedStatus === "all" ||
         record.status === selectedStatus;
 
-      return (
-        matchesSearch &&
-        matchesPlatform &&
-        matchesStatus
-      );
+      return matchesSearch && matchesPlatform && matchesStatus;
     });
 
     if (filtered.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="6">No matching records found.</td>
+          <td colspan="6" class="table-empty">
+            No matching records found.
+          </td>
         </tr>
       `;
-
       return;
     }
 
@@ -457,9 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <option
           value="${escapeHTML(item)}"
           ${record.status === item ? "selected" : ""}
-        >
-          ${escapeHTML(item)}
-        </option>
+        >${escapeHTML(item)}</option>
       `).join("");
 
       return `
@@ -468,7 +523,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${name}</td>
           <td>${platform}</td>
           <td>
-            <span class="status-badge ${statusClass(record.status)}">
+            <span class="status-pill ${statusClass(record.status)}">
               ${status}
             </span>
           </td>
@@ -490,9 +545,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 data-action="delete"
                 data-id="${id}"
                 aria-label="Delete ${name}"
-              >
-                Delete
-              </button>
+              >Delete</button>
             </div>
           </td>
         </tr>
@@ -543,8 +596,16 @@ document.addEventListener("DOMContentLoaded", () => {
       (item) => item.status === "Recovered"
     ).length;
 
-    const percent = total
+    const closed = records.filter(
+      (item) => item.status === "Closed"
+    ).length;
+
+    const recoveredPercent = total
       ? Math.round((recovered / total) * 100)
+      : 0;
+
+    const reviewPercent = total
+      ? Math.round((review / total) * 100)
       : 0;
 
     if ($("totalAccounts")) {
@@ -555,16 +616,17 @@ document.addEventListener("DOMContentLoaded", () => {
       $("pendingAccounts").textContent = pending;
     }
 
+    if ($("reviewAccounts")) {
+      $("reviewAccounts").textContent = review;
+    }
+
     if ($("completedAccounts")) {
       $("completedAccounts").textContent = recovered;
     }
 
-    if ($("reviewPercent")) {
-      $("reviewPercent").textContent = percent + "%";
-    }
-
     if ($("progressPercent")) {
-      $("progressPercent").textContent = percent + "%";
+      $("progressPercent").textContent =
+        recoveredPercent + "%";
     }
 
     if ($("progressTitle")) {
@@ -580,7 +642,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if ($("progressBar")) {
-      $("progressBar").style.width = percent + "%";
+      $("progressBar").style.width =
+        recoveredPercent + "%";
     }
 
     if ($("progressCounts")) {
@@ -589,23 +652,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if ($("progressRing")) {
-      $("progressRing").style.background =
-        `conic-gradient(#22c55e ${percent}%, #e5e7eb ${percent}%)`;
+      $("progressRing").style.setProperty(
+        "--progress",
+        recoveredPercent + "%"
+      );
     }
 
     renderChart({
-      total,
       pending,
       review,
       recovered,
-      closed: records.filter(
-        (item) => item.status === "Closed"
-      ).length
+      closed
     });
   }
 
   // =====================================
-  // SIMPLE ACTIVITY CHART
+  // STATUS CHART
   // =====================================
 
   function renderChart(stats) {
@@ -617,12 +679,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!context) return;
 
-    const width = canvas.clientWidth || 400;
-    const height = 180;
-    const ratio = window.devicePixelRatio || 1;
+    const width = Math.max(250, canvas.clientWidth || 400);
+    const height = 190;
+    const ratio = Math.max(1, window.devicePixelRatio || 1);
 
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
 
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
     context.clearRect(0, 0, width, height);
@@ -641,28 +703,31 @@ document.addEventListener("DOMContentLoaded", () => {
       "Closed"
     ];
 
+    const colors = [
+      "#f59e0b",
+      "#8b5cf6",
+      "#22c55e",
+      "#64748b"
+    ];
+
     const maxValue = Math.max(1, ...values);
-    const chartTop = 12;
-    const chartBottom = 130;
+    const chartTop = 15;
+    const chartBottom = 145;
     const chartHeight = chartBottom - chartTop;
 
-    const barWidth = Math.min(42, width / 9);
-    const gap = width / 5;
+    const sectionWidth = width / 4;
+    const barWidth = Math.min(42, sectionWidth * 0.48);
 
     context.font = "11px Arial";
     context.textAlign = "center";
 
     values.forEach((value, index) => {
-      const x = gap * (index + 0.5) - barWidth / 2;
+      const centerX = sectionWidth * (index + 0.5);
       const barHeight = (value / maxValue) * chartHeight;
+      const x = centerX - barWidth / 2;
       const y = chartBottom - barHeight;
 
-      context.fillStyle = [
-        "#f59e0b",
-        "#8b5cf6",
-        "#22c55e",
-        "#64748b"
-      ][index];
+      context.fillStyle = colors[index];
 
       context.fillRect(
         x,
@@ -671,18 +736,20 @@ document.addEventListener("DOMContentLoaded", () => {
         Math.max(3, barHeight)
       );
 
-      context.fillStyle = "#64748b";
+      context.fillStyle = "#c5d7ed";
 
       context.fillText(
         String(value),
-        x + barWidth / 2,
-        Math.max(10, y - 6)
+        centerX,
+        Math.max(11, y - 7)
       );
+
+      context.fillStyle = "#8fa9c9";
 
       context.fillText(
         labels[index],
-        x + barWidth / 2,
-        153
+        centerX,
+        170
       );
     });
   }
@@ -696,23 +763,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!tableBody) return;
 
-    if (history.length === 0) {
+    if (activityHistory.length === 0) {
       tableBody.innerHTML = `
         <tr>
-          <td colspan="3">No activity yet.</td>
+          <td colspan="3" class="table-empty">
+            No activity yet.
+          </td>
         </tr>
       `;
-
       return;
     }
 
-    tableBody.innerHTML = history.slice(0, 10).map((item) => `
-      <tr>
-        <td>${escapeHTML(item.action || "Activity")}</td>
-        <td>${escapeHTML(item.details || "")}</td>
-        <td>${formatDate(item.date)}</td>
-      </tr>
-    `).join("");
+    tableBody.innerHTML = activityHistory
+      .slice(0, 10)
+      .map((item) => `
+        <tr>
+          <td>${escapeHTML(item.action || "Activity")}</td>
+          <td>${escapeHTML(item.details || "")}</td>
+          <td>${formatDate(item.date)}</td>
+        </tr>
+      `)
+      .join("");
   }
 
   // =====================================
@@ -744,19 +815,28 @@ document.addEventListener("DOMContentLoaded", () => {
       $("profileInitial").textContent =
         displayName.charAt(0).toUpperCase();
     }
+
+    if ($("avatarButton")) {
+      $("avatarButton").textContent =
+        displayName.charAt(0).toUpperCase();
+    }
   }
 
   $("profileForm")?.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    profile = {
+    const newProfile = {
       fullName: $("fullName")?.value.trim() || "",
       email: $("email")?.value.trim() || "",
       displayName:
         $("displayName")?.value.trim() || "Account Owner"
     };
 
-    if (!writeStorage(STORAGE.profile, profile)) return;
+    if (!writeStorage(STORAGE.profile, newProfile)) {
+      return;
+    }
+
+    profile = newProfile;
 
     renderProfile();
 
@@ -785,12 +865,14 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     compactToggle.addEventListener("change", () => {
-      writeStorage(STORAGE.compact, compactToggle.checked);
+      const enabled = compactToggle.checked;
 
       document.body.classList.toggle(
         "compact-mode",
-        compactToggle.checked
+        enabled
       );
+
+      writeStorage(STORAGE.compact, enabled);
     });
   }
 
@@ -807,10 +889,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================================
-  // SUPPORT FORM
+  // SUPPORT DRAFT
   // =====================================
 
-  $("supportForm")?.addEventListener("submit", (event) => {
+  $("supportForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const name = $("supportName")?.value.trim() || "";
@@ -818,12 +900,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const category = $("supportCategory")?.value || "";
     const message = $("supportMessage")?.value.trim() || "";
 
+    const feedback = $("supportFeedback");
+
     if (!name || !email || !message) {
-      if ($("supportFeedback")) {
-        $("supportFeedback").textContent =
+      if (feedback) {
+        feedback.textContent =
           "Please complete your name, email, and message.";
       }
-
       return;
     }
 
@@ -837,8 +920,8 @@ document.addEventListener("DOMContentLoaded", () => {
       message
     ].join("\n");
 
-    if ($("supportFeedback")) {
-      $("supportFeedback").textContent =
+    if (feedback) {
+      feedback.textContent =
         "Draft prepared locally. It has not been sent.";
     }
 
@@ -847,19 +930,21 @@ document.addEventListener("DOMContentLoaded", () => {
       category + " support request"
     );
 
-    // Copy is optional; the draft remains visible in the message.
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(draft).then(
-        () => showToast("Support draft copied."),
-        () => showToast("Support draft prepared.")
-      );
-    } else {
-      showToast("Support draft prepared.");
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(draft);
+        showToast("Support draft copied.");
+      } else {
+        showToast("Support draft prepared.");
+      }
+    } catch (error) {
+      console.warn("Clipboard unavailable:", error);
+      showToast("Support draft prepared, but not copied.");
     }
   });
 
   // =====================================
-  // RENDER EVERYTHING
+  // RENDER ALL
   // =====================================
 
   function renderAll() {
@@ -873,20 +958,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // INITIALIZE
   // =====================================
 
+  // Save normalized records without deleting existing entries.
   saveRecords();
 
   renderAll();
 
   const initialPage = window.location.hash.replace("#", "");
 
-  if (pageNames[initialPage]) {
+  if (PAGE_NAMES[initialPage]) {
     showPage(initialPage);
   } else {
     showPage("dashboard");
   }
 
   window.addEventListener("resize", () => {
-    renderDashboard();
+    renderChart();
   });
 
   console.log("RecoveryX workspace initialized.");
