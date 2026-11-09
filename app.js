@@ -1,109 +1,893 @@
+
 document.addEventListener("DOMContentLoaded", () => {
-  const links = [...document.querySelectorAll(".nav-link")];
-  const sections = [...document.querySelectorAll(".page-section")];
-  const sidebar = document.getElementById("sidebar");
-  const menuToggle = document.getElementById("menuToggle");
-  const dialog = document.getElementById("accountDialog");
-  const toast = document.getElementById("toast");
-  const KEYS = { accounts:"rx_records_v3", history:"rx_history_v3", profile:"rx_profile_v3", compact:"rx_compact_v3", confirm:"rx_confirm_delete_v3" };
-  const read = (key, fallback) => { try { const value = localStorage.getItem(key); return value ? JSON.parse(value) : fallback; } catch { return fallback; } };
-  const save = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { notify("Could not save: browser storage may be unavailable."); return false; } };
-  let accounts = read(KEYS.accounts, []);
-  let historyLog = read(KEYS.history, []);
-  let profile = read(KEYS.profile, { fullName:"Account Owner", email:"", displayName:"" });
+  "use strict";
 
-  function notify(message) { toast.textContent = message; toast.classList.add("show"); clearTimeout(notify.timer); notify.timer = setTimeout(() => toast.classList.remove("show"), 2600); }
-  function escapeHTML(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
-  function go(page, updateHash = true) {
-    const target = document.getElementById(page);
-    if (!target || !target.classList.contains("page-section")) return;
-    sections.forEach(s => { s.hidden = s.id !== page; });
-    links.forEach(a => { const active = a.hash === `#${page}`; a.classList.toggle("active", active); if (active) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
-    if (updateHash) history.replaceState(null,"",`#${page}`);
-    sidebar.classList.remove("open"); menuToggle.setAttribute("aria-expanded","false"); window.scrollTo({top:0,behavior:"smooth"});
-  }
-  links.forEach(a => a.addEventListener("click", e => { e.preventDefault(); go(a.hash.slice(1)); }));
-  document.querySelectorAll("[data-go]").forEach(el => el.addEventListener("click", () => go(el.dataset.go)));
-  menuToggle.addEventListener("click", () => { const open = sidebar.classList.toggle("open"); menuToggle.setAttribute("aria-expanded",String(open)); });
-  document.addEventListener("click", e => { if (innerWidth <= 760 && sidebar.classList.contains("open") && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) { sidebar.classList.remove("open"); menuToggle.setAttribute("aria-expanded","false"); } });
-  window.addEventListener("hashchange", () => { const id = location.hash.slice(1); if (document.getElementById(id)?.classList.contains("page-section")) go(id,false); });
+  // =====================================
+  // RECOVERYX - LOCAL WORKSPACE
+  // =====================================
 
-  function addHistory(action, record, status) {
-    historyLog.unshift({ time:new Date().toISOString(), action, reference:record.id, status:status || record.status || "—" });
-    historyLog = historyLog.slice(0,100);
-    save(KEYS.history,historyLog);
-  }
-  function formatDate(value) { const d = new Date(value); return Number.isNaN(d.getTime()) ? String(value || "—") : d.toLocaleString([], {year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}); }
-  function badgeClass(status) { return ({Pending:"status-pending","In Review":"status-review",Completed:"status-completed",Closed:"status-closed"})[status] || "status-closed"; }
+  const STORAGE = {
+    records: "rx_records_v4",
+    history: "rx_history_v4",
+    profile: "rx_profile_v4",
+    compact: "rx_compact_v4",
+    confirmDelete: "rx_confirm_delete_v4"
+  };
 
-  // Profile is stored only in this browser.
-  const profileForm = document.getElementById("profileForm");
-  function renderProfile() {
-    document.getElementById("fullName").value = profile.fullName || "";
-    document.getElementById("email").value = profile.email || "";
-    document.getElementById("displayName").value = profile.displayName || "";
-    const label = profile.displayName || profile.fullName || "Account Owner";
-    document.getElementById("profileNameHeading").textContent = label;
-    document.getElementById("profileInitial").textContent = label.trim().charAt(0).toUpperCase() || "A";
-    document.querySelector(".avatar").textContent = label.trim().charAt(0).toUpperCase() || "A";
-  }
-  profileForm.addEventListener("submit", e => { e.preventDefault(); profile = {fullName:document.getElementById("fullName").value.trim(),email:document.getElementById("email").value.trim(),displayName:document.getElementById("displayName").value.trim()}; if (save(KEYS.profile,profile)) { renderProfile(); document.getElementById("profileMessage").textContent = "Profile saved in this browser."; notify("Profile saved."); } });
+  const PLATFORMS = [
+    "Gmail",
+    "Facebook",
+    "Instagram",
+    "TikTok",
+    "Other"
+  ];
 
-  const tableBody = document.getElementById("accountTableBody");
-  const search = document.getElementById("accountSearch");
-  const platformFilter = document.getElementById("platformFilter");
-  const statusFilter = document.getElementById("statusFilter");
-  function renderHistory() {
-    const body = document.getElementById("historyTableBody");
-    if (!historyLog.length) { body.innerHTML = '<tr><td colspan="4" class="table-empty">No activity recorded yet.</td></tr>'; return; }
-    body.innerHTML = historyLog.slice(0,7).map(item => `<tr><td>${escapeHTML(formatDate(item.time))}</td><td>${escapeHTML(item.action)}</td><td><strong>${escapeHTML(item.reference)}</strong></td><td><span class="status-pill ${badgeClass(item.status)}">${escapeHTML(item.status)}</span></td></tr>`).join("");
+  const STATUSES = [
+    "Pending",
+    "In Review",
+    "Recovered",
+    "Closed"
+  ];
+
+  const $ = (id) => document.getElementById(id);
+
+  // =====================================
+  // SAFE STORAGE
+  // =====================================
+
+  function readStorage(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value ? JSON.parse(value) : fallback;
+    } catch (error) {
+      console.error("Storage read error:", error);
+      return fallback;
+    }
   }
-  function renderChart(total, completed, pending) {
-    const chart = document.getElementById("activityChart");
-    if (!total) { chart.innerHTML = '<div class="chart-empty">Add account records to see the summary.</div>'; return; }
-    const max = Math.max(total,1);
-    const values = [{label:"Total",n:total,cls:"total"},{label:"Done",n:completed,cls:"completed"},{label:"Pending",n:pending,cls:"pending"}];
-    chart.innerHTML = values.map(v => `<div class="chart-column"><div class="chart-bars"><span class="chart-bar ${v.cls}" style="height:${Math.max(v.n/max*100,3)}%" title="${v.label}: ${v.n}"></span></div><small>${v.label}<br>${v.n}</small></div>`).join("");
+
+  function writeStorage(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      console.error("Storage write error:", error);
+      showToast("Unable to save data in this browser.");
+      return false;
+    }
   }
-  function renderDashboard() {
-    const total = accounts.length;
-    const completed = accounts.filter(x => x.status === "Completed" || x.status === "Closed").length;
-    const pending = accounts.filter(x => x.status === "Pending" || x.status === "In Review").length;
-    const percent = total ? Math.round(completed / total * 100) : 0;
-    document.getElementById("totalAccounts").textContent = total;
-    document.getElementById("pendingAccounts").textContent = pending;
-    document.getElementById("completedAccounts").textContent = accounts.filter(x => x.status === "Completed").length;
-    document.getElementById("reviewPercent").textContent = `${percent}%`;
-    document.getElementById("progressPercent").textContent = `${percent}%`;
-    document.getElementById("progressRing").style.setProperty("--progress",`${percent*3.6}deg`);
-    document.getElementById("progressBar").style.width = `${percent}%`;
-    document.getElementById("progressTitle").textContent = total ? `${completed} of ${total} records reviewed` : "No records yet";
-    document.getElementById("progressDescription").textContent = pending ? `${pending} record${pending===1?"":"s"} still pending or in review.` : total ? "All saved records have been reviewed or closed." : "Add records to track their review status.";
-    document.getElementById("progressCounts").textContent = `${completed} completed / closed · ${pending} pending / review`;
-    renderChart(total,completed,pending);
+
+  let records = readStorage(STORAGE.records, []);
+  let history = readStorage(STORAGE.history, []);
+  let profile = readStorage(STORAGE.profile, {
+    fullName: "",
+    email: "",
+    displayName: "Account Owner"
+  });
+
+  if (!Array.isArray(records)) records = [];
+  if (!Array.isArray(history)) history = [];
+
+  // Normalize saved records safely.
+  records = records.map((record) => ({
+    id: String(record.id || createReference()),
+    name: String(record.name || "Untitled record"),
+    platform: PLATFORMS.includes(record.platform)
+      ? record.platform
+      : "Other",
+    issue: String(record.issue || ""),
+    status: STATUSES.includes(record.status)
+      ? record.status
+      : "Pending",
+    createdAt: record.createdAt || new Date().toISOString(),
+    updatedAt: record.updatedAt || record.createdAt || new Date().toISOString()
+  }));
+
+  // =====================================
+  // HELPERS
+  // =====================================
+
+  function createReference() {
+    return "RX-" + Date.now().toString(36).toUpperCase();
+  }
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, (character) => {
+      const replacements = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      };
+
+      return replacements[character];
+    });
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "Unknown";
+    }
+
+    return date.toLocaleDateString("en-PH", {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
+  }
+
+  function saveRecords() {
+    writeStorage(STORAGE.records, records);
+  }
+
+  function saveHistory() {
+    history = history.slice(0, 50);
+    writeStorage(STORAGE.history, history);
+  }
+
+  function showToast(message) {
+    const toast = $("toast");
+
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    window.clearTimeout(showToast.timeout);
+
+    showToast.timeout = window.setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2800);
+  }
+
+  function addHistory(action, details) {
+    history.unshift({
+      id: createReference(),
+      action,
+      details,
+      date: new Date().toISOString()
+    });
+
+    saveHistory();
     renderHistory();
   }
-  function renderAccounts() {
-    const q = search.value.trim().toLowerCase(), platform = platformFilter.value, status = statusFilter.value;
-    const filtered = accounts.filter(x => (!q || x.name.toLowerCase().includes(q) || x.id.toLowerCase().includes(q)) && (!platform || x.platform===platform) && (!status || x.status===status));
-    if (!filtered.length) tableBody.innerHTML = `<tr><td colspan="7" class="table-empty">${accounts.length ? "No matching records found." : "No account records yet."}</td></tr>`;
-    else tableBody.innerHTML = filtered.map(x => `<tr><td><strong>${escapeHTML(x.id)}</strong></td><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.platform)}</td><td>${escapeHTML(x.issue)}</td><td>${escapeHTML(x.date)}</td><td><select class="status-select ${badgeClass(x.status)}" data-status-id="${escapeHTML(x.id)}" aria-label="Update status for ${escapeHTML(x.name)}"><option ${x.status==="Pending"?"selected":""}>Pending</option><option ${x.status==="In Review"?"selected":""}>In Review</option><option ${x.status==="Completed"?"selected":""}>Completed</option><option ${x.status==="Closed"?"selected":""}>Closed</option></select></td><td><button class="table-action" type="button" data-delete="${escapeHTML(x.id)}">Remove</button></td></tr>`).join("");
-    renderDashboard();
-  }
-  search.addEventListener("input",renderAccounts); platformFilter.addEventListener("change",renderAccounts); statusFilter.addEventListener("change",renderAccounts);
-  document.getElementById("addAccountBtn").addEventListener("click",() => dialog.showModal());
-  function closeDialog(){dialog.close();}
-  document.getElementById("closeDialog").addEventListener("click",closeDialog); document.getElementById("cancelDialog").addEventListener("click",closeDialog);
-  document.getElementById("accountForm").addEventListener("submit",e => {
-    e.preventDefault(); const name=document.getElementById("recordName").value.trim(); if(!name)return;
-    const record={id:"RX-"+Date.now().toString().slice(-8),name,platform:document.getElementById("recordPlatform").value,issue:document.getElementById("recordIssue").value,status:document.getElementById("recordStatus").value,date:new Date().toLocaleDateString()};
-    accounts.unshift(record); if(save(KEYS.accounts,accounts)){addHistory("Record added",record,record.status);renderAccounts();e.target.reset();closeDialog();notify("Account record added.");}
-  });
-  tableBody.addEventListener("change",e => { const select=e.target.closest("[data-status-id]"); if(!select)return; const record=accounts.find(x=>x.id===select.dataset.statusId); if(!record)return; const old=record.status; record.status=select.value; if(save(KEYS.accounts,accounts)){addHistory(`Status changed: ${old} → ${record.status}`,record,record.status);renderAccounts();notify("Record status updated.");} });
-  tableBody.addEventListener("click",e => { const btn=e.target.closest("[data-delete]"); if(!btn)return; const confirmDelete=document.getElementById("confirmDeleteToggle").checked; if(confirmDelete&&!confirm("Remove this record from this browser?"))return; const record=accounts.find(x=>x.id===btn.dataset.delete); accounts=accounts.filter(x=>x.id!==btn.dataset.delete); if(save(KEYS.accounts,accounts)){if(record)addHistory("Record removed",record,"Closed");renderAccounts();notify("Record removed.");} });
 
-  document.getElementById("supportForm").addEventListener("submit",e=>{e.preventDefault();const name=document.getElementById("supportName").value.trim(),email=document.getElementById("supportEmail").value.trim(),message=document.getElementById("supportMessage").value.trim();if(!name||!email||!message)return;const ref="RX-"+Date.now().toString().slice(-8);document.getElementById("supportFeedback").textContent=`Request draft created: ${ref}. This form does not send data to a support server.`;e.target.reset();});
-  const compact=document.getElementById("compactToggle"),confirmDelete=document.getElementById("confirmDeleteToggle");compact.checked=read(KEYS.compact,false);confirmDelete.checked=read(KEYS.confirm,true);document.body.classList.toggle("compact",compact.checked);
-  compact.addEventListener("change",()=>{document.body.classList.toggle("compact",compact.checked);save(KEYS.compact,compact.checked);});confirmDelete.addEventListener("change",()=>save(KEYS.confirm,confirmDelete.checked));
-  renderProfile();renderAccounts();const initial=location.hash.slice(1);go(sections.some(s=>s.id===initial)?initial:"dashboard",false);
+  // =====================================
+  // NAVIGATION
+  // =====================================
+
+  const navLinks = document.querySelectorAll(".nav-link");
+  const pages = document.querySelectorAll(".page-section");
+
+  const pageNames = {
+    dashboard: "Dashboard",
+    account: "Account Records",
+    "recovery-tools": "Recovery Resources",
+    "customer-support": "Customer Support",
+    settings: "Settings"
+  };
+
+  function showPage(pageId) {
+    const target = $(pageId);
+
+    if (!target || !target.classList.contains("page-section")) {
+      pageId = "dashboard";
+    }
+
+    pages.forEach((page) => {
+      page.classList.toggle("active", page.id === pageId);
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.toggle(
+        "active",
+        link.dataset.page === pageId
+      );
+    });
+
+    const title = $("pageTitle");
+
+    if (title) {
+      title.textContent = pageNames[pageId] || "Dashboard";
+    }
+
+    $("sidebar")?.classList.remove("open");
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const pageId = link.dataset.page;
+
+      showPage(pageId);
+
+      history.replaceState(null, "", "#" + pageId);
+    });
+  });
+
+  // =====================================
+  // MOBILE MENU
+  // =====================================
+
+  $("menuToggle")?.addEventListener("click", () => {
+    $("sidebar")?.classList.toggle("open");
+  });
+
+  // =====================================
+  // ACCOUNT DIALOG
+  // =====================================
+
+  const dialog = $("accountDialog");
+  const accountForm = $("accountForm");
+
+  function openDialog() {
+    if (!dialog) return;
+
+    accountForm?.reset();
+
+    const statusInput = $("recordStatus");
+
+    if (statusInput) {
+      statusInput.value = "Pending";
+    }
+
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+  }
+
+  function closeDialog() {
+    if (!dialog) return;
+
+    if (typeof dialog.close === "function") {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+  }
+
+  $("addAccountBtn")?.addEventListener("click", openDialog);
+  $("closeDialog")?.addEventListener("click", closeDialog);
+  $("cancelDialog")?.addEventListener("click", closeDialog);
+
+  // =====================================
+  // ADD RECORD
+  // =====================================
+
+  accountForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = $("recordName")?.value.trim();
+    const platform = $("recordPlatform")?.value;
+    const issue = $("recordIssue")?.value.trim();
+    const status = $("recordStatus")?.value;
+
+    if (!name) {
+      showToast("Please enter a record name.");
+      return;
+    }
+
+    if (!PLATFORMS.includes(platform)) {
+      showToast("Please select a valid platform.");
+      return;
+    }
+
+    if (!STATUSES.includes(status)) {
+      showToast("Please select a valid status.");
+      return;
+    }
+
+    const now = new Date().toISOString();
+
+    const newRecord = {
+      id: createReference(),
+      name,
+      platform,
+      issue,
+      status,
+      createdAt: now,
+      updatedAt: now
+    };
+
+    records.unshift(newRecord);
+
+    saveRecords();
+
+    addHistory(
+      "Record added",
+      newRecord.id + " - " + newRecord.name
+    );
+
+    closeDialog();
+    renderAll();
+
+    showToast("Record saved successfully.");
+  });
+
+  // =====================================
+  // RECORD STATUS
+  // =====================================
+
+  function statusClass(status) {
+    const classes = {
+      "Pending": "status-pending",
+      "In Review": "status-review",
+      "Recovered": "status-completed",
+      "Closed": "status-closed"
+    };
+
+    return classes[status] || "status-pending";
+  }
+
+  function updateStatus(id, newStatus) {
+    if (!STATUSES.includes(newStatus)) return;
+
+    const record = records.find((item) => item.id === id);
+
+    if (!record) return;
+
+    if (
+      newStatus === "Recovered" &&
+      !window.confirm(
+        "Has the account owner confirmed that access has been restored?"
+      )
+    ) {
+      renderAccounts();
+      return;
+    }
+
+    const oldStatus = record.status;
+
+    record.status = newStatus;
+    record.updatedAt = new Date().toISOString();
+
+    saveRecords();
+
+    addHistory(
+      "Status updated",
+      record.id + ": " + oldStatus + " → " + newStatus
+    );
+
+    renderAll();
+    showToast("Status updated.");
+  }
+
+  // =====================================
+  // DELETE RECORD
+  // =====================================
+
+  function deleteRecord(id) {
+    const record = records.find((item) => item.id === id);
+
+    if (!record) return;
+
+    const confirmToggle = $("confirmDeleteToggle");
+
+    const shouldConfirm = confirmToggle
+      ? confirmToggle.checked
+      : true;
+
+    if (
+      shouldConfirm &&
+      !window.confirm("Delete this record from your local workspace?")
+    ) {
+      return;
+    }
+
+    records = records.filter((item) => item.id !== id);
+
+    saveRecords();
+
+    addHistory(
+      "Record deleted",
+      record.id + " - " + record.name
+    );
+
+    renderAll();
+    showToast("Record deleted.");
+  }
+
+  // =====================================
+  // RENDER RECORDS
+  // =====================================
+
+  function renderAccounts() {
+    const tableBody = $("accountTableBody");
+
+    if (!tableBody) return;
+
+    const searchText = (
+      $("accountSearch")?.value || ""
+    ).toLowerCase().trim();
+
+    const selectedPlatform =
+      $("platformFilter")?.value || "all";
+
+    const selectedStatus =
+      $("statusFilter")?.value || "all";
+
+    const filtered = records.filter((record) => {
+      const searchableText = [
+        record.id,
+        record.name,
+        record.platform,
+        record.issue
+      ].join(" ").toLowerCase();
+
+      const matchesSearch =
+        searchableText.includes(searchText);
+
+      const matchesPlatform =
+        selectedPlatform === "all" ||
+        record.platform === selectedPlatform;
+
+      const matchesStatus =
+        selectedStatus === "all" ||
+        record.status === selectedStatus;
+
+      return (
+        matchesSearch &&
+        matchesPlatform &&
+        matchesStatus
+      );
+    });
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6">No matching records found.</td>
+        </tr>
+      `;
+
+      return;
+    }
+
+    tableBody.innerHTML = filtered.map((record) => {
+      const id = escapeHTML(record.id);
+      const name = escapeHTML(record.name);
+      const platform = escapeHTML(record.platform);
+      const status = escapeHTML(record.status);
+
+      const options = STATUSES.map((item) => `
+        <option
+          value="${escapeHTML(item)}"
+          ${record.status === item ? "selected" : ""}
+        >
+          ${escapeHTML(item)}
+        </option>
+      `).join("");
+
+      return `
+        <tr>
+          <td>${id}</td>
+          <td>${name}</td>
+          <td>${platform}</td>
+          <td>
+            <span class="status-badge ${statusClass(record.status)}">
+              ${status}
+            </span>
+          </td>
+          <td>${formatDate(record.createdAt)}</td>
+          <td>
+            <div class="record-actions">
+              <select
+                class="record-status-select"
+                data-action="status"
+                data-id="${id}"
+                aria-label="Update status for ${name}"
+              >
+                ${options}
+              </select>
+
+              <button
+                type="button"
+                class="delete-btn"
+                data-action="delete"
+                data-id="${id}"
+                aria-label="Delete ${name}"
+              >
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  $("accountTableBody")?.addEventListener("change", (event) => {
+    const select = event.target.closest(
+      '[data-action="status"]'
+    );
+
+    if (!select) return;
+
+    updateStatus(select.dataset.id, select.value);
+  });
+
+  $("accountTableBody")?.addEventListener("click", (event) => {
+    const button = event.target.closest(
+      '[data-action="delete"]'
+    );
+
+    if (!button) return;
+
+    deleteRecord(button.dataset.id);
+  });
+
+  $("accountSearch")?.addEventListener("input", renderAccounts);
+  $("platformFilter")?.addEventListener("change", renderAccounts);
+  $("statusFilter")?.addEventListener("change", renderAccounts);
+
+  // =====================================
+  // DASHBOARD STATISTICS
+  // =====================================
+
+  function renderDashboard() {
+    const total = records.length;
+
+    const pending = records.filter(
+      (item) => item.status === "Pending"
+    ).length;
+
+    const review = records.filter(
+      (item) => item.status === "In Review"
+    ).length;
+
+    const recovered = records.filter(
+      (item) => item.status === "Recovered"
+    ).length;
+
+    const percent = total
+      ? Math.round((recovered / total) * 100)
+      : 0;
+
+    if ($("totalAccounts")) {
+      $("totalAccounts").textContent = total;
+    }
+
+    if ($("pendingAccounts")) {
+      $("pendingAccounts").textContent = pending;
+    }
+
+    if ($("completedAccounts")) {
+      $("completedAccounts").textContent = recovered;
+    }
+
+    if ($("reviewPercent")) {
+      $("reviewPercent").textContent = percent + "%";
+    }
+
+    if ($("progressPercent")) {
+      $("progressPercent").textContent = percent + "%";
+    }
+
+    if ($("progressTitle")) {
+      $("progressTitle").textContent = total
+        ? recovered + " recovered record(s)"
+        : "No completed records";
+    }
+
+    if ($("progressDescription")) {
+      $("progressDescription").textContent = total
+        ? "Summary of records marked recovered."
+        : "Your record summary will appear here.";
+    }
+
+    if ($("progressBar")) {
+      $("progressBar").style.width = percent + "%";
+    }
+
+    if ($("progressCounts")) {
+      $("progressCounts").textContent =
+        recovered + " of " + total + " records";
+    }
+
+    if ($("progressRing")) {
+      $("progressRing").style.background =
+        `conic-gradient(#22c55e ${percent}%, #e5e7eb ${percent}%)`;
+    }
+
+    renderChart({
+      total,
+      pending,
+      review,
+      recovered,
+      closed: records.filter(
+        (item) => item.status === "Closed"
+      ).length
+    });
+  }
+
+  // =====================================
+  // SIMPLE ACTIVITY CHART
+  // =====================================
+
+  function renderChart(stats) {
+    const canvas = $("activityChart");
+
+    if (!canvas) return;
+
+    const context = canvas.getContext("2d");
+
+    if (!context) return;
+
+    const width = canvas.clientWidth || 400;
+    const height = 180;
+    const ratio = window.devicePixelRatio || 1;
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    context.clearRect(0, 0, width, height);
+
+    const values = [
+      stats.pending,
+      stats.review,
+      stats.recovered,
+      stats.closed
+    ];
+
+    const labels = [
+      "Pending",
+      "Review",
+      "Recovered",
+      "Closed"
+    ];
+
+    const maxValue = Math.max(1, ...values);
+    const chartTop = 12;
+    const chartBottom = 130;
+    const chartHeight = chartBottom - chartTop;
+
+    const barWidth = Math.min(42, width / 9);
+    const gap = width / 5;
+
+    context.font = "11px Arial";
+    context.textAlign = "center";
+
+    values.forEach((value, index) => {
+      const x = gap * (index + 0.5) - barWidth / 2;
+      const barHeight = (value / maxValue) * chartHeight;
+      const y = chartBottom - barHeight;
+
+      context.fillStyle = [
+        "#f59e0b",
+        "#8b5cf6",
+        "#22c55e",
+        "#64748b"
+      ][index];
+
+      context.fillRect(
+        x,
+        y,
+        barWidth,
+        Math.max(3, barHeight)
+      );
+
+      context.fillStyle = "#64748b";
+
+      context.fillText(
+        String(value),
+        x + barWidth / 2,
+        Math.max(10, y - 6)
+      );
+
+      context.fillText(
+        labels[index],
+        x + barWidth / 2,
+        153
+      );
+    });
+  }
+
+  // =====================================
+  // ACTIVITY HISTORY
+  // =====================================
+
+  function renderHistory() {
+    const tableBody = $("historyTableBody");
+
+    if (!tableBody) return;
+
+    if (history.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="3">No activity yet.</td>
+        </tr>
+      `;
+
+      return;
+    }
+
+    tableBody.innerHTML = history.slice(0, 10).map((item) => `
+      <tr>
+        <td>${escapeHTML(item.action || "Activity")}</td>
+        <td>${escapeHTML(item.details || "")}</td>
+        <td>${formatDate(item.date)}</td>
+      </tr>
+    `).join("");
+  }
+
+  // =====================================
+  // PROFILE SETTINGS
+  // =====================================
+
+  function renderProfile() {
+    if ($("fullName")) {
+      $("fullName").value = profile.fullName || "";
+    }
+
+    if ($("email")) {
+      $("email").value = profile.email || "";
+    }
+
+    if ($("displayName")) {
+      $("displayName").value =
+        profile.displayName || "Account Owner";
+    }
+
+    const displayName =
+      profile.displayName || "Account Owner";
+
+    if ($("profileNameHeading")) {
+      $("profileNameHeading").textContent = displayName;
+    }
+
+    if ($("profileInitial")) {
+      $("profileInitial").textContent =
+        displayName.charAt(0).toUpperCase();
+    }
+  }
+
+  $("profileForm")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    profile = {
+      fullName: $("fullName")?.value.trim() || "",
+      email: $("email")?.value.trim() || "",
+      displayName:
+        $("displayName")?.value.trim() || "Account Owner"
+    };
+
+    if (!writeStorage(STORAGE.profile, profile)) return;
+
+    renderProfile();
+
+    if ($("profileMessage")) {
+      $("profileMessage").textContent =
+        "Profile saved in this browser.";
+    }
+
+    showToast("Profile saved.");
+  });
+
+  // =====================================
+  // DISPLAY PREFERENCES
+  // =====================================
+
+  const compactToggle = $("compactToggle");
+  const confirmDeleteToggle = $("confirmDeleteToggle");
+
+  if (compactToggle) {
+    compactToggle.checked =
+      readStorage(STORAGE.compact, false) === true;
+
+    document.body.classList.toggle(
+      "compact-mode",
+      compactToggle.checked
+    );
+
+    compactToggle.addEventListener("change", () => {
+      writeStorage(STORAGE.compact, compactToggle.checked);
+
+      document.body.classList.toggle(
+        "compact-mode",
+        compactToggle.checked
+      );
+    });
+  }
+
+  if (confirmDeleteToggle) {
+    confirmDeleteToggle.checked =
+      readStorage(STORAGE.confirmDelete, true) !== false;
+
+    confirmDeleteToggle.addEventListener("change", () => {
+      writeStorage(
+        STORAGE.confirmDelete,
+        confirmDeleteToggle.checked
+      );
+    });
+  }
+
+  // =====================================
+  // SUPPORT FORM
+  // =====================================
+
+  $("supportForm")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = $("supportName")?.value.trim() || "";
+    const email = $("supportEmail")?.value.trim() || "";
+    const category = $("supportCategory")?.value || "";
+    const message = $("supportMessage")?.value.trim() || "";
+
+    if (!name || !email || !message) {
+      if ($("supportFeedback")) {
+        $("supportFeedback").textContent =
+          "Please complete your name, email, and message.";
+      }
+
+      return;
+    }
+
+    const draft = [
+      "RecoveryX Support Draft",
+      "Name: " + name,
+      "Email: " + email,
+      "Category: " + category,
+      "",
+      "Message:",
+      message
+    ].join("\n");
+
+    if ($("supportFeedback")) {
+      $("supportFeedback").textContent =
+        "Draft prepared locally. It has not been sent.";
+    }
+
+    addHistory(
+      "Support draft prepared",
+      category + " support request"
+    );
+
+    // Copy is optional; the draft remains visible in the message.
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(draft).then(
+        () => showToast("Support draft copied."),
+        () => showToast("Support draft prepared.")
+      );
+    } else {
+      showToast("Support draft prepared.");
+    }
+  });
+
+  // =====================================
+  // RENDER EVERYTHING
+  // =====================================
+
+  function renderAll() {
+    renderAccounts();
+    renderDashboard();
+    renderHistory();
+    renderProfile();
+  }
+
+  // =====================================
+  // INITIALIZE
+  // =====================================
+
+  saveRecords();
+
+  renderAll();
+
+  const initialPage = window.location.hash.replace("#", "");
+
+  if (pageNames[initialPage]) {
+    showPage(initialPage);
+  } else {
+    showPage("dashboard");
+  }
+
+  window.addEventListener("resize", () => {
+    renderDashboard();
+  });
+
+  console.log("RecoveryX workspace initialized.");
 });
