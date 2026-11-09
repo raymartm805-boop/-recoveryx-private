@@ -1353,3 +1353,36 @@ body.compact-mode td {
     font-size: 9px;
   }
 }
+/* RECOVERYX LIVE CLOCK */
+
+.live-clock {
+  background: #080d16;
+  border: 1px solid #ff1744;
+  border-radius: 10px;
+  padding: 10px 16px;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 0 15px #ff174455;
+}
+
+.clock-label {
+  color: #ff536f;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+#liveTime {
+  font-size: 25px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+#liveDate {
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.live-status {
+  color: #00e676;
+  font-size: 10px;
+}
