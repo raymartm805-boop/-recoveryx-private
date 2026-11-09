@@ -511,3 +511,24 @@
 
       <label class="field">Status
         <select id="recordStatus" req
+uired>
+          <option>Pending</option>
+          <option>In Review</option>
+          <option>Recovered</option>
+          <option>Closed</option>
+        </select>
+      </label>
+
+      <div class="dialog-actions">
+        <button class="button button-secondary" id="cancelDialog" type="button">Cancel</button>
+        <button class="button button-primary" type="submit">Save Record</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js?v=5" defer></script>
+</body>
+</html>
+
