@@ -955,14 +955,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =====================================
+  // RENDER ALL
+  // =====================================
+
+  function renderAll() {
+    renderAccounts();
+    renderDashboard();
+    renderHistory();
+    renderProfile();
+  }
+
+  // =====================================
   // INITIALIZE
   // =====================================
 
   // Save normalized records without deleting existing entries.
   saveRecords();
 
+  // Render all application sections.
   renderAll();
 
+  // Open the requested page.
   const initialPage = window.location.hash.replace("#", "");
 
   if (PAGE_NAMES[initialPage]) {
@@ -971,20 +984,24 @@ document.addEventListener("DOMContentLoaded", () => {
     showPage("dashboard");
   }
 
-  window.addEventListener("resize", () => {
-    renderChart();
-  });
+  // =====================================
+  // RESPONSIVE CHART
+  // =====================================
 
   window.addEventListener("resize", () => {
-    renderChart();
+    renderDashboard();
   });
 
+  // =====================================
   // RECOVERYX LIVE CLOCK
+  // PHILIPPINE STANDARD TIME
+  // =====================================
+
   function updateLiveClock() {
     const now = new Date();
 
-    const time = document.getElementById("liveTime");
-    const date = document.getElementById("liveDate");
+    const time = $("liveTime");
+    const date = $("liveDate");
 
     if (!time || !date) return;
 
@@ -1005,8 +1022,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }).format(now);
   }
 
+  // Start clock immediately.
   updateLiveClock();
+
+  // Update every second.
   window.setInterval(updateLiveClock, 1000);
 
+  // =====================================
+  // APPLICATION READY
+  // =====================================
+
   console.log("RecoveryX workspace initialized.");
-});  
+
+});
