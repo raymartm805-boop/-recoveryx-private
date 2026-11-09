@@ -1006,30 +1006,3 @@ function updateLiveClock() {
 
 updateLiveClock();
 setInterval(updateLiveClock, 1000);
-function updateLiveClock() {
-  const now = new Date();
-
-  const time = document.getElementById("liveTime");
-  const date = document.getElementById("liveDate");
-
-  if (!time || !date) return;
-
-  time.textContent = new Intl.DateTimeFormat("en-PH", {
-    timeZone: "Asia/Manila",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true
-  }).format(now);
-
-  date.textContent = new Intl.DateTimeFormat("en-PH", {
-    timeZone: "Asia/Manila",
-    weekday: "long",
-    month: "long",
-    day: "2-digit",
-    year: "numeric"
-  }).format(now);
-}
-
-updateLiveClock();
-setInterval(updateLiveClock, 1000);
