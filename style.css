@@ -1386,3 +1386,87 @@ body.compact-mode td {
   color: #00e676;
   font-size: 10px;
 }
+/* =================================
+   RECOVERYX LOCAL DELETE ANIMATION
+================================= */
+
+.delete-terminal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, .88);
+  backdrop-filter: blur(6px);
+}
+
+.delete-terminal-box {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px;
+  border: 1px solid #24e879;
+  border-radius: 12px;
+  background: #050b08;
+  color: #48f58b;
+  font-family: monospace;
+  box-shadow: 0 0 25px #24e87935;
+}
+
+.delete-terminal-title {
+  font-weight: bold;
+  border-bottom: 1px solid #245b39;
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+.delete-terminal-log {
+  min-height: 110px;
+  font-size: 12px;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.delete-terminal-log div {
+  animation: deleteLine .3s ease both;
+}
+
+.delete-progress {
+  height: 7px;
+  background: #17271d;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.delete-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #38f58a;
+  box-shadow: 0 0 12px #38f58a;
+  transition: width .35s ease;
+}
+
+.delete-progress-text {
+  font-size: 11px;
+  margin-top: 9px;
+  color: #b5e9c6;
+}
+
+@keyframes deleteLine {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes deleteGlow {
+  50% {
+    box-shadow: 0 0 20px #38f58a55;
+  }
+}
