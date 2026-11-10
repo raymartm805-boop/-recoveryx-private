@@ -1,3 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070809">
+<title>PERSONAL DETAILS DELETEX</title>
+
+<!-- ========================================================== -->
+<!-- SECTION 001 | CSS DESIGN                                   -->
+<!-- PURPOSE: Website colors, layout, buttons and effects       -->
+<!-- ========================================================== -->
+
 <style>
 .site-logo {
     display: flex;
@@ -13,478 +27,1141 @@
     filter: drop-shadow(0 0 12px red);
 }
 
-:root{--red:#ff2638;--red2:#a90018;--bg:#070809;--panel:#101316;--line:#4a1018;--green:#38f58a;--muted:#aeb8c2}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 50% -20%,#3a080e 0,#08090b 45%,#030405 100%);color:#f4f7fa;font-family:Arial,Helvetica,sans-serif}
-
-header{padding:24px 20px 18px;border-bottom:1px solid var(--red);display:flex;align-items:center;justify-content:space-between;gap:18px;background:#050607}
-.brand{font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:1px}
-.brand span{color:var(--red);display:block;font-style:italic}
-.sub{color:#cbd1d8;font-size:13px;margin-top:5px}
-.clock{border:1px solid var(--red);padding:12px 16px;border-radius:10px;text-align:right;min-width:145px}
-
-.shell{display:grid;grid-template-columns:235px 1fr;gap:16px;padding:16px;max-width:1500px;margin:auto}
-
-aside,.panel,.tile{background:linear-gradient(145deg,#15191d,#080a0c);border:1px solid var(--line);border-radius:12px;box-shadow:0 0 14px #ff26381a}
-
-aside{padding:12px;height:max-content}
-
-.navbtn,.toolbtn,.action{width:100%;background:#0b0d10;color:#f5f7fa;border:1px solid #51202a;border-radius:8px;padding:13px 12px;text-align:left;margin:5px 0;cursor:pointer;font-weight:700}
-
-.navbtn[aria-current="page"]{border-color:var(--red);background:#260b10;color:#fff}
-
-[hidden]{display:none!important}
-
-.navbtn:hover,.toolbtn:hover,.action:hover{border-color:var(--red);box-shadow:0 0 12px #ff263855;background:#1a0b0e}
-
-main{min-width:0}
-
-.hero{padding:18px 20px;margin-bottom:14px}
-
-.hero h1{margin:0 0 7px;font-size:24px}
-
-.hero p{margin:0;color:#c2c9d0;line-height:1.5}
-
-.status{display:inline-block;color:var(--green);border:1px solid #1b8b50;padding:6px 10px;border-radius:20px;font-size:12px;margin-top:12px}
-
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-
-.tile{padding:15px}
-
-.tile h3{margin:0 0 7px;color:#fff}
-
-.tile p{color:#b8c1ca;font-size:13px;line-height:1.45;min-height:38px}
-
-.toolbtn{border-color:#72202c;text-align:center;color:#fff}
-
-.section{padding:16px;margin-top:14px}
-
-.section h2{font-size:18px;margin:0 0 10px}
-
-footer{text-align:center;color:#929ba5;font-size:12px;padding:18px}
-
-@media(max-width:800px){
-.shell{grid-template-columns:1fr}
-.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-aside{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}
-.navbtn{margin:0}
+:root {
+    --red:#ff2638;
+    --red2:#a90018;
+    --bg:#070809;
+    --panel:#101316;
+    --line:#4a1018;
+    --green:#38f58a;
+    --muted:#aeb8c2;
 }
 
-@media(max-width:480px){
-header{align-items:flex-start;flex-direction:column}
-.clock{text-align:left}
-.grid{grid-template-columns:1fr}
+* {
+    box-sizing:border-box;
 }
 
-.terminal{margin-top:18px;border:1px solid #244b36;border-radius:10px;overflow:hidden;background:#030806;color:#55f59a;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:0 0 18px #20ff7518}
+body {
+    margin:0;
+    background:radial-gradient(circle at 50% -20%,#3a080e 0,#08090b 45%,#030405 100%);
+    color:#f4f7fa;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-.terminal-head{display:flex;align-items:center;gap:7px;padding:10px 12px;background:#0b1710;border-bottom:1px solid #1b4930;color:#b8ffd0;font-size:11px;letter-spacing:.5px}
+header {
+    padding:24px 20px 18px;
+    border-bottom:1px solid var(--red);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    background:#050607;
+}
 
-.terminal-head b{margin-left:5px}
+.brand {
+    font-size:clamp(22px,4vw,42px);
+    font-weight:900;
+    letter-spacing:1px;
+}
 
-.terminal-live{margin-left:auto;color:#8cae99}
+.brand span {
+    color:var(--red);
+    display:block;
+    font-style:italic;
+}
 
-.terminal-dot{width:8px;height:8px;border-radius:50%;background:#477b59;display:inline-block}
+.sub {
+    color:#cbd1d8;
+    font-size:13px;
+    margin-top:5px;
+}
 
-.terminal-body{padding:14px;font-size:12px;line-height:1.8;min-height:120px;overflow-wrap:anywhere}
+.clock {
+    border:1px solid var(--red);
+    padding:12px 16px;
+    border-radius:10px;
+    text-align:right;
+    min-width:145px;
+}
 
-.terminal-warning{color:#ffcc70;margin-bottom:8px;font-weight:700}
+.shell {
+    display:grid;
+    grid-template-columns:235px 1fr;
+    gap:16px;
+    padding:16px;
+    max-width:1500px;
+    margin:auto;
+}
 
-.prompt{color:#9ab7a3}
+aside,.panel,.tile {
+    background:linear-gradient(145deg,#15191d,#080a0c);
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:0 0 14px #ff26381a;
+}
 
-.cursor{display:inline-block;animation:termBlink .8s steps(2,start) infinite}
+aside {
+    padding:12px;
+    height:max-content;
+}
 
-.terminal-track{height:7px;background:#15251b;border-radius:8px;margin-top:14px;overflow:hidden}
+.navbtn,.toolbtn,.action {
+    width:100%;
+    background:#0b0d10;
+    color:#f5f7fa;
+    border:1px solid #51202a;
+    border-radius:8px;
+    padding:13px 12px;
+    text-align:left;
+    margin:5px 0;
+    cursor:pointer;
+    font-weight:700;
+}
 
-#termBar{height:100%;width:0;background:#45f58d;box-shadow:0 0 10px #45f58d;transition:width .25s linear}
+.navbtn[aria-current="page"] {
+    border-color:var(--red);
+    background:#260b10;
+    color:#fff;
+}
 
-#termPercent{color:#b9d9c3;margin-top:6px;font-size:11px}
+[hidden] {
+    display:none!important;
+}
 
-@keyframes termBlink{to{visibility:hidden}}
+.navbtn:hover,.toolbtn:hover,.action:hover {
+    border-color:var(--red);
+    box-shadow:0 0 12px #ff263855;
+    background:#1a0b0e;
+}
 
+main {
+    min-width:0;
+}
 
-.action{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-.action:active{transform:scale(.985)}
-.terminal-body>div:not(.terminal-warning){animation:termIn .35s ease both}
-@keyframes termIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.terminal-track{position:relative}
-.terminal-track:after{content:"";display:block;height:100%;width:28%;background:#ffffff22;position:absolute;top:0;left:-30%;animation:termScan 2.4s linear infinite}
-@keyframes termScan{to{left:110%}}
+.hero {
+    padding:18px 20px;
+    margin-bottom:14px;
+}
 
-.history-wrap{overflow-x:auto;margin-top:16px}
-.history-table{width:100%;border-collapse:collapse;min-width:680px;font-size:13px}
-.history-table th,.history-table td{padding:11px 9px;border-bottom:1px solid #38232a;text-align:left;vertical-align:top}
-.history-table th{color:#ff9aa4;background:#170c10}
-.history-table td{color:#e8edf2}
-.history-empty{padding:18px;border:1px dashed #63303a;border-radius:9px;color:#aeb8c2;text-align:center}
-.history-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.history-form label{display:block;color:#dce2e8;font-size:13px}
-.history-form input,.history-form select{width:100%;margin-top:6px;padding:11px;background:#080a0c;color:#fff;border:1px solid #71303a;border-radius:7px}
-.history-actions{display:flex;gap:8px;align-items:center}
-.delete-row{background:#260b10;color:#fff;border:1px solid #8b2634;border-radius:6px;padding:7px 10px;cursor:pointer}
-@media(max-width:600px){.history-form{grid-template-columns:1fr}}
+.hero h1 {
+    margin:0 0 7px;
+    font-size:24px;
+}
+
+.hero p {
+    margin:0;
+    color:#c2c9d0;
+    line-height:1.5;
+}
+
+.status {
+    display:inline-block;
+    color:var(--green);
+    border:1px solid #1b8b50;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    margin-top:12px;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+}
+
+.tile {
+    padding:15px;
+}
+
+.tile h3 {
+    margin:0 0 7px;
+    color:#fff;
+}
+
+.tile p {
+    color:#b8c1ca;
+    font-size:13px;
+    line-height:1.45;
+    min-height:38px;
+}
+
+.toolbtn {
+    border-color:#72202c;
+    text-align:center;
+    color:#fff;
+}
+
+.section {
+    padding:16px;
+    margin-top:14px;
+}
+
+.section h2 {
+    font-size:18px;
+    margin:0 0 10px;
+}
+
+footer {
+    text-align:center;
+    color:#929ba5;
+    font-size:12px;
+    padding:18px;
+}
+
+@media(max-width:800px) {
+    .shell {
+        grid-template-columns:1fr;
+    }
+
+    .grid {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    aside {
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:5px;
+    }
+
+    .navbtn {
+        margin:0;
+    }
+}
+
+@media(max-width:480px) {
+    header {
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .clock {
+        text-align:left;
+    }
+
+    .grid {
+        grid-template-columns:1fr;
+    }
+}
+
+.terminal {
+    margin-top:18px;
+    border:1px solid #244b36;
+    border-radius:10px;
+    overflow:hidden;
+    background:#030806;
+    color:#55f59a;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    box-shadow:0 0 18px #20ff7518;
+}
+
+.terminal-head {
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 12px;
+    background:#0b1710;
+    border-bottom:1px solid #1b4930;
+    color:#b8ffd0;
+    font-size:11px;
+    letter-spacing:.5px;
+}
+
+.terminal-head b {
+    margin-left:5px;
+}
+
+.terminal-live {
+    margin-left:auto;
+    color:#8cae99;
+}
+
+.terminal-dot {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#477b59;
+    display:inline-block;
+}
+
+.terminal-body {
+    padding:14px;
+    font-size:12px;
+    line-height:1.8;
+    min-height:120px;
+    overflow-wrap:anywhere;
+}
+
+.terminal-warning {
+    color:#ffcc70;
+    margin-bottom:8px;
+    font-weight:700;
+}
+
+.prompt {
+    color:#9ab7a3;
+}
+
+.cursor {
+    display:inline-block;
+    animation:termBlink .8s steps(2,start) infinite;
+}
+
+.terminal-track {
+    height:7px;
+    background:#15251b;
+    border-radius:8px;
+    margin-top:14px;
+    overflow:hidden;
+    position:relative;
+}
+
+#termBar {
+    height:100%;
+    width:0;
+    background:#45f58d;
+    box-shadow:0 0 10px #45f58d;
+    transition:width .25s linear;
+}
+
+#termPercent {
+    color:#b9d9c3;
+    margin-top:6px;
+    font-size:11px;
+}
+
+@keyframes termBlink {
+    to { visibility:hidden; }
+}
+
+.action {
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.action:active {
+    transform:scale(.985);
+}
+
+.terminal-body>div:not(.terminal-warning) {
+    animation:termIn .35s ease both;
+}
+
+@keyframes termIn {
+    from {
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to {
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.terminal-track:after {
+    content:"";
+    display:block;
+    height:100%;
+    width:28%;
+    background:#ffffff22;
+    position:absolute;
+    top:0;
+    left:-30%;
+    animation:termScan 2.4s linear infinite;
+}
+
+@keyframes termScan {
+    to { left:110%; }
+}
+
+.history-wrap {
+    overflow-x:auto;
+    margin-top:16px;
+}
+
+.history-table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:680px;
+    font-size:13px;
+}
+
+.history-table th,.history-table td {
+    padding:11px 9px;
+    border-bottom:1px solid #38232a;
+    text-align:left;
+    vertical-align:top;
+}
+
+.history-table th {
+    color:#ff9aa4;
+    background:#170c10;
+}
+
+.history-table td {
+    color:#e8edf2;
+}
+
+.history-empty {
+    padding:18px;
+    border:1px dashed #63303a;
+    border-radius:9px;
+    color:#aeb8c2;
+    text-align:center;
+}
+
+.history-form {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+}
+
+.history-form label {
+    display:block;
+    color:#dce2e8;
+    font-size:13px;
+}
+
+.history-form input,.history-form select {
+    width:100%;
+    margin-top:6px;
+    padding:11px;
+    background:#080a0c;
+    color:#fff;
+    border:1px solid #71303a;
+    border-radius:7px;
+}
+
+.history-actions {
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.delete-row {
+    background:#260b10;
+    color:#fff;
+    border:1px solid #8b2634;
+    border-radius:6px;
+    padding:7px 10px;
+    cursor:pointer;
+}
+
+.check {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:12px;
+    margin:8px 0;
+    background:#0b0d10;
+    border:1px solid #38232a;
+    border-radius:8px;
+    color:#e8edf2;
+}
+
+.check input {
+    accent-color:#ff2638;
+    width:17px;
+    height:17px;
+}
+
+@media(max-width:600px) {
+    .history-form {
+        grid-template-columns:1fr;
+    }
+}
 </style>
 </head>
-  <body>
+
+<body>
+
+<!-- ========================================================== -->
+<!-- SECTION 002 | WEBSITE LOGO                                 -->
+<!-- PURPOSE: Display RecoveryX logo                            -->
+<!-- ========================================================== -->
 
 <div class="site-logo">
     <img src="./delete-your-information-logo.png"
          alt="Delete Your Information Logo">
 </div>
 
+<!-- ========================================================== -->
+<!-- SECTION 003 | WEBSITE HEADER                              -->
+<!-- PURPOSE: Website title and device clock                    -->
+<!-- ========================================================== -->
+
 <header>
-  <div><div class="brand">PERSONAL DETAILS <span>DELETEX</span></div><div class="sub">MANAGE • PROTECT • REQUEST REMOVAL</div></div>
-  <div class="clock"><div id="clock">--:--:--</div><small>TERMINAL DEVICE TIME</small></div>
+    <div>
+        <div class="brand">PERSONAL DETAILS <span>DELETEX</span></div>
+        <div class="sub">MANAGE • PROTECT • REQUEST REMOVAL</div>
+    </div>
+
+    <div class="clock">
+        <div id="clock">--:--:--</div>
+        <small>TERMINAL DEVICE TIME</small>
+    </div>
 </header>
+
 <div class="shell">
+
+<!-- ========================================================== -->
+<!-- SECTION 004 | NAVIGATION MENU                              -->
+<!-- PURPOSE: Navigate between RecoveryX tools                 -->
+<!-- ========================================================== -->
+
 <aside aria-label="Main navigation">
-  <button class="navbtn" data-tool="overview">⌂ &nbsp; Dashboard</button>
-  <button class="navbtn" data-tool="directory">▦ &nbsp; Loan App Directory</button>
-  <button class="navbtn" data-tool="request">▤ &nbsp; Permanent Delete Account History</button>
-  <button class="navbtn" data-tool="checklist">☑ &nbsp; Privacy Checklist</button>
-  <button class="navbtn" data-tool="history">▤ &nbsp; Permanent Delete History</button>
-  <button class="navbtn" data-tool="tracker">◷ &nbsp; Request Tracker</button>
-  <button class="navbtn" data-tool="guide">⚙ &nbsp; Privacy Guide</button>
-  <button class="navbtn" data-tool="about">ⓘ &nbsp; About</button>
+    <button class="navbtn" data-tool="overview">⌂ &nbsp; Dashboard</button>
+    <button class="navbtn" data-tool="directory">▦ &nbsp; Loan App Directory</button>
+    <button class="navbtn" data-tool="request">▤ &nbsp; Permanent Delete Account History</button>
+    <button class="navbtn" data-tool="checklist">☑ &nbsp; Privacy Checklist</button>
+    <button class="navbtn" data-tool="history">▤ &nbsp; Permanent Delete History</button>
+    <button class="navbtn" data-tool="tracker">◷ &nbsp; Request Tracker</button>
+    <button class="navbtn" data-tool="guide">⚙ &nbsp; Privacy Guide</button>
+    <button class="navbtn" data-tool="about">ⓘ &nbsp; About</button>
 </aside>
+
 <main>
-  <section class="panel hero">
+
+<!-- ========================================================== -->
+<!-- SECTION 005 | MAIN DASHBOARD                               -->
+<!-- PURPOSE: Main workspace introduction                       -->
+<!-- ========================================================== -->
+
+<section class="panel hero">
     <h1>Account Deletion Request Workspace</h1>
     <p>Select any tool from the menu. It will appear here without opening a new browser tab.</p>
     <div class="status">● TERMINAL WORKSPACE READY</div>
-  </section>
-    <section class="panel section" id="dashboardProcess">
-  <h2>Process Monitoring</h2>
+</section>
 
-  <div class="grid">
-    <article class="tile">
-      <h3>Ongoing</h3>
-      <p id="ongoingCount">0</p>
-    </article>
-    <article class="tile">
-      <h3>Outgoing</h3>
-      <p id="outgoingCount">0</p>
-    </article>
-    <article class="tile">
-      <h3>Successful</h3>
-      <p id="successfulCount">0</p>
-    </article>
-    <article class="tile">
-      <h3>Pending</h3>
-      <p id="pendingCount">0</p>
-    </article>
-  </div>
+<!-- ========================================================== -->
+<!-- SECTION 006 | PROCESS MONITORING                           -->
+<!-- PURPOSE: Display process status counts and history         -->
+<!-- ========================================================== -->
 
-  <h2 style="margin-top:20px">Process History</h2>
+<section class="panel section" id="dashboardProcess">
+    <h2>Process Monitoring</h2>
 
-  <div class="history-wrap">
-    <table class="history-table">
-      <thead>
-        <tr>
-          <th>Account ID</th>
-          <th>Request Date</th>
-          <th>Status</th>
-          <th>Completion Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="processHistory">
-      </tbody>
-    </table>
-  </div>
-    </section>
-  <section class="grid" id="tools">
-    <article class="tile"><h3>Loan App Directory</h3><p>Find the provider’s official privacy or support channel.</p><button class="toolbtn" data-tool="directory">Open directory</button></article>
-    <article class="tile"><h3>Permanent Delete Account History</h3><p>Prepare a personal-data deletion request for the provider to review.</p><button class="toolbtn" data-tool="request">Open request history</button></article>
-    <article class="tile"><h3>Privacy Checklist</h3><p>Tick off steps as you complete them. Saved in this browser.</p><button class="toolbtn" data-tool="checklist">Open checklist</button></article>
-    <article class="tile"><h3>Permanent Delete Account History</h3><p>Save and review account deletion requests, statuses, and completion dates.</p><button class="toolbtn" data-tool="history">Open history</button></article>
-    <article class="tile"><h3>Request Tracker</h3><p>Track provider responses and reported progress.</p><button class="toolbtn" data-tool="tracker">Open tracker</button></article>
-    <article class="tile"><h3>Privacy Guide</h3><p>Practical steps for reviewing permissions and account settings.</p><button class="toolbtn" data-tool="guide">Open guide</button></article>
-    <article class="tile"><h3>About This Workspace</h3><p>Learn what this independent tool does and does not do.</p><button class="toolbtn" data-tool="about">Open details</button></article>
-  </section>
-  
+    <div class="grid">
+        <article class="tile">
+            <h3>Ongoing</h3>
+            <p id="ongoingCount">0</p>
+        </article>
+
+        <article class="tile">
+            <h3>Outgoing</h3>
+            <p id="outgoingCount">0</p>
+        </article>
+
+        <article class="tile">
+            <h3>Successful</h3>
+            <p id="successfulCount">0</p>
+        </article>
+
+        <article class="tile">
+            <h3>Pending</h3>
+            <p id="pendingCount">0</p>
+        </article>
+    </div>
+
+    <h2 style="margin-top:20px">Process History</h2>
+
+    <div class="history-wrap">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Account ID</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Completion Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="processHistory"></tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SECTION 007 | TOOLS DIRECTORY                              -->
+<!-- PURPOSE: Dashboard cards for available tools                -->
+<!-- ========================================================== -->
+
+<section class="grid" id="tools">
+
+    <article class="tile">
+        <h3>Loan App Directory</h3>
+        <p>Find the provider’s official privacy or support channel.</p>
+        <button class="toolbtn" data-tool="directory">Open directory</button>
+    </article>
+
+    <article class="tile">
+        <h3>Permanent Delete Account History</h3>
+        <p>Prepare a personal-data deletion request for the provider to review.</p>
+        <button class="toolbtn" data-tool="request">Open request history</button>
+    </article>
+
+    <article class="tile">
+        <h3>Privacy Checklist</h3>
+        <p>Tick off steps as you complete them. Saved in this browser.</p>
+        <button class="toolbtn" data-tool="checklist">Open checklist</button>
+    </article>
+
+    <article class="tile">
+        <h3>Permanent Delete Account History</h3>
+        <p>Save and review account deletion requests, statuses, and completion dates.</p>
+        <button class="toolbtn" data-tool="history">Open history</button>
+    </article>
+
+    <article class="tile">
+        <h3>Request Tracker</h3>
+        <p>Track provider responses and reported progress.</p>
+        <button class="toolbtn" data-tool="tracker">Open tracker</button>
+    </article>
+
+    <article class="tile">
+        <h3>Privacy Guide</h3>
+        <p>Practical steps for reviewing permissions and account settings.</p>
+        <button class="toolbtn" data-tool="guide">Open guide</button>
+    </article>
+
+    <article class="tile">
+        <h3>About This Workspace</h3>
+        <p>Learn what this independent tool does and does not do.</p>
+        <button class="toolbtn" data-tool="about">Open details</button>
+    </article>
+
+</section>
 </main>
 </div>
+
 <footer>PERSONAL DETAILS DELETEX</footer>
+
+<!-- ========================================================== -->
+<!-- SECTION 008 | JAVASCRIPT PAGE CONTENT                      -->
+<!-- PURPOSE: Define content for every navigation page         -->
+<!-- ========================================================== -->
+
 <script>
+
 const pages = {
-overview: ["Dashboard", `<h2>Workspace overview</h2><p>This page helps you organize privacy requests. Choose a tool from the menu.</p><p><b>Important:</b> A request is not the same as a confirmed deletion. Only mark deletion confirmed after receiving the provider’s written confirmation.</p>`],
-directory: ["Loan App Directory", `<h2>Provider directory</h2><p>Use each provider’s official app or website to locate its current Help, Privacy Policy, or Data Privacy contact. Avoid links sent by strangers.</p><ul><li>BillEase</li><li>JuanHand</li><li>Cashalo</li><li>Digido</li><li>UnaCash</li><li>Salmon</li><li>Atome</li><li>Tonik</li><li>CIMB</li><li>Skyro</li><li>Mocasa</li></ul><p>Provider contact details can change. Verify the channel inside the official app or on the provider’s official website before sending a request.</p>`],
-request: ["Permanent Delete Account History", `<h2>Prepare a permanent account deletion request</h2><p>Enter only the provider name and a reply email you choose to include. Do not enter passwords, OTPs, card numbers, or identity-document numbers.</p><label>Provider name<br><input id="provider" placeholder="e.g. Provider name"></label><br><br><label>Reply email (optional)<br><input id="email" type="email" placeholder="you@example.com"></label><br><br><button class="action" id="make">Generate request</button><textarea id="draft" rows="12" style="width:100%;margin-top:12px;background:#080a0c;color:#e9edf2;border:1px solid #71303a;border-radius:8px;padding:12px" placeholder="Your request will appear here."></textarea><button class="action" id="copy">Copy request</button><section class="terminal" aria-live="polite"><div class="terminal-head"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><b>TERMINAL // REQUEST DELETE</b><span class="terminal-live">TERMINAL</span></div><div class="terminal-body"><div class="terminal-warning">[ TERMINAL REQUEST DELETE ]</div><div id="termLog"><span class="prompt">user@deletEx:~$</span> waiting_for_request<span class="cursor">_</span></div><div class="terminal-track"><div id="termBar"></div></div><div id="termPercent">0% — waiting</div></div></section><p>Review the request before sending it through the provider’s verified contact channel. This workspace prepares and records your request. The 15-minute terminal progress is a visual workflow only; the provider must process and confirm any account deletion.</p>`],
-checklist: ["Privacy Checklist", `<h2>Personal checklist</h2><p>These checkboxes are saved in this browser only.</p><div id="checks"></div><button class="action" id="clear">Clear checklist</button>`],
-history: ["Permanent Delete Account History", `<h2>Permanent Delete Account History</h2>
-<p>Add each account request and update its status only when you receive a real response from the provider. Records are saved in this browser on this device.</p>
-<form id="historyForm">
-<div class="history-form">
-<label>Account ID<input id="historyAccountId" maxlength="80" placeholder="e.g. ACC-1001" required></label>
-<label>Request Date<input id="historyRequestDate" type="date" required></label>
-<label>Status<select id="historyStatus"><option>Draft</option><option>Submitted</option><option>Verification Pending</option><option>Under Provider Review</option><option>Deletion Confirmed</option><option>Partially Retained</option><option>Declined</option></select></label>
-<label>Completion Date<input id="historyCompletionDate" type="date"></label>
-</div>
-<button class="action" type="submit" style="margin-top:14px">Save History Record</button>
-</form>
-<div id="historyNotice" role="status" style="margin-top:10px;color:#b9d9c3"></div>
-<div class="history-wrap"><table class="history-table"><thead><tr><th>Account ID</th><th>Request Date</th><th>Status</th><th>Completion Date</th><th>Action</th></tr></thead><tbody id="historyRows"></tbody></table></div>
-<div id="historyEmpty" class="history-empty">No history records yet. Add your first record above.</div>
-<p style="font-size:12px;color:#aeb8c2">This is a personal record-keeping tool. It does not contact providers or delete accounts. A “Deletion Confirmed” status should be used only after receiving written confirmation from the provider.</p>`],
-tracker: ["Request History", `<h2>Personal-data deletion progress</h2><p>Update this tracker using messages you actually receive from the provider. Progress is recorded in this browser; it is not a live connection to the provider and does not perform deletion.</p><label>Provider<br><input id="trackProvider" placeholder="Provider name"></label><br><br><label>Date submitted<br><input id="trackDate" type="date"></label><br><br><label>Status<br><select id="trackStatus"><option>Draft</option><option>Request submitted</option><option>Identity verification pending</option><option>Provider reviewing request</option><option>Deletion confirmed by provider</option><option>Some records retained by provider</option><option>Request declined</option></select></label><br><br><label>Non-sensitive note<br><textarea id="trackNote" rows="3" placeholder="e.g. Waiting for provider reply"></textarea></label><br><br><button class="action" id="saveTrack">Save progress</button><div id="savedTrack"></div>`],
-guide: ["Privacy Guide", `<h2>Privacy guide</h2><ol><li>Open the service’s official app or website yourself.</li><li>Review its privacy policy and account settings.</li><li>Ask the provider what personal data it holds and what deletion options apply.</li><li>Keep a copy of your request and the provider’s reply.</li><li>Some records may need to be retained where required by law or for unresolved obligations.</li><li>Never share passwords or one-time codes with someone offering to delete data for you.</li></ol>`],
-about: ["About", `<h2>About Personal Details DeleteX</h2><p>This is an independent privacy organizer, not an official lender platform or malware tool. It helps prepare requests and record provider-reported progress; it does not access lender databases, run malware, or delete external account data.</p>`]
-};
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function openTool(key){
-  const p = pages[key] || pages.overview;
-  const main = document.querySelector("main");
-  const hero = main.querySelector(".hero");
-  const tools = document.getElementById("tools");
 
-  // Keep navigation in this page and render the selected tool in the main area.
-  hero.hidden = true;
-  tools.hidden = true;
+overview: [
+    "Dashboard",
+    `<h2>Workspace overview</h2>
+    <p>This page helps you organize privacy requests. Choose a tool from the menu.</p>
+    <p><b>Important:</b> A request is not the same as a confirmed deletion. Only mark deletion confirmed after receiving the provider’s written confirmation.</p>`
+],
 
-  let view = document.getElementById("toolView");
-  if (!view) {
-    view = document.createElement("section");
-    view.id = "toolView";
-    view.className = "panel section";
-    main.appendChild(view);
-  }
+directory: [
+    "Loan App Directory",
+    `<h2>Provider directory</h2>
+    <p>Use each provider’s official app or website to locate its current Help, Privacy Policy, or Data Privacy contact. Avoid links sent by strangers.</p>
+    <ul>
+        <li>BillEase</li>
+        <li>JuanHand</li>
+        <li>Cashalo</li>
+        <li>Digido</li>
+        <li>UnaCash</li>
+        <li>Salmon</li>
+        <li>Atome</li>
+        <li>Tonik</li>
+        <li>CIMB</li>
+        <li>Skyro</li>
+        <li>Mocasa</li>
+    </ul>
+    <p>Provider contact details can change. Verify the channel inside the official app or on the provider’s official website before sending a request.</p>`
+],
 
-  view.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-      <h2 style="margin:0">${esc(p[0])}</h2>
-      <button class="action" id="backDashboard" type="button" style="width:auto">← Dashboard</button>
+request: [
+    "Permanent Delete Account History",
+    `<h2>Prepare a permanent account deletion request</h2>
+    <p>Enter only the provider name and a reply email you choose to include. Do not enter passwords, OTPs, card numbers, or identity-document numbers.</p>
+
+    <label>Provider name<br>
+    <input id="provider" placeholder="e.g. Provider name"></label>
+
+    <br><br>
+
+    <label>Reply email (optional)<br>
+    <input id="email" type="email" placeholder="you@example.com"></label>
+
+    <br><br>
+
+    <button class="action" id="make" type="button">Generate request</button>
+
+    <textarea id="draft" rows="12"
+    style="width:100%;margin-top:12px;background:#080a0c;color:#e9edf2;border:1px solid #71303a;border-radius:8px;padding:12px"
+    placeholder="Your request will appear here."></textarea>
+
+    <button class="action" id="copy" type="button">Copy request</button>
+
+    <section class="terminal" aria-live="polite">
+        <div class="terminal-head">
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <span class="terminal-dot"></span>
+            <b>TERMINAL // REQUEST DELETE</b>
+            <span class="terminal-live">TERMINAL</span>
+        </div>
+
+        <div class="terminal-body">
+            <div class="terminal-warning">[ TERMINAL REQUEST DELETE ]</div>
+            <div id="termLog">
+                <span class="prompt">user@deletEx:~$</span>
+                waiting_for_request<span class="cursor">_</span>
+            </div>
+
+            <div class="terminal-track">
+                <div id="termBar"></div>
+            </div>
+
+            <div id="termPercent">0% — waiting</div>
+        </div>
+    </section>
+
+    <p>Review the request before sending it through the provider’s verified contact channel. This workspace prepares and records your request. The 15-minute terminal progress is a visual workflow only; the provider must process and confirm any account deletion.</p>`
+],
+
+checklist: [
+    "Privacy Checklist",
+    `<h2>Personal checklist</h2>
+    <p>These checkboxes are saved in this browser only.</p>
+    <div id="checks"></div>
+    <button class="action" id="clear" type="button">Clear checklist</button>`
+],
+
+history: [
+    "Permanent Delete Account History",
+    `<h2>Permanent Delete Account History</h2>
+
+    <p>Add each account request and update its status only when you receive a real response from the provider. Records are saved in this browser on this device.</p>
+
+    <form id="historyForm">
+        <div class="history-form">
+
+            <label>Account ID
+                <input id="historyAccountId" maxlength="80" placeholder="e.g. ACC-1001" required>
+            </label>
+
+            <label>Request Date
+                <input id="historyRequestDate" type="date" required>
+            </label>
+
+            <label>Status
+                <select id="historyStatus">
+                    <option>Draft</option>
+                    <option>Submitted</option>
+                    <option>Verification Pending</option>
+                    <option>Under Provider Review</option>
+                    <option>Deletion Confirmed</option>
+                    <option>Partially Retained</option>
+                    <option>Declined</option>
+                </select>
+            </label>
+
+            <label>Completion Date
+                <input id="historyCompletionDate" type="date">
+            </label>
+
+        </div>
+
+        <button class="action" type="submit" style="margin-top:14px">
+            Save History Record
+        </button>
+    </form>
+
+    <div id="historyNotice" role="status" style="margin-top:10px;color:#b9d9c3"></div>
+
+    <div class="history-wrap">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Account ID</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Completion Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="historyRows"></tbody>
+        </table>
     </div>
-    <div class="toolContent">${p[1]}</div>
-  `;
 
-  document.querySelectorAll("[data-tool]").forEach(button => {
-    button.setAttribute("aria-current", button.getAttribute("data-tool") === key ? "page" : "false");
-  });
+    <div id="historyEmpty" class="history-empty">
+        No history records yet. Add your first record above.
+    </div>
 
-  document.getElementById("backDashboard").addEventListener("click", showDashboard);
-  initializeTool(key);
-  window.scrollTo({top: 0, behavior: "smooth"});
-}
+    <p style="font-size:12px;color:#aeb8c2">
+        This is a personal record-keeping tool. It does not contact providers or delete accounts. A “Deletion Confirmed” status should be used only after receiving written confirmation from the provider.
+    </p>`
+],
 
-function showDashboard(){
-  document.querySelector(".hero").hidden = false;
-  document.getElementById("tools").hidden = false;
-  const view = document.getElementById("toolView");
-  if (view) view.remove();
-  document.querySelectorAll("[data-tool]").forEach(button => button.setAttribute("aria-current", "false"));
-  window.scrollTo({top: 0, behavior: "smooth"});
-}
+tracker: [
+    "Request History",
+    `<h2>Personal-data deletion progress</h2>
 
+    <p>Track the progress of your deletion request.</p>
 
-function openHistoryDB(){
-  return new Promise((resolve,reject)=>{
-    const request=indexedDB.open("DeleteXHistoryDB",1);
-    request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains("records"))db.createObjectStore("records",{keyPath:"id",autoIncrement:true});};
-    request.onsuccess=()=>resolve(request.result);
-    request.onerror=()=>reject(request.error);
-  });
-}
-async function getHistoryRecords(){
-  const db=await openHistoryDB();
-  return new Promise((resolve,reject)=>{
-    const req=db.transaction("records","readonly").objectStore("records").getAll();
-    req.onsuccess=()=>resolve(req.result||[]);
-    req.onerror=()=>reject(req.error);
-  });
-}
-async function saveHistoryRecord(record){
-  const db=await openHistoryDB();
-  return new Promise((resolve,reject)=>{
-    const req=db.transaction("records","readwrite").objectStore("records").add(record);
-    req.onsuccess=()=>resolve(req.result);
-    req.onerror=()=>reject(req.error);
-  });
-}
-async function deleteHistoryRecord(id){
-  const db=await openHistoryDB();
-  return new Promise((resolve,reject)=>{
-    const req=db.transaction("records","readwrite").objectStore("records").delete(Number(id));
-    req.onsuccess=()=>resolve();
-    req.onerror=()=>reject(req.error);
-  });
-}
-async function renderHistory(){
-  const body=document.getElementById("historyRows");
-  const empty=document.getElementById("historyEmpty");
-  if(!body||!empty)return;
-  try{
-    const records=await getHistoryRecords();
-    body.innerHTML="";
-    empty.hidden=records.length>0;
-    records.sort((a,b)=>((b.requestDate||"")>(a.requestDate||"")?1:-1));
-    records.forEach(record=>{
-      const tr=document.createElement("tr");
-      [record.accountId,record.requestDate,record.status,record.completionDate||"—"].forEach(value=>{
-        const td=document.createElement("td");td.textContent=value;tr.appendChild(td);
-      });
-      const action=document.createElement("td");
-      const del=document.createElement("button");del.type="button";del.className="delete-row";del.textContent="Delete";
-      del.addEventListener("click",async()=>{
-        if(!confirm("Delete this history record?"))return;
-        await deleteHistoryRecord(record.id);await renderHistory();
-      });
-      action.appendChild(del);tr.appendChild(action);body.appendChild(tr);
-    });
-  }catch(error){
-    empty.hidden=false;empty.textContent="History storage is unavailable in this browser.";
-  }
-}
+    <label>Provider name<br>
+        <input
+            id="trackProvider"
+            type="text"
+            placeholder="Enter provider name"
+        >
+    </label>
 
-function initializeTool(key){
-  const items = [
-    "Review official privacy policy",
-    "Check account and app permissions",
-    "Prepare a data access or deletion request",
-    "Submit through verified provider channel",
-    "Save provider reply",
-    "Follow up if needed"
-  ];
+    <br><br>
 
-  if (key === "checklist") {
-    const root = document.getElementById("checks");
-    if (root) {
-      items.forEach((item, i) => {
-        const label = document.createElement("label");
-        label.className = "check";
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = sessionStorage.getItem("dxcheck" + i) === "1";
-        checkbox.addEventListener("change", () =>
-          sessionStorage.setItem("dxcheck" + i, checkbox.checked ? "1" : "0")
-        );
-        label.append(checkbox, document.createTextNode(" " + item));
-        root.append(label);
-      });
-      document.getElementById("clear").onclick = () => {
-        items.forEach((_, i) => sessionStorage.removeItem("dxcheck" + i));
-        initializeTool("checklist");
-      };
+    <label>Request date<br>
+        <input
+            id="trackDate"
+            type="date"
+        >
+    </label>
+
+    <br><br>
+
+    <label>Request status<br>
+        <select id="trackStatus">
+            <option>Pending</option>
+            <option>Request submitted</option>
+            <option>Provider reviewing request</option>
+            <option>Deletion confirmed by provider</option>
+            <option>Some records retained by provider</option>
+            <option>Request declined</option>
+        </select>
+    </label>
+
+    <br><br>
+
+    <label>Non-sensitive note<br>
+        <textarea
+            id="trackNote"
+            rows="3"
+            placeholder="e.g. Waiting for provider reply"
+        ></textarea>
+    </label>
+
+    <br><br>
+
+    <button
+        class="action"
+        id="saveTrack"
+        type="button"
+    >
+        Save progress
+    </button>
+
+    <div id="savedTrack"></div>`
+],
+
+guide: [
+    "User Guide",
+    `<h2>How to use Personal Details DeleteX</h2>
+
+    <p>Follow these steps to organize your personal-data deletion requests.</p>
+
+    <ol>
+        <li>Open the Directory section.</li>
+        <li>Select the provider you want to contact.</li>
+        <li>Open the Request section.</li>
+        <li>Generate and review your deletion request.</li>
+        <li>Copy the request and submit it directly to the provider.</li>
+        <li>Use the Checklist section to track your tasks.</li>
+        <li>Use the History section to save your request records.</li>
+        <li>Use the Request History section to monitor progress.</li>
+    </ol>
+
+    <p>
+        Important: This application organizes and tracks requests.
+        It does not directly delete accounts or personal information
+        from external websites.
+    </p>`
+],
+
+about: [
+    "About",
+    `<h2>About Personal Details DeleteX</h2>
+
+    <p>
+        Personal Details DeleteX is a personal-data deletion request
+        organizer and progress tracker.
+    </p>
+
+    <p>
+        It helps users prepare deletion requests, organize records,
+        and monitor the status of their requests.
+    </p>
+
+    <p>
+        External providers must process and confirm deletion requests.
+    </p>
+
+    <p><strong>Version:</strong> 1.0</p>`
+]
+};
+    // =====================================
+// OPEN TOOL
+// =====================================
+
+function openTool(key) {
+    const page = pages[key];
+
+    if (!page) return;
+
+    const hero = document.querySelector(".hero");
+    const tools = document.getElementById("tools");
+    const dashboard = document.getElementById("dashboardProcess");
+
+    if (hero) hero.style.display = "none";
+    if (tools) tools.style.display = "none";
+    if (dashboard) dashboard.style.display = "none";
+
+    let view = document.getElementById("toolView");
+
+    if (!view) {
+        view = document.createElement("section");
+        view.id = "toolView";
+        document.querySelector("main").appendChild(view);
     }
-  }
 
-  if(key==="history"){
-    const form=document.getElementById("historyForm");
-    if(form)form.addEventListener("submit",async event=>{
-      event.preventDefault();
-      const accountId=document.getElementById("historyAccountId").value.trim();
-      const requestDate=document.getElementById("historyRequestDate").value;
-      const status=document.getElementById("historyStatus").value;
-      const completionDate=document.getElementById("historyCompletionDate").value;
-      const notice=document.getElementById("historyNotice");
-      if(!accountId||!requestDate){notice.textContent="Please enter the Account ID and Request Date.";return;}
-      if(status==="Deletion Confirmed"&&!completionDate){notice.textContent="Enter the completion date after provider confirmation.";return;}
-      try{
-        await saveHistoryRecord({accountId,requestDate,status,completionDate});
-        form.reset();notice.textContent="History record saved successfully.";
-        await renderHistory();
-      }catch(error){notice.textContent="Could not save this record in this browser.";}
+    view.style.display = "block";
+
+    view.innerHTML = `
+        <button class="action" id="backDashboard" type="button">
+            ← Back to Dashboard
+        </button>
+
+        <h2>${esc(page[0])}</h2>
+
+        <div class="tool-content">
+            ${page[1]}
+        </div>
+    `;
+
+    document.querySelectorAll("[data-tool]").forEach(button => {
+        button.removeAttribute("aria-current");
+
+        if (button.dataset.tool === key) {
+            button.setAttribute("aria-current", "page");
+        }
     });
-    renderHistory();
-  }
 
-  const make = document.getElementById("make");
-  if (make) make.onclick = () => {
-    const name = document.getElementById("provider").value.trim();
-    const email = document.getElementById("email").value.trim();
-    if (!name) { alert("Enter the provider name."); return; }
-    document.getElementById("draft").value =
-      "Subject: Request regarding my personal data\n\n" +
-      "Hello " + name + " Privacy Team,\n\n" +
-      "I am requesting information about the personal data associated with my account. " +
-      "Please explain the process for obtaining a copy of my data and, where permitted, " +
-      "requesting correction or deletion. Please also identify any records that must be " +
-      "retained and the reason for retention.\n\n" +
-      "Please respond through " + (email || "the verified contact channel I used to submit this request") +
-      ".\n\nThank you.";
+    document.getElementById("backDashboard").addEventListener(
+        "click",
+        showDashboard
+    );
 
-    // Visual terminal preview only; it does not contact the provider or delete data.
-    const log = document.getElementById("termLog");
-    const bar = document.getElementById("termBar");
-    const percent = document.getElementById("termPercent");
-    const commands = ["validate_request_fields", "provider: " + name.replace(/[<>]/g, ""), "prepare_privacy_request", "request_ready_for_manual_submission", "record_provider_response"];
-    const messages = ["[ OK ] Checking required fields...", "[ OK ] Provider details added.", "[ OK ] Privacy request prepared.", "[ NEXT ] Send the request through the provider's official channel.", "[ NEXT ] Record the provider's reply when received."];
-    let step = 0;
-    if (make.dataset.running === "1") return;
-    make.dataset.running = "1";
-    log.textContent = "";
-    bar.style.width = "0%";
-    percent.textContent = "0% — terminal request started (15:00)";
-    function nextLine() {
-      const line = document.createElement("div");
-      line.textContent = "user@deletEx:~$ " + commands[step] + "  " + messages[step];
-      log.appendChild(line);
-      step++;
-      const value = Math.round(step / commands.length * 100);
-      bar.style.width = value + "%";
-      percent.textContent = value + "% — terminal request progress";
-      if (step < commands.length) window.setTimeout(nextLine, 180000);
-      else make.dataset.running = "0";
-    }
-    window.setTimeout(nextLine, 180000);
-  };
+    initializeTool(key);
+}
 
-  const copy = document.getElementById("copy");
-  if (copy) copy.onclick = async () => {
-    const draft = document.getElementById("draft");
+
+// =====================================
+// SHOW DASHBOARD
+// =====================================
+
+function showDashboard() {
+    const hero = document.querySelector(".hero");
+    const tools = document.getElementById("tools");
+    const dashboard = document.getElementById("dashboardProcess");
+    const view = document.getElementById("toolView");
+
+    if (hero) hero.style.display = "";
+    if (tools) tools.style.display = "";
+    if (dashboard) dashboard.style.display = "";
+
+    if (view) view.remove();
+
+    document.querySelectorAll("[data-tool]").forEach(button => {
+        button.removeAttribute("aria-current");
+    });
+}
+
+
+// =====================================
+// TRACKER STORAGE
+// =====================================
+
+function getTrackerRecords() {
     try {
-      await navigator.clipboard.writeText(draft.value);
-      alert("Request text copied. Review it before sending.");
+        return JSON.parse(localStorage.getItem("dxtrack") || "[]");
     } catch (error) {
-      draft.select();
-      document.execCommand("copy");
-      alert("Request text copied. Review it before sending.");
+        return [];
     }
-  };
-
-  const save = document.getElementById("saveTrack");
-  if (save) save.onclick = () => {
-    const record = {
-      provider: document.getElementById("trackProvider").value.trim(),
-      date: document.getElementById("trackDate").value,
-      status: document.getElementById("trackStatus").value,
-      note: document.getElementById("trackNote").value.trim()
-    };
-    if (!record.provider) { alert("Enter provider name."); return; }
-    sessionStorage.setItem("dxtrack", JSON.stringify(record));
-    renderSavedTrack(record);
-  };
-
-  const saved = sessionStorage.getItem("dxtrack");
-  if (saved && document.getElementById("savedTrack")) {
-    try { renderSavedTrack(JSON.parse(saved)); } catch (error) {}
-  }
 }
 
-function renderSavedTrack(record){
-  const target = document.getElementById("savedTrack");
-  if (target) {
-    const stages = ["Draft", "Request submitted", "Identity verification pending", "Provider reviewing request", "Deletion confirmed by provider", "Some records retained by provider", "Request declined"];
-    const index = Math.max(0, stages.indexOf(record.status));
-    const progress = record.status === "Deletion confirmed by provider" ? 100 :
-      record.status === "Request declined" ? 0 : Math.round((index / (stages.length - 1)) * 100);
-    target.innerHTML = `<p><b>Saved:</b> ${esc(record.provider)} — ${esc(record.status)}</p>
-      <div role="progressbar" aria-label="Manually recorded deletion stage" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}" style="height:10px;background:#292d32;border-radius:8px;overflow:hidden">
-        <div style="height:100%;width:${progress}%;background:#38f58a"></div>
-      </div>
-      <small style="display:block;margin-top:7px;color:#aeb8c2">${progress}% stage indicator based on the status you selected. This is not a live deletion process.</small>`;
-  }
+
+function saveTrackerRecord(record) {
+    const records = getTrackerRecords();
+
+    record.id = Date.now();
+
+    records.push(record);
+
+    localStorage.setItem("dxtrack", JSON.stringify(records));
+
+    return records;
 }
 
-// One delegated click handler supports every sidebar and dashboard tool button.
-document.addEventListener("click", function(event) {
-  const button = event.target.closest("[data-tool]");
-  if (!button) return;
-  event.preventDefault();
-  const toolKey = button.getAttribute("data-tool");
-  if (toolKey && pages[toolKey]) openTool(toolKey);
+
+// =====================================
+// DISPLAY TRACKER RECORDS
+// =====================================
+
+function renderSavedTrack() {
+    const container = document.getElementById("savedTrack");
+
+    if (!container) return;
+
+    const records = getTrackerRecords();
+
+    if (!records.length) {
+        container.innerHTML = "<p>No progress records saved yet.</p>";
+        return;
+    }
+
+    container.innerHTML = `
+        <h3>Saved Request History</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Note</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                ${records.map(record => `
+                    <tr>
+                        <td>${esc(record.provider)}</td>
+                        <td>${esc(record.date)}</td>
+                        <td>${esc(record.status)}</td>
+                        <td>${esc(record.note)}</td>
+                        <td>
+                            <button
+                                class="action"
+                                type="button"
+                                data-delete-track="${record.id}"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        </table>
+    `;
+}
+
+
+// =====================================
+// INITIALIZE TOOL
+// =====================================
+
+function initializeTool(key) {
+
+    // REQUEST HISTORY TRACKER
+
+    if (key === "tracker") {
+        renderSavedTrack();
+
+        const saveButton = document.getElementById("saveTrack");
+
+        if (saveButton) {
+            saveButton.addEventListener("click", () => {
+
+                const provider = document
+                    .getElementById("trackProvider").value.trim();
+
+                const date = document
+                    .getElementById("trackDate").value;
+
+                const status = document
+                    .getElementById("trackStatus").value;
+
+                const note = document
+                    .getElementById("trackNote").value.trim();
+
+                if (!provider || !date) {
+                    alert("Please enter the provider name and request date.");
+                    return;
+                }
+
+                saveTrackerRecord({
+                    provider,
+                    date,
+                    status,
+                    note
+                });
+
+                document.getElementById("trackProvider").value = "";
+                document.getElementById("trackDate").value = "";
+                document.getElementById("trackStatus").value = "Pending";
+                document.getElementById("trackNote").value = "";
+
+                renderSavedTrack();
+
+                alert("Progress saved successfully.");
+            });
+        }
+
+        const container = document.getElementById("savedTrack");
+
+        if (container) {
+            container.addEventListener("click", event => {
+                const button = event.target.closest("[data-delete-track]");
+
+                if (!button) return;
+
+                const id = Number(button.dataset.deleteTrack);
+
+                const updated = getTrackerRecords().filter(
+                    record => record.id !== id
+                );
+
+                localStorage.setItem("dxtrack", JSON.stringify(updated));
+
+                renderSavedTrack();
+            });
+        }
+    }
+}
+
+
+// =====================================
+// NAVIGATION BUTTONS
+// =====================================
+
+document.addEventListener("click", event => {
+    const button = event.target.closest("[data-tool]");
+
+    if (!button) return;
+
+    const key = button.dataset.tool;
+
+    openTool(key);
 });
-function tick(){document.getElementById('clock').textContent=new Date().toTimeString();}tick();setInterval(tick,1000);
+
+
+// =====================================
+// LIVE CLOCK
+// =====================================
+
+function tick() {
+    const clock = document.getElementById("clock");
+
+    if (clock) {
+        clock.textContent = new Date().toLocaleString();
+    }
+}
+
+tick();
+
+setInterval(tick, 1000);
+
 </script>
 </body>
-  </html>
+</html>
