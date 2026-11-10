@@ -1,95 +1,637 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080808">
 <title>PERSONAL DETAILS DELETEX</title>
+
 <style>
-:root{--red:#ff2638;--red2:#a90018;--bg:#070809;--panel:#101316;--line:#4a1018;--green:#38f58a;--muted:#aeb8c2}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#3a080e 0,#08090b 45%,#030405 100%);color:#f4f7fa;font-family:Arial,Helvetica,sans-serif}
-header{padding:24px 20px 18px;border-bottom:1px solid var(--red);display:flex;align-items:center;justify-content:space-between;gap:18px;background:#050607}
-.brand{font-size:clamp(22px,4vw,42px);font-weight:900;letter-spacing:1px}.brand span{color:var(--red);display:block;font-style:italic}.sub{color:#cbd1d8;font-size:13px;margin-top:5px}.clock{border:1px solid var(--red);padding:12px 16px;border-radius:10px;text-align:right;min-width:145px}
-.shell{display:grid;grid-template-columns:235px 1fr;gap:16px;padding:16px;max-width:1500px;margin:auto}
-aside,.panel,.tile{background:linear-gradient(145deg,#15191d,#080a0c);border:1px solid var(--line);border-radius:12px;box-shadow:0 0 14px #ff26381a}
-aside{padding:12px;height:max-content}.navbtn,.toolbtn,.action{width:100%;background:#0b0d10;color:#f5f7fa;border:1px solid #51202a;border-radius:8px;padding:13px 12px;text-align:left;margin:5px 0;cursor:pointer;font-weight:700}
-.navbtn[aria-current="page"]{border-color:var(--red);background:#260b10;color:#fff}\n[hidden]{display:none!important}\n.navbtn:hover,.toolbtn:hover,.action:hover{border-color:var(--red);box-shadow:0 0 12px #ff263855;background:#1a0b0e}
-main{min-width:0}.hero{padding:18px 20px;margin-bottom:14px}.hero h1{margin:0 0 7px;font-size:24px}.hero p{margin:0;color:#c2c9d0;line-height:1.5}
-.status{display:inline-block;color:var(--green);border:1px solid #1b8b50;padding:6px 10px;border-radius:20px;font-size:12px;margin-top:12px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.tile{padding:15px}.tile h3{margin:0 0 7px;color:#fff}.tile p{color:#b8c1ca;font-size:13px;line-height:1.45;min-height:38px}.toolbtn{border-color:#72202c;text-align:center;color:#fff}
-.section{padding:16px;margin-top:14px}.section h2{font-size:18px;margin:0 0 10px}
-footer{text-align:center;color:#929ba5;font-size:12px;padding:18px}
-@media(max-width:800px){.shell{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}aside{display:grid;grid-template-columns:repeat(2,1fr);gap:5px}.navbtn{margin:0}}
-@media(max-width:480px){header{align-items:flex-start;flex-direction:column}.clock{text-align:left}.grid{grid-template-columns:1fr}}
+:root {
+  --red:#ff2638;
+  --red2:#a90018;
+  --bg:#070809;
+  --panel:#101316;
+  --line:#4a1018;
+  --green:#38f58a;
+  --muted:#aeb8c2;
+}
 
-.terminal{margin-top:18px;border:1px solid #244b36;border-radius:10px;overflow:hidden;background:#030806;color:#55f59a;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;box-shadow:0 0 18px #20ff7518}
-.terminal-head{display:flex;align-items:center;gap:7px;padding:10px 12px;background:#0b1710;border-bottom:1px solid #1b4930;color:#b8ffd0;font-size:11px;letter-spacing:.5px}
-.terminal-head b{margin-left:5px}.terminal-live{margin-left:auto;color:#8cae99}
-.terminal-dot{width:8px;height:8px;border-radius:50%;background:#477b59;display:inline-block}
-.terminal-body{padding:14px;font-size:12px;line-height:1.8;min-height:120px;overflow-wrap:anywhere}
-.terminal-warning{color:#ffcc70;margin-bottom:8px;font-weight:700}
-.prompt{color:#9ab7a3}.cursor{display:inline-block;animation:termBlink .8s steps(2,start) infinite}
-.terminal-track{height:7px;background:#15251b;border-radius:8px;margin-top:14px;overflow:hidden}
-#termBar{height:100%;width:0;background:#45f58d;box-shadow:0 0 10px #45f58d;transition:width .25s linear}
-#termPercent{color:#b9d9c3;margin-top:6px;font-size:11px}
-@keyframes termBlink{to{visibility:hidden}}
+* {
+  box-sizing:border-box;
+}
 
+body {
+  margin:0;
+  background:radial-gradient(circle at 50% -20%,#3a080e 0,#08090b 45%,#030405 100%);
+  color:#f4f7fa;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-.action{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-.action:active{transform:scale(.985)}
-.terminal-body>div:not(.terminal-warning){animation:termIn .35s ease both}
-@keyframes termIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.terminal-track{position:relative}
-.terminal-track:after{content:"";display:block;height:100%;width:28%;background:#ffffff22;position:absolute;top:0;left:-30%;animation:termScan 2.4s linear infinite}
-@keyframes termScan{to{left:110%}}
+header {
+  padding:24px 20px 18px;
+  border-bottom:1px solid var(--red);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  background:#050607;
+}
 
+.brand {
+  font-size:clamp(22px,4vw,42px);
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.brand span {
+  color:var(--red);
+  display:block;
+  font-style:italic;
+}
+
+.sub {
+  color:#cbd1d8;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.clock {
+  border:1px solid var(--red);
+  padding:12px 16px;
+  border-radius:10px;
+  text-align:right;
+  min-width:145px;
+}
+
+.shell {
+  display:grid;
+  grid-template-columns:235px 1fr;
+  gap:16px;
+  padding:16px;
+  max-width:1500px;
+  margin:auto;
+}
+
+aside,.panel,.tile {
+  background:linear-gradient(145deg,#15191d,#080a0c);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 0 14px #ff26381a;
+}
+
+aside {
+  padding:12px;
+  height:max-content;
+}
+
+.navbtn,.toolbtn,.action {
+  width:100%;
+  background:#0b0d10;
+  color:#f5f7fa;
+  border:1px solid #51202a;
+  border-radius:8px;
+  padding:13px 12px;
+  text-align:left;
+  margin:5px 0;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.navbtn[aria-current="page"] {
+  border-color:var(--red);
+  background:#260b10;
+  color:#fff;
+}
+
+[hidden] {
+  display:none !important;
+}
+
+.navbtn:hover,
+.toolbtn:hover,
+.action:hover {
+  border-color:var(--red);
+  box-shadow:0 0 12px #ff263855;
+  background:#1a0b0e;
+}
+
+main {
+  min-width:0;
+}
+
+.hero {
+  padding:18px 20px;
+  margin-bottom:14px;
+}
+
+.hero h1 {
+  margin:0 0 7px;
+  font-size:24px;
+}
+
+.hero p {
+  margin:0;
+  color:#c2c9d0;
+  line-height:1.5;
+}
+
+.status {
+  display:inline-block;
+  color:var(--green);
+  border:1px solid #1b8b50;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  margin-top:12px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+.tile {
+  padding:15px;
+}
+
+.tile h3 {
+  margin:0 0 7px;
+  color:#fff;
+}
+
+.tile p {
+  color:#b8c1ca;
+  font-size:13px;
+  line-height:1.45;
+  min-height:38px;
+}
+
+.toolbtn {
+  border-color:#72202c;
+  text-align:center;
+  color:#fff;
+}
+
+.section {
+  padding:16px;
+  margin-top:14px;
+}
+
+.section h2 {
+  font-size:18px;
+  margin:0 0 10px;
+}
+
+footer {
+  text-align:center;
+  color:#929ba5;
+  font-size:12px;
+  padding:18px;
+}
+
+/* RESPONSIVE */
+@media(max-width:800px) {
+  .shell {
+    grid-template-columns:1fr;
+  }
+
+  .grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  aside {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:5px;
+  }
+
+  .navbtn {
+    margin:0;
+  }
+}
+
+@media(max-width:480px) {
+  header {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .clock {
+    text-align:left;
+  }
+
+  .grid {
+    grid-template-columns:1fr;
+  }
+}
+
+/* TERMINAL CONTAINER */
+.terminal {
+  margin-top:18px;
+  border:1px solid #244b36;
+  border-radius:10px;
+  overflow:hidden;
+  background:#030806;
+  color:#55f59a;
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  box-shadow:0 0 18px #20ff7518;
+}
+
+/* TERMINAL HEADER */
+.terminal-head {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:10px 12px;
+  background:#0b1710;
+  border-bottom:1px solid #1b4930;
+  color:#b8ffd0;
+  font-size:11px;
+  letter-spacing:0.5px;
+}
+
+.terminal-head b {
+  margin-left:5px;
+}
+
+.terminal-live {
+  margin-left:auto;
+  color:#8cae99;
+}
+
+.terminal-dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#477b59;
+  display:inline-block;
+}
+
+/* TERMINAL BODY */
+.terminal-body {
+  padding:14px;
+  font-size:12px;
+  line-height:1.8;
+  min-height:120px;
+  overflow-wrap:anywhere;
+}
+
+.terminal-warning {
+  color:#ffcc70;
+  margin-bottom:8px;
+  font-weight:700;
+}
+
+.prompt {
+  color:#9ab7a3;
+}
+
+.cursor {
+  display:inline-block;
+  animation:termBlink 0.8s steps(2,start) infinite;
+}
+
+/* PROGRESS TRACK */
+.terminal-track {
+  position:relative;
+  height:7px;
+  background:#15251b;
+  border-radius:8px;
+  margin-top:14px;
+  overflow:hidden;
+}
+
+/* PROGRESS FILL */
+#termBar {
+  height:100%;
+  width:0%;
+  background:#45f58d;
+  box-shadow:0 0 10px #45f58d;
+  border-radius:8px;
+  transition:width 0.4s ease;
+}
+
+/* PROGRESS TEXT */
+#termPercent {
+  color:#b9d9c3;
+  margin-top:6px;
+  font-size:11px;
+}
+
+/* BUTTON ANIMATION */
+.action {
+  transition:transform 0.18s ease,
+             box-shadow 0.18s ease,
+             border-color 0.18s ease;
+}
+
+.action:active {
+  transform:scale(0.985);
+}
+
+/* TERMINAL ENTRY ANIMATION */
+.terminal-body > div:not(.terminal-warning) {
+  animation:termIn 0.35s ease both;
+}
+
+@keyframes termIn {
+  from {
+    opacity:0;
+    transform:translateY(5px);
+  }
+
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* PROGRESS SCAN */
+.terminal-track::after {
+  content:"";
+  display:block;
+  height:100%;
+  width:28%;
+  background:#ffffff22;
+  position:absolute;
+  top:0;
+  left:-30%;
+  animation:termScan 2.4s linear infinite;
+}
+
+@keyframes termScan {
+  to {
+    left:110%;
+  }
+}
+
+/* CURSOR BLINK */
+@keyframes termBlink {
+  to {
+    visibility: hidden;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div><div class="brand">PERSONAL DETAILS <span>DELETEX</span></div><div class="sub">MANAGE • PROTECT • REQUEST REMOVAL</div></div>
-  <div class="clock"><div id="clock">--:--:--</div><small>LOCAL DEVICE TIME</small></div>
+  <div>
+    <div class="brand">
+      PERSONAL DETAILS <span>DELETEX</span>
+    </div>
+    <div class="sub">MANAGE • PROTECT • REQUEST REMOVAL</div>
+  </div>
+
+  <div class="clock">
+    <div id="clock">--:--:--</div>
+    <small>LOCAL DEVICE TIME</small>
+  </div>
 </header>
+
 <div class="shell">
-<aside aria-label="Main navigation">
-  <button class="navbtn" data-tool="overview">⌂ &nbsp; Dashboard</button>
-  <button class="navbtn" data-tool="directory">▦ &nbsp; Loan App Directory</button>
-  <button class="navbtn" data-tool="request">▤ &nbsp; Deleting Information</button>
-  <button class="navbtn" data-tool="checklist">☑ &nbsp; Privacy Checklist</button>
-  <button class="navbtn" data-tool="tracker">◷ &nbsp; Deleting Tracker</button>
-  <button class="navbtn" data-tool="guide">⚙ &nbsp; Privacy Guide</button>
-  <button class="navbtn" data-tool="about">ⓘ &nbsp; About</button>
-</aside>
-<main>
+
+  <aside aria-label="Main navigation">
+    <button class="navbtn" data-tool="overview">⌂ &nbsp; Dashboard</button>
+    <button class="navbtn" data-tool="directory">▦ &nbsp; Loan App Directory</button>
+    <button class="navbtn" data-tool="request">▤ &nbsp; Deleting Information</button>
+    <button class="navbtn" data-tool="checklist">☑ &nbsp; Privacy Checklist</button>
+    <button class="navbtn" data-tool="tracker">◷ &nbsp; Deleting Tracker</button>
+    <button class="navbtn" data-tool="guide">⚙ &nbsp; Privacy Guide</button>
+    <button class="navbtn" data-tool="about">ⓘ &nbsp; About</button>
+  </aside>
+
+
+<main id="app">
+
+  <!-- DASHBOARD HERO -->
   <section class="panel hero">
     <h1>Privacy Management Workspace</h1>
-    <p>Select any tool from the menu. It will appear here without opening a new browser tab.</p>
-    <div class="status">● LOCAL WORKSPACE READY</div>
+
+    <p>
+      Select any tool from the menu. It will appear here
+      without opening a new browser tab.
+    </p>
+
+    <div class="status">
+      ● LOCAL WORKSPACE READY
+    </div>
   </section>
+
+  <!-- DASHBOARD TOOLS -->
   <section class="grid" id="tools">
-    <article class="tile"><h3>Loan App Directory</h3><p>Find the provider’s official privacy or support channel.</p><button class="toolbtn" data-tool="directory">Open directory</button></article>
-    <article class="tile"><h3>Deleting Information</h3><p>Prepare a personal-data deletion request for the provider to review.</p><button class="toolbtn" data-tool="request">Open privacy tool</button></article>
-    <article class="tile"><h3>Privacy Checklist</h3><p>Tick off steps as you complete them. Saved only in this browser.</p><button class="toolbtn" data-tool="checklist">Open checklist</button></article>
-    <article class="tile"><h3>Deleting Tracker</h3><p>Track each provider response and the reported deletion stage.</p><button class="toolbtn" data-tool="tracker">Open deleting tracker</button></article>
-    <article class="tile"><h3>Privacy Guide</h3><p>Practical steps for reviewing permissions and account settings.</p><button class="toolbtn" data-tool="guide">Open guide</button></article>
-    <article class="tile"><h3>About This Workspace</h3><p>Learn what this independent tool does and does not do.</p><button class="toolbtn" data-tool="about">Open details</button></article>
+
+    <article class="tile">
+      <h3>Loan App Directory</h3>
+      <p>
+        Find the provider’s official privacy or support channel.
+      </p>
+      <button class="toolbtn" data-tool="directory">
+        Open Directory
+      </button>
+    </article>
+
+    <article class="tile">
+      <h3>Deleting Information</h3>
+      <p>
+        Prepare a personal-data deletion request for the provider
+        to review.
+      </p>
+      <button class="toolbtn" data-tool="request">
+        Open Privacy Tool
+      </button>
+    </article>
+
+    <article class="tile">
+      <h3>Privacy Checklist</h3>
+      <p>
+        Tick off steps as you complete them. Saved only in
+        this browser.
+      </p>
+      <button class="toolbtn" data-tool="checklist">
+        Open Checklist
+      </button>
+    </article>
+
+    <article class="tile">
+      <h3>Deleting Tracker</h3>
+      <p>
+        Track provider responses and confirmed deletion updates.
+      </p>
+      <button class="toolbtn" data-tool="tracker">
+        Open Deleting Tracker
+      </button>
+    </article>
+
+    <article class="tile">
+      <h3>Privacy Guide</h3>
+      <p>
+        Practical steps for reviewing permissions and account
+        settings.
+      </p>
+      <button class="toolbtn" data-tool="guide">
+        Open Guide
+      </button>
+    </article>
+
+    <article class="tile">
+      <h3>About This Workspace</h3>
+      <p>
+        Learn what this independent tool does and does not do.
+      </p>
+      <button class="toolbtn" data-tool="about">
+        Open Details
+      </button>
+    </article>
+
   </section>
-  
+
+  <!-- WORKSPACE DISCLOSURE -->
+  <section class="panel">
+    <h3>Important Information</h3>
+    <p>
+      This is an independent privacy-request organizer.
+      Requests must be submitted to the appropriate provider.
+      Deletion is not complete until confirmed by that provider.
+    </p>
+  </section>
+
 </main>
 </div>
+
+  
 <footer>PERSONAL DETAILS DELETEX</footer>
 <script>
-const pages = {
-overview: ["Dashboard", `<h2>Workspace overview</h2><p>This page helps you organize privacy requests. Choose a tool from the menu.</p><p><b>Important:</b> A request is not the same as a confirmed deletion. Only mark deletion confirmed after receiving the provider’s written confirmation.</p>`],
-directory: ["Loan App Directory", `<h2>Provider directory</h2><p>Use each provider’s official app or website to locate its current Help, Privacy Policy, or Data Privacy contact. Avoid links sent by strangers.</p><ul><li>BillEase</li><li>JuanHand</li><li>Cashalo</li><li>Digido</li><li>UnaCash</li><li>Salmon</li><li>Atome</li><li>Tonik</li><li>CIMB</li><li>Skyro</li><li>Mocasa</li></ul><p>Provider contact details can change. Verify the channel inside the official app or on the provider’s official website before sending a request.</p>`],
-request: ["Deleting Information", `<h2>Prepare a privacy request</h2><p>Enter only the provider name and a reply email you choose to include. Do not enter passwords, OTPs, card numbers, or identity-document numbers.</p><label>Provider name<br><input id="provider" placeholder="e.g. Provider name"></label><br><br><label>Reply email (optional)<br><input id="email" type="email" placeholder="you@example.com"></label><br><br><button class="action" id="make">Generate request</button><textarea id="draft" rows="12" style="width:100%;margin-top:12px;background:#080a0c;color:#e9edf2;border:1px solid #71303a;border-radius:8px;padding:12px" placeholder="Your request will appear here."></textarea><button class="action" id="copy">Copy request</button><section class="terminal" aria-live="polite"><div class="terminal-head"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><b>TERMINAL // REQUEST PREVIEW</b><span class="terminal-live">LOCAL</span></div><div class="terminal-body"><div class="terminal-warning">[ LOCAL REQUEST WORKFLOW ]</div><div id="termLog"><span class="prompt">user@deletEx:~$</span> waiting_for_request<span class="cursor">_</span></div><div class="terminal-track"><div id="termBar"></div></div><div id="termPercent">0% — waiting</div></div></section><p>Review the request before sending it through the provider’s verified contact channel. This workspace prepares your request and tracks updates. The provider processes and confirms any deletion.</p>`],
-checklist: ["Privacy Checklist", `<h2>Personal checklist</h2><p>These checkboxes are saved locally in this browser only.</p><div id="checks"></div><button class="action" id="clear">Clear checklist</button>`],
-tracker: ["Deleting Tracker", `<h2>Personal-data deletion progress</h2><p>Update this tracker using messages you actually receive from the provider. Progress is recorded locally; it is not a live connection to the provider and does not perform deletion.</p><label>Provider<br><input id="trackProvider" placeholder="Provider name"></label><br><br><label>Date submitted<br><input id="trackDate" type="date"></label><br><br><label>Status<br><select id="trackStatus"><option>Draft</option><option>Request submitted</option><option>Identity verification pending</option><option>Provider reviewing request</option><option>Deletion confirmed by provider</option><option>Some records retained by provider</option><option>Request declined</option></select></label><br><br><label>Non-sensitive note<br><textarea id="trackNote" rows="3" placeholder="e.g. Waiting for provider reply"></textarea></label><br><br><button class="action" id="saveTrack">Save progress locally</button><div id="savedTrack"></div>`],
-guide: ["Privacy Guide", `<h2>Privacy guide</h2><ol><li>Open the service’s official app or website yourself.</li><li>Review its privacy policy and account settings.</li><li>Ask the provider what personal data it holds and what deletion options apply.</li><li>Keep a copy of your request and the provider’s reply.</li><li>Some records may need to be retained where required by law or for unresolved obligations.</li><li>Never share passwords or one-time codes with someone offering to delete data for you.</li></ol>`],
-about: ["About", `<h2>About Personal Details DeleteX</h2><p>This is an independent privacy organizer, not an official lender platform or malware tool. It helps prepare requests and record provider-reported progress; it does not access lender databases, run malware, or delete external account data.</p>`]
-};
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+const app = document.getElementById("app");
+
+/* TOOL NAVIGATION */
+document.addEventListener("click", function(event) {
+  const button = event.target.closest("[data-tool]");
+
+  if (!button) return;
+
+  const tool = button.dataset.tool;
+
+  const messages = {
+    directory: "Loan App Directory",
+    request: "Personal Data Request",
+    checklist: "Privacy Checklist",
+    tracker: "Provider Response Tracker",
+    guide: "Privacy Guide",
+    about: "About This Workspace",
+    overview: "Privacy Dashboard"
+  };
+
+  if (!messages[tool]) return;
+
+  app.innerHTML = `
+    <section class="panel">
+      <h2>${messages[tool]}</h2>
+      <p>Selected tool: ${messages[tool]}</p>
+      <p><strong>Error: Connection Timeout.</strong> Unable to reach the external server. Please verify your network configurations or API credentials and try again.</p>
+      <button id="backDashboard">Back to Dashboard</button>
+    </section>
+  `;
+
+  app.scrollIntoView({ behavior: "smooth" });
+});
+
+/* BACK TO DASHBOARD */
+document.addEventListener("click", function(event) {
+  if (event.target.id === "backDashboard") {
+    location.reload();
+  }
+});
+
+/* LOCAL DEVICE CLOCK */
+function updateClock() {
+  const clock = document.getElementById("clock");
+
+  if (clock) {
+    clock.textContent = new Date().toLocaleTimeString();
+  }
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c]));
+}
+
+/* OPEN SELECTED TOOL */
 function openTool(key){
+  const p = pages[key] || pages.overview;
+  const main = document.querySelector("main");
+  const hero = main.querySelector(".hero");
+  const tools = document.getElementById("tools");
+
+  hero.hidden = true;
+  tools.hidden = true;
+
+  let view = document.getElementById("toolView");
+
+  if (!view) {
+    view = document.createElement("section");
+    view.id = "toolView";
+    view.className = "panel section";
+    main.appendChild(view);
+  }
+
+  view.innerHTML = `
+    <h2>${esc(p.title)}</h2>
+    <div class="tool-content">${p.content || ""}</div>
+    <button id="backDashboard">Back to Dashboard</button>
+  `;
+
+  view.hidden = false;
+  initializeTool(key);
+}
+
+/* RETURN TO DASHBOARD */
+function showDashboard(){
+  document.querySelector(".hero").hidden = false;
+  document.getElementById("tools").hidden = false;
+
+  const view = document.getElementById("toolView");
+  if (view) view.remove();
+
+  document.querySelectorAll("[data-tool]").forEach(button => {
+    button.setAttribute("aria-current", "false");
+  });
+
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+/* INITIALIZE TOOL */
+function initializeTool(key){
+  const items = [
+    "Review official privacy policy",
+    "Check account and app permissions",
+    "Prepare a data access or deletion request",
+    "Submit through verified provider channel",
+    "Save provider reply",
+    "Follow up if needed"
+  ];
+
+  const root = document.querySelector("#toolView .tool-content");
+
+  if (!root) return;
+
+  // Continue with your existing tool-specific code here.
+}
+
   const p = pages[key] || pages.overview;
   const main = document.querySelector("main");
   const hero = main.querySelector(".hero");
@@ -133,7 +675,75 @@ function showDashboard(){
   window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-function initializeTool(key){
+
+/* INITIALIZE TOOL */
+function initializeTool(key) {
+  const items = [
+    "Review official privacy policy",
+    "Check account and app permissions",
+    "Prepare a data access or deletion request",
+    "Submit through verified provider channel",
+    "Save provider reply",
+    "Follow up if needed"
+  ];
+
+  const root = document.querySelector("#toolView .tool-content");
+
+  if (!root) return;
+
+  // Ilagay rito ang tool-specific code.
+}
+
+
+/* LOCAL DEVICE CLOCK */
+function updateClock() {
+  const clock = document.getElementById("clock");
+
+  if (clock) {
+    clock.textContent = new Date().toLocaleTimeString();
+  }
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+  const items = [
+    "Review official privacy policy",
+    "Check account and app permissions",
+    "Prepare a data access or deletion request",
+    "Submit through verified provider channel",
+    "Save provider reply",
+    "Follow up if needed"
+  ];
+
+  const root = document.querySelector("#toolView .tool-content");
+
+  if (!root) return;
+
+  // Ilagay rito ang tool-specific code.
+}
+
+
+/* TOOL BUTTON EVENTS */
+document.addEventListener("click", function(event) {
+  const button = event.target.closest("[data-tool]");
+
+  if (button) {
+    const key = button.dataset.tool;
+
+    if (key === "overview") {
+      showDashboard();
+    } else {
+      openTool(key);
+    }
+
+    return;
+  }
+
+  if (event.target.closest("#backDashboard")) {
+    showDashboard();
+  }
+});
   const items = [
     "Review official privacy policy",
     "Check account and app permissions",
