@@ -153,6 +153,46 @@ header{align-items:flex-start;flex-direction:column}
     <p>Select any tool from the menu. It will appear here without opening a new browser tab.</p>
     <div class="status">● TERMINAL WORKSPACE READY</div>
   </section>
+    <section class="panel section" id="dashboardProcess">
+  <h2>Process Monitoring</h2>
+
+  <div class="grid">
+    <article class="tile">
+      <h3>Ongoing</h3>
+      <p id="ongoingCount">0</p>
+    </article>
+    <article class="tile">
+      <h3>Outgoing</h3>
+      <p id="outgoingCount">0</p>
+    </article>
+    <article class="tile">
+      <h3>Successful</h3>
+      <p id="successfulCount">0</p>
+    </article>
+    <article class="tile">
+      <h3>Pending</h3>
+      <p id="pendingCount">0</p>
+    </article>
+  </div>
+
+  <h2 style="margin-top:20px">Process History</h2>
+
+  <div class="history-wrap">
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Account ID</th>
+          <th>Request Date</th>
+          <th>Status</th>
+          <th>Completion Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="processHistory">
+      </tbody>
+    </table>
+  </div>
+    </section>
   <section class="grid" id="tools">
     <article class="tile"><h3>Loan App Directory</h3><p>Find the provider’s official privacy or support channel.</p><button class="toolbtn" data-tool="directory">Open directory</button></article>
     <article class="tile"><h3>Permanent Delete Account History</h3><p>Prepare a personal-data deletion request for the provider to review.</p><button class="toolbtn" data-tool="request">Open request history</button></article>
