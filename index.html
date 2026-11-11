@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#071326">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <meta name="description" content="RecoveryX + DeleteX — private account recovery and data deletion organizer.">
 <title>RecoveryX + DeleteX | Private Workspace</title>
-<link rel="stylesheet" href="style.css?v=2">
-<script defer src="app.js?v=2"></script>
+<link rel="stylesheet" href="style.css?v=3">
+<script defer src="app.js?v=3"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -19,11 +20,13 @@
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
     <a class="nav-link" href="#checklist" data-page="checklist"><span class="nav-icon">☑</span>Privacy checklist</a>
+    <a class="nav-link" href="#calendar" data-page="calendar"><span class="nav-icon">▦</span>Follow-up calendar</a>
+    <a class="nav-link" href="#reports" data-page="reports"><span class="nav-icon">▤</span>Reports & export</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
   </nav>
   <div class="sidebar-card"><span class="shield">◇</span><strong>Your data stays on this device</strong><span>Saved in this browser only. No passwords or OTPs needed.</span></div>
-  <div class="sidebar-bottom"><span class="status-dot"></span> LOCAL WORKSPACE <span class="version">v2.0</span></div>
+  <div class="sidebar-bottom"><span class="status-dot"></span> LOCAL WORKSPACE <span class="version">v3.0</span></div>
 </aside>
 <main class="main-content">
 <header class="topbar">
@@ -82,6 +85,17 @@
   <section class="panel checklist-panel"><div id="checklistItems"></div><div class="checklist-footer"><span id="checklistProgress">0 of 8 completed</span><button class="button button-secondary" id="resetChecklist">Reset checklist</button></div><div class="progress-track"><div id="checklistBar"></div></div></section>
 </section>
 
+<section class="page-section" id="calendar">
+  <div class="page-heading"><div><span class="eyebrow">STAY ON TRACK</span><h1>Follow-up calendar</h1><p>Upcoming dates from your recovery and deletion records.</p></div></div>
+  <section class="panel"><div class="panel-heading"><div><span class="eyebrow">SCHEDULED ACTIONS</span><h2>Upcoming follow-ups</h2></div></div><div id="calendarList" class="activity-list"><div class="empty-state">No follow-up dates scheduled yet.</div></div></section>
+</section>
+
+<section class="page-section" id="reports">
+  <div class="page-heading"><div><span class="eyebrow">YOUR WORKSPACE OVERVIEW</span><h1>Reports & export</h1><p>Review your records and create a printable summary or spreadsheet.</p></div></div>
+  <div class="stats-grid"><article class="stat-card"><div class="stat-label">RECOVERY RECORDS</div><strong class="stat-value" id="reportRecovery">0</strong></article><article class="stat-card"><div class="stat-label">DELETION REQUESTS</div><strong class="stat-value" id="reportDeletion">0</strong></article><article class="stat-card"><div class="stat-label">FOLLOW-UPS DUE</div><strong class="stat-value" id="reportDue">0</strong></article><article class="stat-card"><div class="stat-label">ACTIVITY ENTRIES</div><strong class="stat-value" id="reportActivity">0</strong></article></div>
+  <section class="panel report-actions"><h2>Export your report</h2><p>CSV opens in spreadsheet apps. PDF uses your browser's print dialog—choose “Save as PDF”.</p><div class="settings-actions"><button class="button button-primary" id="csvExportBtn">↓ Export CSV</button><button class="button button-secondary" id="pdfExportBtn">▤ Save report as PDF</button></div></section>
+</section>
+
 <section class="page-section" id="activity">
   <div class="page-heading"><div><span class="eyebrow">LOCAL AUDIT TRAIL</span><h1>Activity history</h1><p>Recent changes recorded in this browser.</p></div><button class="button button-secondary" id="clearActivityBtn">Clear history</button></div>
   <section class="panel"><div id="activityList" class="activity-list"></div></section>
@@ -91,8 +105,10 @@
   <div class="page-heading"><div><span class="eyebrow">PREFERENCES & DATA</span><h1>Settings</h1><p>Manage your local workspace and personal data.</p></div></div>
   <div class="settings-grid">
     <section class="panel settings-card"><span class="eyebrow">BACKUP & RESTORE</span><h2>Your workspace data</h2><p>Export a JSON backup to keep a copy of your records, or restore a backup file on this device.</p><div class="settings-actions"><button class="button button-primary" id="exportBtn">↓ Export backup</button><label class="button button-secondary file-button">↑ Restore backup<input id="importFile" type="file" accept="application/json,.json"></label></div><small class="field-hint">Backups may contain personal notes. Keep the file private.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">INSTALL APP</span><h2>Install on this device</h2><p>Add RecoveryX + DeleteX to your Android home screen for an app-like experience. Works offline after the first successful load where supported.</p><button class="button button-secondary" id="installAppBtn" disabled>＋ Install app</button><small class="field-hint" id="installHint">Use your browser menu → Add to Home screen if no install prompt appears.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">CLOUD BACKUP ROADMAP</span><h2>Supabase cloud sync</h2><p>This edition keeps records in this browser. Multi-device sync needs a Supabase project, user authentication, and database policies. No cloud connection is active until securely configured.</p><small class="field-hint">Never paste a Supabase service-role key into a public website. Use only a publishable/anon key with Row Level Security and authenticated users.</small></section>
     <section class="panel settings-card"><span class="eyebrow">LOCAL DATA</span><h2>Clear this workspace</h2><p>Remove locally stored records, deletion requests, checklist progress, and activity history from this browser.</p><button class="button button-danger" id="clearAllBtn">Clear all local data</button><small class="field-hint">This cannot be undone unless you have an exported backup.</small></section>
-    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>RecoveryX + DeleteX</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 2.0 · Data is stored locally in this browser.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>RecoveryX + DeleteX</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.0 · Data is stored locally in this browser.</small></section>
   </div>
 </section>
 </div>
@@ -105,6 +121,7 @@
   <label class="field">Account label<input id="recordName" maxlength="80" required placeholder="e.g. My personal Facebook"></label>
   <label class="field">Platform<select id="recordPlatform" required><option value="">Choose platform</option><option>Facebook</option><option>Instagram</option><option>Gmail</option><option>TikTok</option><option>Other</option></select></label>
   <label class="field">Issue / recovery notes<textarea id="recordIssue" rows="3" maxlength="500" placeholder="Describe the issue and steps already tried. Do not enter passwords or codes."></textarea></label>
+  <label class="field">Follow-up date (optional)<input id="recordFollowup" type="date"></label>
   <label class="field">Status<select id="recordStatus"><option>Pending</option><option>In Review</option><option>Recovered</option><option>Closed</option></select></label>
   <div class="modal-actions"><button type="button" class="button button-secondary" id="cancelRecordDialog">Cancel</button><button type="submit" class="button button-primary">Save record</button></div>
 </form></dialog>
@@ -114,6 +131,7 @@
   <label class="field">Service / provider name<input id="deleteProvider" maxlength="100" required placeholder="e.g. Service provider"></label>
   <label class="field">Request date<input id="deleteDate" type="date" required></label>
   <label class="field">Status<select id="deleteStatus"><option>Draft</option><option>Request submitted</option><option>Provider reviewing</option><option>Identity verification</option><option>Deletion confirmed</option><option>Partially retained</option><option>Request declined</option></select></label>
+  <label class="field">Follow-up date (optional)<input id="deleteFollowup" type="date"></label>
   <label class="field">Notes<textarea id="deleteNotes" rows="3" maxlength="500" placeholder="Add reference notes only. Never enter passwords, OTPs, or ID numbers."></textarea></label>
   <div class="modal-actions"><button type="button" class="button button-secondary" id="cancelDeletionDialog">Cancel</button><button type="submit" class="button button-primary">Save request</button></div>
 </form></dialog>

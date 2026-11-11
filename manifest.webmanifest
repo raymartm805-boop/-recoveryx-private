@@ -1,10 +1,23 @@
 {
-  "name": "RecoveryX Private Portal",
+  "name": "RecoveryX + DeleteX",
   "short_name": "RecoveryX",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "./#dashboard",
   "display": "standalone",
-  "background_color": "#050d1c",
-  "theme_color": "#06152d",
-  "description": "Local account assistance record organizer"
+  "background_color": "#071326",
+  "theme_color": "#071326",
+  "description": "Private account recovery and privacy request organizer",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
