@@ -1,0 +1,114 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+header {
+    background: #ffffff;
+    padding: 22px 0;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px #0000000a;
+}
+
+h1 {
+    color: #2563eb;
+    font-size: 26px;
+}
+
+h2 {
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+p {
+    color: #64748b;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 22px;
+    border-radius: 14px;
+    margin: 22px 0;
+    box-shadow: 0 4px 15px #0000000a;
+}
+
+button {
+    color: #ffffff;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+/* System button */
+#checkSystem {
+    background: #16a34a;
+}
+
+/* Profile checker */
+#detectionForm button {
+    background: #2563eb;
+}
+
+/* Recovery request */
+#recoveryForm button {
+    background: #9333ea;
+}
+
+button:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    margin: 9px 0 16px;
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+}
+
+input:focus, select:focus {
+    outline: 2px solid #93c5fd;
+    border-color: #2563eb;
+}
+
+label {
+    font-weight: bold;
+    color: #334155;
+}
+
+.result {
+    background: #eff6ff;
+    padding: 16px;
+    margin-top: 18px;
+    border-radius: 10px;
+    border: 1px solid #bfdbfe;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 0;
+    border-top: 1px solid #e2e8f0;
+}
