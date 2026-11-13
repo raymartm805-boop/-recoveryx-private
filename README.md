@@ -28,3 +28,10 @@ VERIFICATION CENTER
 - Verification profile details, case notes, and checklist state are stored in this browser's local storage. Treat exported JSON files as private.
 - The module does not submit verification requests, access provider systems, or guarantee account restoration. Users must submit through official provider channels.
 - Never enter passwords, OTPs, backup codes, or full ID numbers into the workspace.
+
+
+RECOVERY ASSISTANT
+- `recovery-assistant.js` adds a guided plan for Facebook, Instagram, Gmail, and TikTok account access problems.
+- The assistant creates suggested next steps and an editable appeal-message draft based on the user's selected issue. Plans can be saved in the current browser.
+- It links to official provider support pages. It does not log in, bypass security checks, submit appeals, contact providers, or change account status. Only the provider can verify ownership and restore access.
+- Answers and drafts are processed in the browser. Never enter passwords, OTPs, backup codes, full ID numbers, or private recovery links.
