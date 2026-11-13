@@ -1,6 +1,6 @@
 {
-  "name": "RecoveryX + DeleteX",
-  "short_name": "RecoveryX",
+  "name": "IPPOXRECOVERY",
+  "short_name": "IPPOXRECOVERY",
   "start_url": "./#dashboard",
   "display": "standalone",
   "background_color": "#071326",
