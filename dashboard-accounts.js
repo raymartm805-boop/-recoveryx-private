@@ -98,7 +98,7 @@
     <div class="rx-tools">
       <input class="rx-search" id="rxAccountSearch" type="search" placeholder="⌕  Search accounts..." aria-label="Search accounts">
       <select class="rx-filter" id="rxPlatformFilter" aria-label="Filter platform"><option value="all">All platforms</option><option>Facebook</option><option>Instagram</option><option>Gmail</option><option>TikTok</option><option>Other</option></select>
-      <select class="rx-filter" id="rxStatusFilter" aria-label="Filter status"><option value="all">All statuses</option><option>Pending Review</option><option>In Review</option><option>Recovered</option><option>Closed</option><option>Deleted</option></select>
+      <select class="rx-filter" id="rxStatusFilter" aria-label="Filter status"><option value="all">All statuses</option><option>Pending Review</option><option>In Review</option><option>Recovered</option><option>Permanently Recovered</option><option>Closed</option><option>Deleted</option></select>
       <select class="rx-filter" id="rxSort" aria-label="Sort accounts"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="name">Name A–Z</option></select>
     </div>
     <div class="rx-table-wrap"><table><thead><tr><th>Account / Username</th><th>Platform</th><th>Status</th><th>Updated</th><th>Description / Notes</th><th>Action</th></tr></thead><tbody id="rxAccountRows"></tbody></table></div>
@@ -113,7 +113,7 @@
     $("rxTotal").textContent=all.length;
     $("rxPending").textContent=all.filter(x=>x.status==="Pending Review").length;
     $("rxReview").textContent=all.filter(x=>x.status==="In Review").length;
-    $("rxRecovered").textContent=all.filter(x=>x.status==="Recovered").length;
+    $("rxRecovered").textContent=all.filter(x=>["Recovered","Permanently Recovered"].includes(x.status)).length;
     const q=search.value.trim().toLowerCase();
     let list=all.filter(x=>[x.name,x.platform,x.status,x.notes,x.id].join(" ").toLowerCase().includes(q))
       .filter(x=>platform.value==="all"||x.platform===platform.value)
