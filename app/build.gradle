@@ -30,8 +30,12 @@ android {
         }
     }
 
-    dependencies {\n        implementation 'com.google.mlkit:text-recognition:16.0.1'\n    }\n\n    compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+}
+
+dependencies {
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
 }
