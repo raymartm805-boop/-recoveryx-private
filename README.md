@@ -4,6 +4,7 @@ FILES
 - index.html
 - style.css
 - app.js
+- cloud-sync.js
 
 INSTALLATION
 1. Extract this ZIP file.
@@ -14,7 +15,7 @@ INSTALLATION
 
 IMPORTANT
 - This is a front-end account-assistance record organizer, not an account recovery service.
-- Account/profile records are stored only in the visitor's browser local storage.
+- Recovery records can be synced to the visitor's private cloud account after email/password sign-in; other workspace data remains in browser local storage.
 - The support form is local-only and does not send messages to a server.
 - Do not collect or enter passwords, OTPs, backup codes, or private recovery links.
 - Official recovery resources are linked from the Recovery Tools page.
