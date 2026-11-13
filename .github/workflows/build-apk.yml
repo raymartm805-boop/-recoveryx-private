@@ -12,6 +12,7 @@ on:
       - 'dashboard-accounts.js'
       - 'meta-connection.js'
       - 'verification-center.js'
+      - 'recovery-assistant.js'
       - 'icon-192.png'
       - 'icon-512.png'
       - 'app/**'
@@ -49,7 +50,7 @@ jobs:
       - name: Prepare app web assets
         run: |
           mkdir -p app/src/main/assets/public
-          cp index.html style.css app.js cloud-sync.js dashboard-accounts.js meta-connection.js verification-center.js app/src/main/assets/public/
+          cp index.html style.css app.js cloud-sync.js dashboard-accounts.js meta-connection.js verification-center.js recovery-assistant.js app/src/main/assets/public/
           cp manifest.webmanifest icon-192.png icon-512.png app/src/main/assets/public/
 
       - name: Set up Gradle
