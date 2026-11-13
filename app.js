@@ -7,7 +7,7 @@ const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));ret
 let recovery=safeRead(KEYS.recovery,null),deletions=safeRead(KEYS.deletion,null),activity=safeRead(KEYS.activity,[]),checks=safeRead(KEYS.checklist,[]);
 if(!Array.isArray(recovery)){
   const legacy=safeRead("rx_records_v5",[]);
-  recovery=Array.isArray(legacy)?legacy.map(x=>({id:String(x.id||"RX-"+Date.now()),name:String(x.name||"Untitled record"),platform:["Facebook","Instagram","Gmail","TikTok","Other"].includes(x.platform)?x.platform:"Other",issue:String(x.issue||""),followup:x.followup||"",status:["Pending","In Review","Recovered","Closed"].includes(x.status)?x.status:"Pending",createdAt:x.createdAt||new Date().toISOString(),updatedAt:x.updatedAt||x.createdAt||new Date().toISOString()})):[];
+  recovery=Array.isArray(legacy)?legacy.map(x=>({id:String(x.id||"RX-"+Date.now()),name:String(x.name||"Untitled record"),platform:["Facebook","Instagram","Gmail","TikTok","Other"].includes(x.platform)?x.platform:"Other",issue:String(x.issue||""),followup:x.followup||"",status:["Pending","In Review","Recovered","Permanently Recovered","Closed"].includes(x.status)?x.status:"Pending",createdAt:x.createdAt||new Date().toISOString(),updatedAt:x.updatedAt||x.createdAt||new Date().toISOString()})):[];
   if(recovery.length)try{localStorage.setItem(KEYS.recovery,JSON.stringify(recovery))}catch(_){}
 }
 if(!Array.isArray(deletions)){
