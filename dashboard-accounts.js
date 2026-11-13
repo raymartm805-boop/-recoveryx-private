@@ -17,7 +17,7 @@
   const statusLabel = value => value==="Pending" ? "Pending Review" : value || "Pending Review";
   const statusClass = value => {
     const s=statusLabel(value).toLowerCase();
-    if (s==="recovered" || s==="closed" || s==="deleted") return "rx-good";
+    if (s==="recovered" || s==="permanently recovered" || s==="closed" || s==="deleted") return "rx-good";
     if (s.includes("review")) return "rx-review";
     if (s==="disabled" || s.includes("declined")) return "rx-disabled";
     return "rx-pending";
