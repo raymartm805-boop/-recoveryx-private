@@ -8,7 +8,9 @@
 <title>IPPOXRECOVERY | Private Workspace</title>
 <link rel="stylesheet" href="style.css?v=3">
 
-<script defer src="app.js?v=3"></script>
+<script defer src="app.js?v=4"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
+<script defer src="cloud-sync.js?v=1"></script>
 <script defer src="dashboard-accounts.js?v=1"></script>
 <script defer src="meta-connection.js?v=1"></script>
 </head>
@@ -109,9 +111,17 @@
   <div class="settings-grid">
     <section class="panel settings-card"><span class="eyebrow">BACKUP & RESTORE</span><h2>Your workspace data</h2><p>Export a JSON backup to keep a copy of your records, or restore a backup file on this device.</p><div class="settings-actions"><button class="button button-primary" id="exportBtn">↓ Export backup</button><label class="button button-secondary file-button">↑ Restore backup<input id="importFile" type="file" accept="application/json,.json"></label></div><small class="field-hint">Backups may contain personal notes. Keep the file private.</small></section>
     <section class="panel settings-card"><span class="eyebrow">INSTALL APP</span><h2>Install on this device</h2><p>Add IPPOXRECOVERY to your Android home screen for an app-like experience. Works offline after the first successful load where supported.</p><button class="button button-secondary" id="installAppBtn" disabled>＋ Install app</button><small class="field-hint" id="installHint">Use your browser menu → Add to Home screen if no install prompt appears.</small></section>
-    <section class="panel settings-card"><span class="eyebrow">CLOUD BACKUP ROADMAP</span><h2>Supabase cloud sync</h2><p>This edition keeps records in this browser. Multi-device sync needs a Supabase project, user authentication, and database policies. No cloud connection is active until securely configured.</p><small class="field-hint">Never paste a Supabase service-role key into a public website. Use only a publishable/anon key with Row Level Security and authenticated users.</small></section>
+    <section class="panel settings-card" id="cloudSyncCard">
+      <span class="eyebrow">SECURE MULTI-DEVICE BACKUP</span><h2>Supabase cloud sync</h2>
+      <p>Sign in with your private IPPOXRECOVERY cloud account to back up recovery records and access them on another device. Facebook/Instagram passwords and OTPs are never requested or stored.</p>
+      <label class="field">Email address<input id="cloudEmail" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com"></label>
+      <label class="field">Cloud password<input id="cloudPassword" type="password" autocomplete="current-password" minlength="8" maxlength="128" placeholder="At least 8 characters"></label>
+      <div class="settings-actions"><button class="button button-primary" id="cloudSignIn" type="button">Sign in</button><button class="button button-secondary" id="cloudSignUp" type="button">Create account</button><button class="button button-secondary" id="cloudSignOut" type="button" hidden>Sign out</button></div>
+      <div class="settings-actions"><button class="button button-secondary" id="cloudSyncNow" type="button" hidden>↻ Sync now</button></div>
+      <small class="field-hint" id="cloudStatus" role="status" aria-live="polite">Not signed in. Create a cloud account or sign in to enable backup.</small>
+    </section>
     <section class="panel settings-card"><span class="eyebrow">LOCAL DATA</span><h2>Clear this workspace</h2><p>Remove locally stored records, deletion requests, checklist progress, and activity history from this browser.</p><button class="button button-danger" id="clearAllBtn">Clear all local data</button><small class="field-hint">This cannot be undone unless you have an exported backup.</small></section>
-    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>IPPOXRECOVERY</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.0 · Data is stored locally in this browser.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>IPPOXRECOVERY</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.1 · Recovery records can sync to your private cloud account.</small></section>
   </div>
 </section>
 </div>
@@ -125,7 +135,7 @@
   <label class="field">Platform<select id="recordPlatform" required><option value="">Choose platform</option><option>Facebook</option><option>Instagram</option><option>Gmail</option><option>TikTok</option><option>Other</option></select></label>
   <label class="field">Issue / recovery notes<textarea id="recordIssue" rows="3" maxlength="500" placeholder="Describe the issue and steps already tried. Do not enter passwords or codes."></textarea></label>
   <label class="field">Follow-up date (optional)<input id="recordFollowup" type="date"></label>
-  <label class="field">Status<select id="recordStatus"><option>Pending</option><option>In Review</option><option>Recovered</option><option>Closed</option></select></label>
+  <label class="field">Status<select id="recordStatus"><option>Pending</option><option>In Review</option><option>Recovered</option><option>Permanently Recovered</option><option>Closed</option></select></label>
   <div class="modal-actions"><button type="button" class="button button-secondary" id="cancelRecordDialog">Cancel</button><button type="submit" class="button button-primary">Save record</button></div>
 </form></dialog>
 
