@@ -20,3 +20,11 @@ IMPORTANT
 - Do not collect or enter passwords, OTPs, backup codes, or private recovery links.
 - Official recovery resources are linked from the Recovery Tools page.
 - 
+
+
+VERIFICATION CENTER
+- `verification-center.js` adds a Facebook identity-preparation workspace and universal recovery case tracker for Facebook, Instagram, TikTok, and Gmail.
+- The ID photo editor processes selected images locally in the browser and exports a prepared JPG or PNG; it does not upload the image or alter document text or identity details.
+- Verification profile details, case notes, and checklist state are stored in this browser's local storage. Treat exported JSON files as private.
+- The module does not submit verification requests, access provider systems, or guarantee account restoration. Users must submit through official provider channels.
+- Never enter passwords, OTPs, backup codes, or full ID numbers into the workspace.
