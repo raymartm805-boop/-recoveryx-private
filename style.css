@@ -10,3 +10,65 @@ body.light{--bg:#eef4fb;--panel:#fff;--panel2:#f5f8fc;--text:#142b46;--muted:#64
 /* V3 professional additions */
 .report-actions{margin-top:16px}.report-actions p{color:var(--muted);font-size:12px;line-height:1.6}.sidebar-bottom .version{margin-left:auto}.nav-link{gap:11px}.nav-link .nav-icon{min-width:20px;text-align:center}
 @media print{.sidebar,.topbar,footer,.page-heading button,.toast{display:none!important}.main-content{margin:0!important}.page-section{display:block!important}.panel,.stat-card{break-inside:avoid}}
+
+
+/* MALWARE BYPASSING TOOLS — dark red horror rebrand */
+:root{--bg:#080303;--panel:#150808;--panel2:#210b0b;--line:rgba(255,45,45,.22);--blue:#ed2028;--cyan:#ff4545;--green:#e04a4a;--purple:#a52a35;--amber:#e68a38;--text:#f7eeee;--muted:#b58f8f;--shadow:0 16px 42px rgba(0,0,0,.5)}
+body{background:radial-gradient(ellipse at 75% 0%,#4a090d 0,transparent 34%),#080303}
+.sidebar{background:linear-gradient(180deg,#180507,#090303 72%,#140406);border-right-color:#4b1117}
+.brand-mark{background:linear-gradient(145deg,#5a080d,#e21b2b);color:#fff;font-size:28px;box-shadow:0 0 25px #b10d244d;border:1px solid #ff4545}
+.brand-copy strong{font-size:16px;letter-spacing:.4px;color:#fff}
+.brand-copy small,.nav-heading,.eyebrow{color:#e34b55}
+.nav-link:hover{background:#310b10;color:#fff}
+.nav-link.active{background:linear-gradient(100deg,#a50918,#570710);border-color:#ed303e;box-shadow:0 7px 24px #b0002440}
+.sidebar-card{border-color:#701622;background:linear-gradient(145deg,#310a10,#130407)}
+.shield{color:#ffb4b4;background:#5b0b16;border-color:#f23b4c}
+.sidebar-bottom{color:#bd888d}
+.status-dot,.topbar-status i{background:#ff3548;box-shadow:0 0 12px #ff3548}
+.main-content{background:transparent}
+.topbar{background:rgba(12,3,5,.92);border-bottom-color:#4b1117}
+.topbar-status{color:#ff6670}
+.theme-toggle,.avatar,.menu-toggle{background:#26090d;border-color:#70202b;color:#fff}
+.avatar{background:linear-gradient(145deg,#b10d22,#4a0710)}
+.welcome-banner{border-color:#701622;background:radial-gradient(circle at 78% 50%,#8b101d55,transparent 30%),linear-gradient(115deg,#350910,#140508 65%,#26070d)}
+.welcome-banner h1 em{color:#ff4b58}
+.core-shield{background:linear-gradient(145deg,#ff3447,#650713);box-shadow:0 0 55px #e21b2b77}
+.core-shield .core-x{color:#ffe0e0;text-shadow:0 0 20px #ff8b94}
+.orbit{border-color:#ff667055}.orbit-dot{background:#ff4b58;box-shadow:0 0 20px #ff4b58}
+.button-primary{background:linear-gradient(100deg,#d7192b,#780b18);box-shadow:0 7px 20px #c20d2938}
+.button-secondary{color:#f3d8da;background:#2a0c11;border-color:#6b202b}
+.button-danger,.delete-btn{color:#ffc2c7;background:#4b101a;border-color:#a52b3b}
+.panel,.stat-card,.resource-card{background:#15080b;border-color:#4b171e}
+.stat-icon.blue,.quick-icon.blue{background:#4a0e17;color:#ff7b86}
+.stat-icon.green,.quick-icon.green{background:#3b1015;color:#ff9da4}
+.stat-icon.purple,.quick-icon.purple{background:#351018;color:#f18b98}
+.stat-icon.amber{background:#3b1b0c;color:#ffb16c}
+.stat-card small,.activity-copy span,.activity-copy time{color:#b58f95}
+.quick-action{border-color:#42151c;background:#19090d;color:#f6e8e9}
+.quick-action:hover{border-color:#a52b3b;background:#260a10}
+.quick-action>b{color:#ff6670}
+.notice{border-color:#6a202b;background:#22090e;color:#f5dfe1}
+.notice p{color:#c49da1}
+.search-box,.toolbar select,.field input,.field select,.field textarea{border-color:#55202a;background:#0d0507;color:#f7eeee}
+.search-box span{color:#ff6b76}
+th{color:#ef9299;background:#1c080d}
+th,td{border-bottom-color:#40151d}
+tbody tr:hover{background:#260b11}
+.status-review{background:#3d101b;color:#ff9aa4}
+.status-pending{background:#48240d;color:#ffc17e}
+.status-completed{background:#3a1018;color:#ff9da5}
+.status-closed{background:#321019;color:#e7a6b0}
+.resource-card:hover{border-color:#e52b3c}
+.resource-logo{background:#2b0c12}
+.check-item{border-bottom-color:#40151d;color:#f0dfe1}
+.check-item input{accent-color:#e21b2b}
+.progress-track{background:#3a1119}.progress-track>div{background:linear-gradient(90deg,#a50918,#ff4b58)}
+.settings-card p{color:#c49da1}
+.modal{border-color:#6b202b;background:#16070b}
+.modal::backdrop{background:#020000dc}
+.modal-close{color:#d5a9ad}
+.field{color:#e4c4c7}
+.field input:focus,.field select:focus,.field textarea:focus,.toolbar select:focus,.search-box:focus-within{border-color:#ff4657;box-shadow:0 0 0 3px #ed202820}
+.toast{border-color:#9a2636;background:#2b0b12;color:#fff0f1}
+footer{color:#9e777d}footer span{color:#ff5362}
+body.light{--bg:#f5eeee;--panel:#fff;--panel2:#f8eeee;--text:#301014;--muted:#805b60;--line:rgba(140,20,35,.2);background:#f5eeee;color:#301014}
