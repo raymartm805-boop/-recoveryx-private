@@ -11,6 +11,15 @@
     "Google / Gmail": "https://accounts.google.com/signin/recovery",
     "TikTok": "https://support.tiktok.com/en/log-in-troubleshoot"
   };
+  $("unlockPhotoRemove").addEventListener("click", () => {
+    if (photoUrl) URL.revokeObjectURL(photoUrl);
+    photoUrl = "";
+    $("unlockPhoto").value = "";
+    $("unlockPhotoPreview").removeAttribute("src");
+    $("unlockPhotoPreview").hidden = true;
+    $("unlockPhotoFallback").hidden = false;
+    $("unlockPhotoRemove").hidden = true;
+  });
   $("unlockPhoto").addEventListener("change", e => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
@@ -24,6 +33,7 @@
     $("unlockPhotoPreview").src = photoUrl;
     $("unlockPhotoPreview").hidden = false;
     $("unlockPhotoFallback").hidden = true;
+    $("unlockPhotoRemove").hidden = false;
   });
   $("unlockPlatform").addEventListener("change", e => {
     selectedPlatform = e.target.value;
