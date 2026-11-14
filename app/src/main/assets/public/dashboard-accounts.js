@@ -91,47 +91,36 @@
     </div>
     <div class="rx-stats" aria-live="polite">
       <article class="rx-stat"><span>Total Accounts</span><strong id="rxTotal">0</strong></article>
-      <article class="rx-stat"><span>Pending Review</span><strong id="rxPending">0</strong></article>
-      <article class="rx-stat"><span>In Review</span><strong id="rxReview">0</strong></article>
-      <article class="rx-stat"><span>Recovered</span><strong id="rxRecovered">0</strong></article>
     </div>
     <div class="rx-tools">
       <input class="rx-search" id="rxAccountSearch" type="search" placeholder="⌕  Search accounts..." aria-label="Search accounts">
       <select class="rx-filter" id="rxPlatformFilter" aria-label="Filter platform"><option value="all">All platforms</option><option>Facebook</option><option>Instagram</option><option>Gmail</option><option>TikTok</option><option>Other</option></select>
-      <select class="rx-filter" id="rxStatusFilter" aria-label="Filter status"><option value="all">All statuses</option><option>Pending Review</option><option>In Review</option><option>Recovered</option><option>Permanently Recovered</option><option>Closed</option><option>Deleted</option></select>
       <select class="rx-filter" id="rxSort" aria-label="Sort accounts"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="name">Name A–Z</option></select>
     </div>
-    <div class="rx-table-wrap"><table><thead><tr><th>Account / Username</th><th>Platform</th><th>Status</th><th>Updated</th><th>Description / Notes</th><th>Action</th></tr></thead><tbody id="rxAccountRows"></tbody></table></div>
-    <div class="rx-foot">Status and descriptions reflect records saved in this device only. This dashboard does not connect to Meta or verify recovery automatically.</div>
+    <div class="rx-table-wrap"><table><thead><tr><th>Account / Username</th><th>Platform</th><th>Updated</th><th>Action</th></tr></thead><tbody id="rxAccountRows"></tbody></table></div>
   `;
   const grid=dashboard.querySelector(".dashboard-grid");
   if(grid)dashboard.insertBefore(section,grid);else dashboard.appendChild(section);
   const $=id=>section.querySelector("#"+id);
-  const search=$("rxAccountSearch"),platform=$("rxPlatformFilter"),status=$("rxStatusFilter"),sort=$("rxSort"),rows=$("rxAccountRows");
+  const search=$("rxAccountSearch"),platform=$("rxPlatformFilter"),sort=$("rxSort"),rows=$("rxAccountRows");
   function render(){
     const all=records();
     $("rxTotal").textContent=all.length;
-    $("rxPending").textContent=all.filter(x=>x.status==="Pending Review").length;
-    $("rxReview").textContent=all.filter(x=>x.status==="In Review").length;
-    $("rxRecovered").textContent=all.filter(x=>["Recovered","Permanently Recovered"].includes(x.status)).length;
     const q=search.value.trim().toLowerCase();
-    let list=all.filter(x=>[x.name,x.platform,x.status,x.notes,x.id].join(" ").toLowerCase().includes(q))
-      .filter(x=>platform.value==="all"||x.platform===platform.value)
-      .filter(x=>status.value==="all"||x.status===status.value);
+    let list=all.filter(x=>[x.name,x.platform,x.id].join(" ").toLowerCase().includes(q))
+      .filter(x=>platform.value==="all"||x.platform===platform.value);
     if(sort.value==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
     else list.sort((a,b)=>String(a.updated).localeCompare(String(b.updated))*(sort.value==="oldest"?1:-1));
     rows.innerHTML=list.length?list.map(x=>`<tr>
       <td><div class="rx-name">${esc(x.name)}</div><div class="rx-muted">${esc(x.id)}</div></td>
       <td>${esc(x.platform)}</td>
-      <td><span class="rx-pill ${statusClass(x.status)}">${esc(x.status)}</span></td>
       <td>${date(x.updated)}</td>
-      <td><div class="rx-muted" title="${esc(x.notes)}">${esc(x.notes||"No description added")}</div></td>
       <td><button class="rx-view" type="button" data-rx-view="1">View records</button></td>
-    </tr>`).join(""):'<tr><td colspan="6" class="rx-empty">No matching account records. Use “Add Account” to create your first record.</td></tr>';
+    </tr>`).join(""):'<tr><td colspan="4" class="rx-empty">No matching account records. Use “Add Account” to create your first record.</td></tr>';
   }
   $("rxAddAccount").addEventListener("click",()=>document.getElementById("addRecoveryBtn")?.click());
   rows.addEventListener("click",e=>{if(e.target.closest("[data-rx-view]"))document.querySelector('[data-page="recovery"]')?.click()});
-  search.addEventListener("input",render);platform.addEventListener("change",render);status.addEventListener("change",render);sort.addEventListener("change",render);
+  search.addEventListener("input",render);platform.addEventListener("change",render);sort.addEventListener("change",render);
   document.addEventListener("click",()=>setTimeout(render,0));
   document.addEventListener("change",()=>setTimeout(render,0));
   document.addEventListener("submit",()=>setTimeout(render,0),true);
