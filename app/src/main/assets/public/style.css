@@ -72,3 +72,8 @@ tbody tr:hover{background:#260b11}
 .toast{border-color:#9a2636;background:#2b0b12;color:#fff0f1}
 footer{color:#9e777d}footer span{color:#ff5362}
 body.light{--bg:#f5eeee;--panel:#fff;--panel2:#f8eeee;--text:#301014;--muted:#805b60;--line:rgba(140,20,35,.2);background:#f5eeee;color:#301014}
+
+/* BYPASSING TOOLS: keep internal status/notes data while hiding those fields in the interface. */
+#recovery .toolbar #recoveryStatusFilter,#deletion .toolbar #deletionStatusFilter{display:none!important}
+#recovery .table-wrapper th:nth-child(3),#recovery .table-wrapper td:nth-child(3),#recovery .table-wrapper th:nth-child(4),#recovery .table-wrapper td:nth-child(4),#deletion .table-wrapper th:nth-child(3),#deletion .table-wrapper td:nth-child(3),#deletion .table-wrapper th:nth-child(4),#deletion .table-wrapper td:nth-child(4){display:none!important}
+#recordForm label:has(#recordIssue),#recordForm label:has(#recordStatus),#deletionForm label:has(#deleteStatus),#deletionForm label:has(#deleteNotes){display:none!important}
