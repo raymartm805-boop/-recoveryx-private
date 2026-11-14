@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090303">
 <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
-<meta name="description" content="MALWARE BYPASSING TOOLS — dark-themed account assistance and security analysis workspace.">
-<title>MALWARE BYPASSING TOOLS</title>
+<meta name="description" content="BYPASSING TOOLS — dark-themed account assistance and security analysis workspace.">
+<title>BYPASSING TOOLS</title>
 <link rel="stylesheet" href="style.css?v=3">
 
 <script defer src="app.js?v=5"></script>
@@ -20,7 +20,7 @@
 <body>
 <div class="app-shell">
 <aside class="sidebar" id="sidebar">
-  <a class="brand" href="#dashboard"><span class="brand-mark">☠</span><span class="brand-copy"><strong>MALWARE</strong><small>BYPASSING TOOLS</small></span></a>
+  <a class="brand" href="#dashboard"><span class="brand-mark">☠</span><span class="brand-copy"><strong>BYPASSING</strong><small>TOOLS</small></span></a>
   <div class="nav-heading">WORKSPACE</div>
   <nav class="navigation" aria-label="Main navigation">
     <a class="nav-link active" href="#dashboard" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</a>
@@ -63,7 +63,7 @@
 </section>
 
 <section class="page-section" id="recovery">
-  <div class="page-heading"><div><span class="eyebrow">MALWARE BYPASSING TOOLS</span><h1>Recovery records</h1><p>Keep track of accounts, issues, and the steps you've taken.</p></div><button class="button button-primary" id="addRecoveryBtn">＋ Add record</button></div>
+  <div class="page-heading"><div><span class="eyebrow">BYPASSING TOOLS</span><h1>Recovery records</h1><p>Keep track of accounts, issues, and the steps you've taken.</p></div><button class="button button-primary" id="addRecoveryBtn">＋ Add record</button></div>
   <section class="panel"><div class="toolbar"><label class="search-box"><span>⌕</span><input id="recoverySearch" type="search" placeholder="Search records..." aria-label="Search recovery records"></label><select id="recoveryPlatformFilter" aria-label="Filter by platform"><option value="all">All platforms</option><option>Facebook</option><option>Instagram</option><option>Gmail</option><option>TikTok</option><option>Other</option></select><select id="recoveryStatusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option>Pending</option><option>In Review</option><option>Recovered</option><option>Permanently Recovered</option><option>Closed</option></select></div>
   <div class="table-wrapper"><table><thead><tr><th>ACCOUNT / LABEL</th><th>PLATFORM</th><th>ISSUE</th><th>STATUS</th><th>UPDATED</th><th>ACTIONS</th></tr></thead><tbody id="recoveryTableBody"></tbody></table></div></section>
 </section>
@@ -113,10 +113,10 @@
   <div class="page-heading"><div><span class="eyebrow">PREFERENCES & DATA</span><h1>Settings</h1><p>Manage your local workspace and personal data.</p></div></div>
   <div class="settings-grid">
     <section class="panel settings-card"><span class="eyebrow">BACKUP & RESTORE</span><h2>Your workspace data</h2><p>Export a JSON backup to keep a copy of your records, or restore a backup file on this device.</p><div class="settings-actions"><button class="button button-primary" id="exportBtn">↓ Export backup</button><label class="button button-secondary file-button">↑ Restore backup<input id="importFile" type="file" accept="application/json,.json"></label></div><small class="field-hint">Backups may contain personal notes. Keep the file private.</small></section>
-    <section class="panel settings-card"><span class="eyebrow">INSTALL APP</span><h2>Install on this device</h2><p>Add IPPOXRECOVERY to your Android home screen for an app-like experience. Works offline after the first successful load where supported.</p><button class="button button-secondary" id="installAppBtn" disabled>＋ Install app</button><small class="field-hint" id="installHint">Use your browser menu → Add to Home screen if no install prompt appears.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">INSTALL APP</span><h2>Install on this device</h2><p>Add BYPASSING TOOLS to your Android home screen for an app-like experience. Works offline after the first successful load where supported.</p><button class="button button-secondary" id="installAppBtn" disabled>＋ Install app</button><small class="field-hint" id="installHint">Use your browser menu → Add to Home screen if no install prompt appears.</small></section>
     <section class="panel settings-card" id="cloudSyncCard">
       <span class="eyebrow">SECURE MULTI-DEVICE BACKUP</span><h2>Supabase cloud sync</h2>
-      <p>Sign in with your private IPPOXRECOVERY cloud account to back up recovery records and access them on another device. Facebook/Instagram passwords and OTPs are never requested or stored.</p>
+      <p>Sign in with your private BYPASSING TOOLS cloud account to back up recovery records and access them on another device. Facebook/Instagram passwords and OTPs are never requested or stored.</p>
       <label class="field">Email address<input id="cloudEmail" type="email" autocomplete="email" maxlength="254" placeholder="you@example.com"></label>
       <label class="field">Cloud password<input id="cloudPassword" type="password" autocomplete="current-password" minlength="8" maxlength="128" placeholder="At least 8 characters"></label>
       <div class="settings-actions"><button class="button button-primary" id="cloudSignIn" type="button">Sign in</button><button class="button button-secondary" id="cloudSignUp" type="button">Create account</button><button class="button button-secondary" id="cloudSignOut" type="button" hidden>Sign out</button></div>
@@ -124,11 +124,11 @@
       <small class="field-hint" id="cloudStatus" role="status" aria-live="polite">Not signed in. Create a cloud account or sign in to enable backup.</small>
     </section>
     <section class="panel settings-card"><span class="eyebrow">LOCAL DATA</span><h2>Clear this workspace</h2><p>Remove locally stored records, deletion requests, checklist progress, and activity history from this browser.</p><button class="button button-danger" id="clearAllBtn">Clear all local data</button><small class="field-hint">This cannot be undone unless you have an exported backup.</small></section>
-    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>IPPOXRECOVERY</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.1 · Recovery records can sync to your private cloud account.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>BYPASSING TOOLS</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.1 · Recovery records can sync to your private cloud account.</small></section>
   </div>
 </section>
 </div>
-<footer>IPPOXRECOVERY <span>·</span> Private account & privacy workspace</footer>
+<footer>BYPASSING TOOLS <span>·</span> Private account & privacy workspace</footer>
 </main>
 </div>
 
