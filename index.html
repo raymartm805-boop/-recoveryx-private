@@ -7,6 +7,7 @@
 <meta name="description" content="BYPASSING TOOLS — account assistance, recovery guidance, and secure case tracking workspace.">
 <title>BYPASSING TOOLS</title>
 <link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="account-unlock.css?v=1">
 
 <script defer src="app.js?v=5"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
@@ -16,6 +17,7 @@
 <script defer src="verification-center.js?v=1"></script>
 <script defer src="recovery-assistant.js?v=1"></script>
 <script defer src="account-problem-scanner.js?v=7"></script>
+<script defer src="account-unlock.js?v=1"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -28,7 +30,7 @@
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
     <a class="nav-link" href="#checklist" data-page="checklist"><span class="nav-icon">☑</span>Privacy checklist</a>
-    <a class="nav-link" href="#calendar" data-page="calendar"><span class="nav-icon">▦</span>Follow-up calendar</a>
+    <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>
     <a class="nav-link" href="#reports" data-page="reports"><span class="nav-icon">▤</span>Reports & export</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
@@ -93,9 +95,23 @@
   <section class="panel checklist-panel"><div id="checklistItems"></div><div class="checklist-footer"><span id="checklistProgress">0 of 8 completed</span><button class="button button-secondary" id="resetChecklist">Reset checklist</button></div><div class="progress-track"><div id="checklistBar"></div></div></section>
 </section>
 
-<section class="page-section" id="calendar">
-  <div class="page-heading"><div><span class="eyebrow">STAY ON TRACK</span><h1>Follow-up calendar</h1><p>Upcoming dates from your recovery and deletion records.</p></div></div>
-  <section class="panel"><div class="panel-heading"><div><span class="eyebrow">SCHEDULED ACTIONS</span><h2>Upcoming follow-ups</h2></div></div><div id="calendarList" class="activity-list"><div class="empty-state">No follow-up dates scheduled yet.</div></div></section>
+<section class="page-section" id="unlock">
+  <div class="page-heading"><div><span class="eyebrow">ACCOUNT DIAGNOSTICS</span><h1>UNLOCK FULL ACCESS</h1><p>Review an account's access issue and prepare the correct official recovery steps.</p></div></div>
+  <section class="unlock-profile panel">
+    <div class="unlock-avatar-wrap"><img id="unlockPhotoPreview" alt="Selected account profile photo" hidden><span id="unlockPhotoFallback">👤</span><label class="unlock-photo-button" for="unlockPhoto">＋</label><input id="unlockPhoto" type="file" accept="image/*" hidden></div>
+    <div class="unlock-profile-fields"><label class="field">Account name<input id="unlockAccountName" maxlength="80" placeholder="Enter account owner's name"></label><label class="field">Platform<select id="unlockPlatform"><option value="">Choose platform</option><option>Facebook</option><option>Instagram</option><option>Google / Gmail</option><option>TikTok</option><option>Other</option></select></label><div class="unlock-ref">RECOVERY REFERENCE ID <strong id="unlockReference">Generating…</strong></div></div>
+  </section>
+  <section class="unlock-analysis panel">
+    <div class="unlock-kicker">● READY TO ANALYZE</div><h2>Account access diagnostics</h2>
+    <p>Enter the exact error or restriction notice shown by the service. Do not enter passwords, OTPs, backup codes, or private recovery links.</p>
+    <label class="field">Error message / account notice<textarea id="unlockIssue" rows="3" maxlength="1200" placeholder="Paste the visible error message here…"></textarea></label>
+    <button class="button button-primary" id="unlockAnalyze" type="button">Run account check</button>
+    <div class="unlock-terminal" aria-live="polite"><div class="unlock-terminal-head"><span>LOCAL DIAGNOSTIC TERMINAL</span><span id="unlockRunState">IDLE</span></div><pre id="unlockLog">[READY] Waiting for account details…
+[SAFE] No provider login or security bypass will be attempted.</pre></div>
+    <div class="unlock-result" id="unlockResult" role="status">No diagnostic has been run yet.</div>
+    <p class="unlock-disclaimer">This tool checks the text you provide and prepares guidance only. It cannot remove platform restrictions or change an account's status. Only the account provider can approve an appeal or restore access.</p>
+    <button class="button button-secondary" id="unlockOfficialHelp" type="button" disabled>Continue to official recovery</button>
+  </section>
 </section>
 
 <section class="page-section" id="reports">
