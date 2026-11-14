@@ -35,3 +35,18 @@ RECOVERY ASSISTANT
 - The assistant creates suggested next steps and an editable appeal-message draft based on the user's selected issue. Plans can be saved in the current browser.
 - It links to official provider support pages. It does not log in, bypass security checks, submit appeals, contact providers, or change account status. Only the provider can verify ownership and restore access.
 - Answers and drafts are processed in the browser. Never enter passwords, OTPs, backup codes, full ID numbers, or private recovery links.
+
+## Android APK build
+
+The Android project is under `app/`. GitHub Actions builds an installable debug APK on pushes to `main` that touch Android source/configuration, and can also be started manually from the Actions tab.
+
+The workflow always uploads the debug APK as `IPPOXRECOVERY-debug-apk`. It uploads a signed release APK only when all four repository Actions secrets are configured:
+
+- `ANDROID_KEYSTORE_BASE64`: base64-encoded contents of the release JKS file
+- `ANDROID_KEYSTORE_PASSWORD`: keystore password
+- `ANDROID_KEY_ALIAS`: `ippoxrecovery`
+- `ANDROID_KEY_PASSWORD`: private-key password
+
+Add these under **Repository Settings → Secrets and variables → Actions**. Never commit the keystore or passwords to the repository. The release signing key must be backed up securely; losing it prevents signing compatible updates.
+
+The app uses application ID `com.ippoxrecovery.app`. A newly generated signing key will not update an installation signed with a different key; uninstalling the older app may be required and can erase its local data.
