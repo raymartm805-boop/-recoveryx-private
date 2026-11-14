@@ -12,7 +12,7 @@ body.light{--bg:#eef4fb;--panel:#fff;--panel2:#f5f8fc;--text:#142b46;--muted:#64
 @media print{.sidebar,.topbar,footer,.page-heading button,.toast{display:none!important}.main-content{margin:0!important}.page-section{display:block!important}.panel,.stat-card{break-inside:avoid}}
 
 
-/* MALWARE BYPASSING TOOLS — dark red horror rebrand */
+/* BYPASSING TOOLS — dark red horror rebrand */
 :root{--bg:#080303;--panel:#150808;--panel2:#210b0b;--line:rgba(255,45,45,.22);--blue:#ed2028;--cyan:#ff4545;--green:#e04a4a;--purple:#a52a35;--amber:#e68a38;--text:#f7eeee;--muted:#b58f8f;--shadow:0 16px 42px rgba(0,0,0,.5)}
 body{background:radial-gradient(ellipse at 75% 0%,#4a090d 0,transparent 34%),#080303}
 .sidebar{background:linear-gradient(180deg,#180507,#090303 72%,#140406);border-right-color:#4b1117}
@@ -72,3 +72,8 @@ tbody tr:hover{background:#260b11}
 .toast{border-color:#9a2636;background:#2b0b12;color:#fff0f1}
 footer{color:#9e777d}footer span{color:#ff5362}
 body.light{--bg:#f5eeee;--panel:#fff;--panel2:#f8eeee;--text:#301014;--muted:#805b60;--line:rgba(140,20,35,.2);background:#f5eeee;color:#301014}
+
+/* BYPASSING TOOLS: keep internal status/notes data while hiding those fields in the interface. */
+#recovery .toolbar #recoveryStatusFilter,#deletion .toolbar #deletionStatusFilter{display:none!important}
+#recovery .table-wrapper th:nth-child(3),#recovery .table-wrapper td:nth-child(3),#recovery .table-wrapper th:nth-child(4),#recovery .table-wrapper td:nth-child(4),#deletion .table-wrapper th:nth-child(3),#deletion .table-wrapper td:nth-child(3),#deletion .table-wrapper th:nth-child(4),#deletion .table-wrapper td:nth-child(4){display:none!important}
+#recordForm label:has(#recordIssue),#recordForm label:has(#recordStatus),#deletionForm label:has(#deleteStatus),#deletionForm label:has(#deleteNotes){display:none!important}
