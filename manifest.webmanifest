@@ -1,9 +1,9 @@
 {
-  "name": "IPPOXRECOVERY",
-  "short_name": "IPPOXRECOVERY",
+  "name": "BYPASSING TOOLS",
+  "short_name": "BYPASSING TOOLS",
   "start_url": "./#dashboard",
   "display": "standalone",
-  "background_color": "#071326",
+  "background_color": "#090303",
   "theme_color": "#071326",
   "description": "Private account recovery and privacy request organizer",
   "icons": [
