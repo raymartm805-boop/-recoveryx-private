@@ -27,7 +27,7 @@
     $("unlockBannerInitial").textContent = (name || "?").slice(0, 1).toUpperCase();
     $("unlockBannerPlatform").textContent = platform || "Select platform";
     $("unlockBannerPlatformIcon").textContent = platform === "Facebook" ? "f" : platform === "Instagram" ? "◎" : platform === "Google / Gmail" ? "G" : platform === "TikTok" ? "♪" : "•";
-    $("unlockBannerStatus").textContent = name && platform ? "PROFILE DETAILS PROVIDED" : "PROFILE DETAILS NEEDED";
+    $("unlockBannerStatus").textContent = name && platform ? "ACTIVE PROFILE" : "PROFILE DETAILS NEEDED";
     $("unlockBannerPhoto").hidden = !photoUrl;
     $("unlockBannerInitial").hidden = Boolean(photoUrl);
     if (photoUrl) $("unlockBannerPhoto").src = photoUrl;
@@ -109,6 +109,11 @@
     if (url) window.open(url, "_blank", "noopener,noreferrer");
   });
 
+  const premiumButton = $("premiumReleaseButton");
+  if (premiumButton) premiumButton.addEventListener("click", () => {
+    window.alert("Premium app access: $18.00 USD. Payment checkout is not configured yet. No payment has been taken, and this purchase cannot change the external account status.");
+  });
+
   let diagnosticComplete = false;
   $("unlockWorkspaceButton").addEventListener("click", () => {
     if (!diagnosticComplete) return;
@@ -116,7 +121,7 @@
     $("unlockWorkspaceButton").hidden = true;
     $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
     $("unlockRunState").textContent = "WORKSPACE READY";
-    $("unlockResult").textContent = "";
+    $("unlockResult").textContent = "Recovery workspace unlocked. Continue through the official provider recovery page; this app cannot change the provider's account status.";
   });
 
   $("unlockAnalyze").addEventListener("click", () => {
