@@ -29,9 +29,7 @@
     <a class="nav-link" href="#recovery" data-page="recovery"><span class="nav-icon">↗</span>Recovery records</a>
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
-    <a class="nav-link" href="#checklist" data-page="checklist"><span class="nav-icon">☑</span>Privacy checklist</a>
     <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>
-    <a class="nav-link" href="#reports" data-page="reports"><span class="nav-icon">▤</span>Reports & export</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
   </nav>
@@ -90,11 +88,6 @@
   
 </section>
 
-<section class="page-section" id="checklist">
-  <div class="page-heading"><div><span class="eyebrow">SAFETY FIRST</span><h1>Privacy checklist</h1><p>Simple steps to protect your accounts and personal information.</p></div></div>
-  <section class="panel checklist-panel"><div id="checklistItems"></div><div class="checklist-footer"><span id="checklistProgress">0 of 8 completed</span><button class="button button-secondary" id="resetChecklist">Reset checklist</button></div><div class="progress-track"><div id="checklistBar"></div></div></section>
-</section>
-
 <section class="page-section" id="unlock">
   <div class="page-heading"><div><span class="eyebrow">ACCOUNT DIAGNOSTICS</span><h1>UNLOCK FULL ACCESS</h1><p>Review an account's access issue and prepare the correct official recovery steps.</p></div></div>
   <section class="unlock-profile panel">
@@ -110,14 +103,16 @@
 [SAFE] No provider login or security bypass will be attempted.</pre></div>
     <div class="unlock-result" id="unlockResult" role="status">No diagnostic has been run yet.</div>
     <p class="unlock-disclaimer">This tool checks the text you provide and prepares guidance only. It cannot remove platform restrictions or change an account's status. Only the account provider can approve an appeal or restore access.</p>
-    <button class="button button-secondary" id="unlockOfficialHelp" type="button" disabled>Continue to official recovery</button>
+    <div class="unlock-gate" id="unlockGate">
+      <div class="unlock-gate-status"><span class="unlock-lock-icon">⌑</span><div><strong>RECOVERY ACCESS LOCKED</strong><small>Complete the account check, then unlock this app's recovery workspace.</small></div></div>
+      <button class="button button-primary" id="unlockWorkspaceButton" type="button" disabled>UNLOCK FULL ACCESS</button>
+      <div class="unlock-access-panel" id="unlockAccessPanel" hidden>
+        <div class="unlock-access-success">✓ RECOVERY WORKSPACE UNLOCKED</div>
+        <p>You can now continue with the official recovery process for the selected platform. This unlocks the app's recovery guidance—not the external account itself.</p>
+        <button class="button button-secondary" id="unlockOfficialHelp" type="button" disabled>Continue to official account recovery ↗</button>
+      </div>
+    </div>
   </section>
-</section>
-
-<section class="page-section" id="reports">
-  <div class="page-heading"><div><span class="eyebrow">YOUR WORKSPACE OVERVIEW</span><h1>Reports & export</h1><p>Review your records and create a printable summary or spreadsheet.</p></div></div>
-  <div class="stats-grid"><article class="stat-card"><div class="stat-label">RECOVERY RECORDS</div><strong class="stat-value" id="reportRecovery">0</strong></article><article class="stat-card"><div class="stat-label">DELETION REQUESTS</div><strong class="stat-value" id="reportDeletion">0</strong></article><article class="stat-card"><div class="stat-label">FOLLOW-UPS DUE</div><strong class="stat-value" id="reportDue">0</strong></article><article class="stat-card"><div class="stat-label">ACTIVITY ENTRIES</div><strong class="stat-value" id="reportActivity">0</strong></article></div>
-  <section class="panel report-actions"><h2>Export your report</h2><p>CSV opens in spreadsheet apps. PDF uses your browser's print dialog—choose “Save as PDF”.</p><div class="settings-actions"><button class="button button-primary" id="csvExportBtn">↓ Export CSV</button><button class="button button-secondary" id="pdfExportBtn">▤ Save report as PDF</button></div></section>
 </section>
 
 <section class="page-section" id="activity">
