@@ -24,6 +24,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Install alongside the existing app; does not replace or erase its data.
+            applicationIdSuffix '.test'
+            versionNameSuffix '-test'
+        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
