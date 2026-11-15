@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.WeakReference;
+import java.lang.ref.WeakReference;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
