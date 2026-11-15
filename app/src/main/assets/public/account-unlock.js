@@ -100,7 +100,7 @@
     $("unlockWorkspaceButton").hidden = true;
     $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
     $("unlockRunState").textContent = "RECOVERY ACCESS UNLOCKED";
-    $("unlockResult").textContent = "Recovery workspace unlocked. Continue through the official provider recovery page; this app cannot change the provider's account status.";
+    $("unlockResult").textContent = "";
   });
 
   $("unlockAnalyze").addEventListener("click", () => {
