@@ -27,7 +27,7 @@
     $("unlockBannerInitial").textContent = (name || "?").slice(0, 1).toUpperCase();
     $("unlockBannerPlatform").textContent = platform || "Select platform";
     $("unlockBannerPlatformIcon").textContent = platform === "Facebook" ? "f" : platform === "Instagram" ? "◎" : platform === "Google / Gmail" ? "G" : platform === "TikTok" ? "♪" : "•";
-    $("unlockBannerStatus").textContent = name && platform ? "PROFILE DETAILS PROVIDED" : "PROFILE DETAILS NEEDED";
+    $("unlockBannerStatus").textContent = name && platform ? "ACTIVE PROFILE" : "PROFILE DETAILS NEEDED";
     $("unlockBannerPhoto").hidden = !photoUrl;
     $("unlockBannerInitial").hidden = Boolean(photoUrl);
     if (photoUrl) $("unlockBannerPhoto").src = photoUrl;
@@ -107,6 +107,11 @@
   $("unlockOfficialHelp").addEventListener("click", () => {
     const url = routes[selectedPlatform];
     if (url) window.open(url, "_blank", "noopener,noreferrer");
+  });
+
+  const premiumButton = $("premiumReleaseButton");
+  if (premiumButton) premiumButton.addEventListener("click", () => {
+    window.alert("Premium app access: $18.00 USD. Payment checkout is not configured yet. No payment has been taken, and this purchase cannot change the external account status.");
   });
 
   let diagnosticComplete = false;
