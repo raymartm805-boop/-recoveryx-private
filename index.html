@@ -96,7 +96,7 @@
   </section>
   <section class="unlock-analysis panel">
     <div class="unlock-kicker">● READY TO ANALYZE</div><h2>Account access diagnostics</h2>
-    <p>Enter the exact error or restriction notice shown by the service. Do not enter passwords, OTPs, backup codes, or private recovery links.</p>
+    <p>Enter the exact restriction notice to identify its wording and the appropriate recovery route. Never enter passwords, OTPs, or backup codes.</p>
     <label class="field">Error message / account notice<textarea id="unlockIssue" rows="3" maxlength="1200" placeholder="Paste the visible error message here…"></textarea></label>
     <button class="button button-primary" id="unlockAnalyze" type="button">Run account check</button>
     <div class="unlock-terminal" aria-live="polite"><div class="unlock-terminal-head"><span>LOCAL DIAGNOSTIC TERMINAL</span><span id="unlockRunState">IDLE</span></div><pre id="unlockLog">[READY] Waiting for account details…
@@ -104,9 +104,18 @@
     <div class="unlock-result" id="unlockResult" role="status">No diagnostic has been run yet.</div>
     <div class="unlock-gate" id="unlockGate">
       <div class="unlock-gate-status"><span class="unlock-lock-icon">⌑</span><div><strong>RECOVERY ACCESS LOCKED</strong><small>Complete the account check, then unlock this app's recovery workspace.</small></div></div>
+      <div class="unlock-account-banner" id="unlockAccountBanner">
+        <div class="unlock-banner-avatar"><img id="unlockBannerPhoto" alt="" hidden><span id="unlockBannerInitial">?</span></div>
+        <div class="unlock-banner-details">
+          <strong id="unlockBannerName">Account name</strong>
+          <span class="unlock-banner-platform"><b id="unlockBannerPlatformIcon">•</b><span id="unlockBannerPlatform">Select platform</span></span>
+          <span class="unlock-banner-status"><i></i><span id="unlockBannerStatus">PROFILE DETAILS NEEDED</span></span>
+        </div>
+        <span class="unlock-banner-tag">ACCOUNT PROFILE</span>
+      </div>
       <button class="button button-primary" id="unlockWorkspaceButton" type="button" disabled>UNLOCK FULL ACCESS</button>
       <div class="unlock-access-panel" id="unlockAccessPanel" hidden>
-        <div class="unlock-access-success">✓ RECOVERY WORKSPACE UNLOCKED</div>
+        <div class="unlock-access-success">✓ RECOVERY WORKSPACE READY</div>
         <button class="button button-secondary" id="unlockOfficialHelp" type="button" disabled>Continue to official account recovery ↗</button>
       </div>
     </div>
