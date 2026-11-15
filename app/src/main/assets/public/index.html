@@ -96,12 +96,11 @@
   </section>
   <section class="unlock-analysis panel">
     <div class="unlock-kicker">● READY TO ANALYZE</div><h2>Account access diagnostics</h2>
-    <p>Enter the exact restriction notice to identify its wording and the appropriate recovery route. Never enter passwords, OTPs, or backup codes.</p>
-    <label class="field">Error message / account notice<textarea id="unlockIssue" rows="3" maxlength="1200" placeholder="Paste the visible error message here…"></textarea></label>
+    <textarea id="unlockIssue" class="unlock-notice-input" rows="3" maxlength="1200" aria-label="Account restriction notice"></textarea>
     <button class="button button-primary" id="unlockAnalyze" type="button">Run account check</button>
     <div class="unlock-terminal" aria-live="polite"><div class="unlock-terminal-head"><span>LOCAL DIAGNOSTIC TERMINAL</span><span id="unlockRunState">IDLE</span></div><pre id="unlockLog">[READY] Waiting for account details…
 [SAFE] No provider login or security bypass will be attempted.</pre></div>
-    <div class="unlock-result" id="unlockResult" role="status">No diagnostic has been run yet.</div>
+    <div class="unlock-result" id="unlockResult" role="status" hidden></div>
     <div class="unlock-gate" id="unlockGate">
       <div class="unlock-gate-status"><span class="unlock-lock-icon">⌑</span><div><strong>RECOVERY ACCESS LOCKED</strong><small>Complete the account check, then unlock this app's recovery workspace.</small></div></div>
       <div class="unlock-account-banner" id="unlockAccountBanner">
