@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = id => document.getElementById(id);
-  const required = ["unlockReference","unlockBannerPhoto","unlockBannerInitial","unlockBannerName","unlockBannerPlatform","unlockBannerPlatformIcon","unlockBannerStatus","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog","unlockWorkspaceButton","unlockAccessPanel"];
+  const required = ["unlockReference","unlockBannerPhoto","unlockBannerInitial","unlockBannerName","unlockBannerPlatform","unlockBannerPlatformIcon","unlockBannerStatus","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockRunState","unlockLog","unlockWorkspaceButton","unlockAccessPanel"];
   if (required.some(id => !$(id))) {
     console.error("Account diagnostics: required UI element is missing.");
     return;
@@ -127,42 +127,33 @@
   $("unlockAnalyze").addEventListener("click", () => {
     const name = $("unlockAccountName").value.trim();
     const platform = $("unlockPlatform").value;
-    const issue = $("unlockIssue").value.trim();
     const lines = [
-      "[START] ACCOUNT NOTICE REVIEW",
+      "[START] ACCOUNT PROFILE CHECK",
       "[PROFILE] " + (name || "Account name not supplied"),
       "[PLATFORM] " + (platform || "Not selected"),
       "[REFERENCE] " + ref,
-      "[CHECK] Required details… " + (name && platform && issue ? "COMPLETE" : "MISSING")
+      "[CHECK] Profile details… " + (name && platform ? "COMPLETE" : "MISSING")
     ];
-    if (!name || !platform || !issue) {
-      lines.push("[ACTION] Complete the missing fields to run the notice review.");
+    if (!name || !platform) {
+      lines.push("[ACTION] Add the account name and select a platform.");
       $("unlockRunState").textContent = "INCOMPLETE";
       $("unlockLog").textContent = lines.join("\n");
-      $("unlockResult").textContent = "Add the missing account name, platform, and exact error notice.";
+      $("unlockResult").textContent = "Add the account name and select a platform to continue.";
       $("unlockResult").setAttribute("role", "alert");
       return;
     }
 
-    const patterns = [
-      [/disabled|suspended|deactivated/i, "The notice appears to describe a disabled or suspended account. Use the provider's appeal or account review process."],
-      [/locked|temporarily blocked|too many attempts/i, "The notice appears to describe a temporary lock. Follow the provider's wait and identity-verification instructions."],
-      [/checkpoint|confirm your identity|verify your identity/i, "The notice appears to request an identity or security checkpoint. Complete it only in the official app or website."],
-      [/password|incorrect|reset/i, "The notice appears related to sign-in credentials. Use the provider's official password-reset flow."],
-      [/hacked|compromised|unauthorized/i, "The notice may indicate account compromise. Secure the email account first and use the provider's hacked-account flow."]
-    ];
-    const match = patterns.find(([regex]) => regex.test(issue));
-    lines.push("[RESULT] " + (match ? "NOTICE WORDING MATCHED" : "NO KNOWN NOTICE PATTERN"));
-    lines.push("[NEXT] " + (match ? match[1] : "Review the notice using the provider's official help page."));
-    $("unlockRunState").textContent = "NOTICE REVIEW COMPLETE";
-    $("unlockLog").textContent = lines.join("\n");
-    $("unlockResult").textContent = match ? match[1] : "No known issue pattern matched. Review the exact notice with the provider's support guidance.";
+    lines.push("[RESULT] PROFILE DETAILS COMPLETE");
+    lines.push("[NEXT] Continue to the official provider recovery page for account review.");
+    $("unlockRunState").textContent = "PROFILE CHECK COMPLETE";
+    $("unlockLog").textContent = lines.join("\\n");
+    $("unlockResult").textContent = "Profile details checked. You can continue to the provider's official recovery process.";
     $("unlockResult").setAttribute("role", "status");
     diagnosticComplete = true;
     $("unlockWorkspaceButton").disabled = false;
     $("unlockWorkspaceButton").textContent = "UNLOCK FULL ACCESS";
     updateAccountBanner();
-    if (typeof window.toast === "function") window.toast("Notice review complete. Recovery workspace is ready.");
+    if (typeof window.toast === "function") window.toast("Profile check complete. Recovery workspace is ready.");
   });
 
   updateAccountBanner();
