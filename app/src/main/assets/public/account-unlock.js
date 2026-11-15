@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = id => document.getElementById(id);
-  const required = ["unlockReference","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog","unlockWorkspaceButton","unlockAccessPanel"];
+  const required = ["unlockReference","unlockBannerPhoto","unlockBannerInitial","unlockBannerName","unlockBannerPlatform","unlockBannerPlatformIcon","unlockBannerStatus","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog","unlockWorkspaceButton","unlockAccessPanel"];
   if (required.some(id => !$(id))) {
     console.error("Account diagnostics: required UI element is missing.");
     return;
@@ -20,6 +20,18 @@
   let photoUrl = "";
   let selectedPhotoName = "";
   let selectedPlatform = "";
+  const updateAccountBanner = () => {
+    const name = $("unlockAccountName").value.trim();
+    const platform = $("unlockPlatform").value;
+    $("unlockBannerName").textContent = name || "Account name";
+    $("unlockBannerInitial").textContent = (name || "?").slice(0, 1).toUpperCase();
+    $("unlockBannerPlatform").textContent = platform || "Select platform";
+    $("unlockBannerPlatformIcon").textContent = platform === "Facebook" ? "f" : platform === "Instagram" ? "◎" : platform === "Google / Gmail" ? "G" : platform === "TikTok" ? "♪" : "•";
+    $("unlockBannerStatus").textContent = name && platform ? "PROFILE DETAILS PROVIDED" : "PROFILE DETAILS NEEDED";
+    $("unlockBannerPhoto").hidden = !photoUrl;
+    $("unlockBannerInitial").hidden = Boolean(photoUrl);
+    if (photoUrl) $("unlockBannerPhoto").src = photoUrl;
+  };
   const routes = {
     "Facebook": "https://www.facebook.com/login/identify",
     "Instagram": "https://www.instagram.com/hacked/",
@@ -36,12 +48,14 @@
     $("unlockPhotoFallback").hidden = false;
     $("unlockPhotoRemove").hidden = true;
     $("unlockPhotoDownload").hidden = true;
+    updateAccountBanner();
   };
 
   $("unlockAccountName").addEventListener("input", () => {
     const name = $("unlockAccountName").value.trim();
     $("unlockLiveName").textContent = name || "Account name preview";
     $("unlockLiveName").classList.toggle("is-filled", Boolean(name));
+    updateAccountBanner();
   });
 
   $("unlockPhotoRemove").addEventListener("click", setPhotoFallback);
@@ -73,7 +87,8 @@
       $("unlockPhotoFallback").hidden = true;
       $("unlockPhotoRemove").hidden = false;
       $("unlockPhotoDownload").hidden = false;
-      $("unlockResult").textContent = "Selected photo: " + selectedPhotoName + ". Preview loaded; it remains on this device unless you choose to save it.";
+      updateAccountBanner();
+      $("unlockResult").textContent = "Profile photo added to preview.";
     };
     preview.onerror = () => {
       URL.revokeObjectURL(nextUrl);
@@ -86,6 +101,7 @@
 
   $("unlockPlatform").addEventListener("change", event => {
     selectedPlatform = event.target.value;
+    updateAccountBanner();
     if (diagnosticComplete) $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
   });
   $("unlockOfficialHelp").addEventListener("click", () => {
@@ -99,7 +115,7 @@
     $("unlockAccessPanel").hidden = false;
     $("unlockWorkspaceButton").hidden = true;
     $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
-    $("unlockRunState").textContent = "RECOVERY ACCESS UNLOCKED";
+    $("unlockRunState").textContent = "WORKSPACE READY";
     $("unlockResult").textContent = "";
   });
 
@@ -108,14 +124,14 @@
     const platform = $("unlockPlatform").value;
     const issue = $("unlockIssue").value.trim();
     const lines = [
-      "[START] Local account diagnostic started",
+      "[START] ACCOUNT NOTICE REVIEW",
       "[PROFILE] " + (name || "Account name not supplied"),
       "[PLATFORM] " + (platform || "Not selected"),
       "[REFERENCE] " + ref,
-      "[CHECK] Input completeness… " + (name && platform && issue ? "OK" : "NEEDS DETAILS")
+      "[CHECK] Required details… " + (name && platform && issue ? "COMPLETE" : "MISSING")
     ];
     if (!name || !platform || !issue) {
-      lines.push("[ACTION] Enter account name, platform, and exact notice to continue.");
+      lines.push("[ACTION] Complete the missing fields to run the notice review.");
       $("unlockRunState").textContent = "INCOMPLETE";
       $("unlockLog").textContent = lines.join("\n");
       $("unlockResult").textContent = "Add the missing account name, platform, and exact error notice.";
@@ -131,22 +147,20 @@
       [/hacked|compromised|unauthorized/i, "The notice may indicate account compromise. Secure the email account first and use the provider's hacked-account flow."]
     ];
     const match = patterns.find(([regex]) => regex.test(issue));
-    lines.push("[CHECK] Restriction wording scan… COMPLETE");
-    lines.push("[CHECK] Provider-side account status… NOT ACCESSIBLE");
-    lines.push("[CHECK] Security controls… NOT MODIFIED");
-    lines.push("[RESULT] " + (match ? "POSSIBLE ISSUE PATTERN FOUND" : "NO KNOWN PATTERN MATCHED"));
-    lines.push("[NEXT] " + (match ? match[1] : "Compare the full notice with the provider's official help guidance."));
-    lines.push("[SAFE] No bypass code executed; no account data was sent.");
-    $("unlockRunState").textContent = "COMPLETE · GUIDANCE ONLY";
+    lines.push("[RESULT] " + (match ? "NOTICE WORDING MATCHED" : "NO KNOWN NOTICE PATTERN"));
+    lines.push("[NEXT] " + (match ? match[1] : "Review the notice using the provider's official help page."));
+    $("unlockRunState").textContent = "NOTICE REVIEW COMPLETE";
     $("unlockLog").textContent = lines.join("\n");
     $("unlockResult").textContent = match ? match[1] : "No known issue pattern matched. Review the exact notice with the provider's support guidance.";
     $("unlockResult").setAttribute("role", "status");
     diagnosticComplete = true;
     $("unlockWorkspaceButton").disabled = false;
     $("unlockWorkspaceButton").textContent = "UNLOCK FULL ACCESS";
-    $("unlockResult").textContent += " Select UNLOCK FULL ACCESS below to open the recovery workspace.";
-    if (typeof window.toast === "function") window.toast("Account check completed. Recovery access is ready to unlock.");
+    updateAccountBanner();
+    if (typeof window.toast === "function") window.toast("Notice review complete. Recovery workspace is ready.");
   });
+
+  updateAccountBanner();
 
   window.addEventListener("beforeunload", () => {
     if (photoUrl) URL.revokeObjectURL(photoUrl);
