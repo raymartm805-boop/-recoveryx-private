@@ -171,8 +171,8 @@ public class MainActivity extends Activity {
 
     public static void deliverTermuxResult(String stdout, String stderr, int exitCode, String error) {
         String combined = (stdout == null ? "" : stdout);
-        if (stderr != null && !stderr.isEmpty()) combined += "\\n[stderr]\\n" + stderr;
-        if (error != null && !error.isEmpty()) combined += "\\n[Termux] " + error;
+        if (stderr != null && !stderr.isEmpty()) combined += "\n[stderr]\n" + stderr;
+        if (error != null && !error.isEmpty()) combined += "\n[Termux] " + error;
         sendTermuxResult("result", combined, exitCode);
     }
 
