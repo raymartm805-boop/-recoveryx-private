@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = id => document.getElementById(id);
-  const required = ["unlockReference","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog"];
+  const required = ["unlockReference","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog","unlockWorkspaceButton","unlockAccessPanel"];
   if (required.some(id => !$(id))) {
     console.error("Account diagnostics: required UI element is missing.");
     return;
@@ -86,11 +86,21 @@
 
   $("unlockPlatform").addEventListener("change", event => {
     selectedPlatform = event.target.value;
-    $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
+    if (diagnosticComplete) $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
   });
   $("unlockOfficialHelp").addEventListener("click", () => {
     const url = routes[selectedPlatform];
     if (url) window.open(url, "_blank", "noopener,noreferrer");
+  });
+
+  let diagnosticComplete = false;
+  $("unlockWorkspaceButton").addEventListener("click", () => {
+    if (!diagnosticComplete) return;
+    $("unlockAccessPanel").hidden = false;
+    $("unlockWorkspaceButton").hidden = true;
+    $("unlockOfficialHelp").disabled = !routes[selectedPlatform];
+    $("unlockRunState").textContent = "RECOVERY ACCESS UNLOCKED";
+    $("unlockResult").textContent = "Recovery workspace unlocked. Continue through the official provider recovery page; this app cannot change the provider's account status.";
   });
 
   $("unlockAnalyze").addEventListener("click", () => {
@@ -131,8 +141,11 @@
     $("unlockLog").textContent = lines.join("\n");
     $("unlockResult").textContent = match ? match[1] : "No known issue pattern matched. Review the exact notice with the provider's support guidance.";
     $("unlockResult").setAttribute("role", "status");
-    $("unlockOfficialHelp").disabled = !routes[platform];
-    if (typeof window.toast === "function") window.toast("Local diagnostic completed.");
+    diagnosticComplete = true;
+    $("unlockWorkspaceButton").disabled = false;
+    $("unlockWorkspaceButton").textContent = "UNLOCK FULL ACCESS";
+    $("unlockResult").textContent += " Select UNLOCK FULL ACCESS below to open the recovery workspace.";
+    if (typeof window.toast === "function") window.toast("Account check completed. Recovery access is ready to unlock.");
   });
 
   window.addEventListener("beforeunload", () => {
