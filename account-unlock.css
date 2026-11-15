@@ -17,3 +17,12 @@
 .unlock-notice-input{display:block;width:100%;margin:0 0 14px;padding:12px;border:1px solid #244f3b;border-radius:10px;background:#050d14;color:#e8f6ff;resize:vertical}
 .unlock-result[hidden]{display:none!important}
 @media(max-width:420px){.unlock-account-banner{grid-template-columns:64px minmax(0,1fr);column-gap:12px;padding:40px 12px 14px}.unlock-banner-avatar{width:64px;height:64px}.unlock-banner-details>strong{font-size:clamp(16px,4.5vw,21px)}.unlock-banner-tag{font-size:7px}}
+
+/* Profile activity pulse and clearly labeled premium app-access CTA. */
+.unlock-banner-status{animation:profileStatusPulse 1.6s ease-in-out infinite}
+.unlock-banner-status i{animation:profileDotPulse 1s ease-in-out infinite}
+@keyframes profileStatusPulse{0%,100%{opacity:1;text-shadow:0 0 5px #24e58b}50%{opacity:.62;text-shadow:0 0 14px #24e58b}}
+@keyframes profileDotPulse{0%,100%{transform:scale(1);box-shadow:0 0 5px #24e58b}50%{transform:scale(1.35);box-shadow:0 0 13px #24e58b}}
+.unlock-premium-button{width:100%;min-height:54px;font-weight:900;letter-spacing:.4px;border:1px solid #ff647b;box-shadow:0 0 16px #e11d4840}
+.unlock-premium-note{margin:-7px 0 0;color:#aab6c7;font-size:10px;line-height:1.5;text-align:center}
+@media(prefers-reduced-motion:reduce){.unlock-banner-status,.unlock-banner-status i{animation:none}}
