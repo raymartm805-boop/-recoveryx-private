@@ -95,11 +95,9 @@
     <div class="unlock-profile-fields"><label class="field">Account name<input id="unlockAccountName" maxlength="80" placeholder="Enter account owner's name"><span class="unlock-live-name" id="unlockLiveName">Account name preview</span></label><label class="field">Platform<select id="unlockPlatform"><option value="">Choose platform</option><option>Facebook</option><option>Instagram</option><option>Google / Gmail</option><option>TikTok</option><option>Other</option></select></label><div class="unlock-ref">RECOVERY REFERENCE ID <strong id="unlockReference">Generating…</strong></div></div>
   </section>
   <section class="unlock-analysis panel">
-    <div class="unlock-kicker">● READY TO ANALYZE</div><h2>Account access diagnostics</h2>
-    <textarea id="unlockIssue" class="unlock-notice-input" rows="3" maxlength="1200" aria-label="Account restriction notice"></textarea>
+    <div class="unlock-kicker">● READY TO CONTINUE</div><h2>Account profile check</h2>
     <button class="button button-primary" id="unlockAnalyze" type="button">Run account check</button>
-    <div class="unlock-terminal" aria-live="polite"><div class="unlock-terminal-head"><span>LOCAL DIAGNOSTIC TERMINAL</span><span id="unlockRunState">IDLE</span></div><pre id="unlockLog">[READY] Waiting for account details…
-[SAFE] No provider login or security bypass will be attempted.</pre></div>
+    <div class="unlock-terminal" aria-live="polite"><div class="unlock-terminal-head"><span>PROFILE CHECK</span><span id="unlockRunState">IDLE</span></div><pre id="unlockLog">[READY] Waiting for account profile details…</pre></div>
     <div class="unlock-result" id="unlockResult" role="status" hidden></div>
     <div class="unlock-gate" id="unlockGate">
       <div class="unlock-gate-status"><span class="unlock-lock-icon">⌑</span><div><strong>RECOVERY ACCESS LOCKED</strong><small>Complete the account check, then unlock this app's recovery workspace.</small></div></div>
