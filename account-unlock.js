@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = id => document.getElementById(id);
-  const required = ["unlockReference","unlockPhotoRemove","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog"];
+  const required = ["unlockReference","unlockPhotoRemove","unlockPhotoDownload","unlockPhoto","unlockPhotoPreview","unlockPhotoFallback","unlockResult","unlockPlatform","unlockOfficialHelp","unlockAnalyze","unlockAccountName","unlockLiveName","unlockIssue","unlockRunState","unlockLog"];
   if (required.some(id => !$(id))) {
     console.error("Account diagnostics: required UI element is missing.");
     return;
@@ -18,6 +18,7 @@
   $("unlockReference").textContent = ref;
 
   let photoUrl = "";
+  let selectedPhotoName = "";
   let selectedPlatform = "";
   const routes = {
     "Facebook": "https://www.facebook.com/login/identify",
@@ -28,11 +29,13 @@
   const setPhotoFallback = () => {
     if (photoUrl) URL.revokeObjectURL(photoUrl);
     photoUrl = "";
+    selectedPhotoName = "";
     $("unlockPhoto").value = "";
     $("unlockPhotoPreview").removeAttribute("src");
     $("unlockPhotoPreview").hidden = true;
     $("unlockPhotoFallback").hidden = false;
     $("unlockPhotoRemove").hidden = true;
+    $("unlockPhotoDownload").hidden = true;
   };
 
   $("unlockAccountName").addEventListener("input", () => {
@@ -42,6 +45,15 @@
   });
 
   $("unlockPhotoRemove").addEventListener("click", setPhotoFallback);
+  $("unlockPhotoDownload").addEventListener("click", () => {
+    if (!photoUrl) return;
+    const link = document.createElement("a");
+    link.href = photoUrl;
+    link.download = selectedPhotoName || "profile-photo";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  });
   $("unlockPhoto").addEventListener("change", event => {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
@@ -56,10 +68,12 @@
     const preview = $("unlockPhotoPreview");
     preview.onload = () => {
       photoUrl = nextUrl;
+      selectedPhotoName = file.name || "profile-photo";
       preview.hidden = false;
       $("unlockPhotoFallback").hidden = true;
       $("unlockPhotoRemove").hidden = false;
-      $("unlockResult").textContent = "Profile photo preview loaded. The image stays on this device and is not uploaded.";
+      $("unlockPhotoDownload").hidden = false;
+      $("unlockResult").textContent = "Selected photo: " + selectedPhotoName + ". Preview loaded; it remains on this device unless you choose to save it.";
     };
     preview.onerror = () => {
       URL.revokeObjectURL(nextUrl);
