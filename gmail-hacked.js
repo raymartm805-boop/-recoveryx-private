@@ -3,30 +3,20 @@
   const email = document.getElementById('gmailHackedEmail');
   const status = document.getElementById('gmailHackedStatus');
   const details = document.getElementById('gmailHackedDetails');
-  const resolve = document.getElementById('gmailHackedResolve');
-  if (!form || !email || !status || !details || !resolve) return;
-  const key = 'bypassing_tools_gmail_hacked_report_v1';
-  const render = () => {
-    const saved = localStorage.getItem(key);
-    status.textContent = saved ? 'HACKED — USER REPORT' : 'NO ISSUE REPORTED';
-    details.textContent = saved ? 'A possible compromise has been reported for ' + saved + '. This is your report, not a verified security finding.' : 'No Gmail compromise has been reported in this browser.';
-    resolve.hidden = !saved;
-  };
+  const clear = document.getElementById('gmailHackedResolve');
+  if (!form || !email || !status || !details || !clear) return;
+  status.textContent = 'READY';
+  details.textContent = 'Enter your Gmail address and continue to Google security.';
+  clear.hidden = true;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const address = email.value.trim();
-    if (!/^[^\s@]+@gmail\.com$/i.test(address)) {
-      status.textContent = 'ENTER A VALID GMAIL ADDRESS';
+    if (!/^[^\s@]+@gmail\.com$/i.test(email.value.trim())) {
+      status.textContent = 'INVALID GMAIL ADDRESS';
+      details.textContent = 'Enter a valid Gmail address.';
       return;
     }
-    if (!window.confirm('Confirm this is your own Gmail account and you believe it may be compromised. This only saves your report on this device.')) return;
-    localStorage.setItem(key, address);
-    render();
+    status.textContent = 'OPENING GOOGLE SECURITY';
+    details.textContent = 'Complete sign-in and security checks directly with Google.';
+    window.open('https://myaccount.google.com/security', '_blank', 'noopener,noreferrer');
   });
-  resolve.addEventListener('click', () => {
-    if (!window.confirm('Mark your Gmail report as resolved?')) return;
-    localStorage.removeItem(key);
-    render();
-  });
-  render();
 })();
