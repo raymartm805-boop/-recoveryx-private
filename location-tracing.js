@@ -9,18 +9,10 @@
   const activation=document.getElementById('mapActivation');
   const tools=document.getElementById('locationMapTools');
   const activationStatus=document.getElementById('mapActivationStatus');
-  const progressBar=document.getElementById('traceProgressBar');
-  const percent=document.getElementById('tracePercent');
-  const progress=document.querySelector('.trace-progress');
-  const steps=document.getElementById('traceSteps');
   if(!ip||!mapBox||!ipBtn||!codeInput||!activateBtn||!activation||!tools)return;
   const ACCESS_CODE='MAP-7264';
   let map,marker,busy=false;
   const say=s=>{if(status)status.textContent=s;if(activationStatus&&activation.hidden===false)activationStatus.textContent=s;};
-  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-  function setProgress(value){if(progressBar)progressBar.style.width=value+'%';if(percent)percent.textContent=value+'%';if(progress)progress.setAttribute('aria-valuenow',String(value));}
-  function setStep(name,state){const item=steps?.querySelector('[data-step="'+name+'"]');if(!item)return;item.classList.remove('is-active','is-done','is-error');if(state)item.classList.add('is-'+state);}
-  function resetSteps(){['validate','lookup','coordinates','map'].forEach(n=>setStep(n,''));setProgress(0);}
   function fields(data){results.replaceChildren();Object.entries(data).forEach(([k,v])=>{if(v==null||v==='')return;const d=document.createElement('div'),b=document.createElement('strong'),s=document.createElement('span');d.className='location-result-item';b.textContent=k;s.textContent=String(v);d.append(b,s);results.append(d);});}
   function activate(){
     if(activation.hidden)return;
@@ -134,23 +126,14 @@
     const coordinateButton=coordPanel.querySelector('#showCoordinateMap');
     coordinateButton.disabled=true;
     coordinateButton.textContent='LOADING MAP…';
-    resetSteps();
     try{
-      const started=Date.now();
-      setStep('validate','active');say('VALIDATING TARGET COORDINATES…');setProgress(12);
-      await wait(700);setStep('validate','done');
-      setStep('lookup','active');say('PREPARING MAP REQUEST…');setProgress(38);
-      await wait(900);setStep('lookup','done');
-      setStep('coordinates','active');say('SETTING MAP CENTER…');setProgress(68);
+      say('LOADING MAP FOR THE COORDINATES YOU ENTERED…');
       fields({'TARGET LATITUDE':lat,'TARGET LONGITUDE':lon,'MAP RESULT':'User-supplied coordinates','LOCATION SOURCE':'Coordinates entered manually'});
-      await wait(700);setStep('coordinates','done');
-      setStep('map','active');say('LOADING REAL MAP TILES…');setProgress(86);
+      say('LOADING MAP TILES…');
       await draw(lat,lon,'User-supplied target coordinates');
-      const remaining=30000-(Date.now()-started);
-      if(remaining>0)await wait(remaining);
-      setStep('map','done');setProgress(100);
+      
       say('MAP READY — SHOWING THE ENTERED COORDINATE');
-    }catch(e){say(e.message||'MAP COULD NOT LOAD');setStep('map','error');}
+    }catch(e){say(e.message||'MAP COULD NOT LOAD');}
     finally{busy=false;coordinateButton.disabled=false;coordinateButton.textContent='SHOW TARGET ON MAP';}
   });
 
@@ -159,17 +142,16 @@
     const value=ip.value.trim();
     if(!value){say('ENTER AN IP ADDRESS FIRST');ip.focus();return;}
     if(!/^[0-9a-fA-F:.]+$/.test(value)||value.length>45){say('INVALID IP ADDRESS FORMAT');ip.focus();return;}
-    busy=true;ipBtn.disabled=true;ipBtn.textContent='TRACING…';results.replaceChildren();resetSteps();
+    busy=true;ipBtn.disabled=true;ipBtn.textContent='LOOKING UP…';results.replaceChildren();
     try{
-      setStep('validate','active');say('VALIDATING IP ADDRESS…');setProgress(12);await wait(250);setStep('validate','done');
-      setStep('lookup','active');say('QUERYING PUBLIC GEOLOCATION DATA…');setProgress(38);
+      say('QUERYING PUBLIC IP GEOLOCATION SERVICE…');
       const res=await fetch('https://ipapi.co/'+encodeURIComponent(value)+'/json/');if(!res.ok)throw Error('IP lookup service unavailable.');
       const d=await res.json();if(d.error||!Number.isFinite(Number(d.latitude))||!Number.isFinite(Number(d.longitude)))throw Error(d.reason||'No public location data found.');
-      setStep('lookup','done');setStep('coordinates','active');say('RESOLVING APPROXIMATE COORDINATES…');setProgress(68);await wait(250);
+      say('IP LOOKUP RECEIVED — PREPARING APPROXIMATE MAP…');
       fields({'IP ADDRESS':d.ip||value,'CITY':d.city,'REGION':d.region,'COUNTRY':d.country_name,'POSTAL CODE':d.postal,'ISP / ORGANIZATION':d.org,'TIME ZONE':d.timezone,'TRACE RESULT':'Approximate network location'});
-      setStep('coordinates','done');setStep('map','active');say('RENDERING APPROXIMATE MAP…');setProgress(86);
-      await draw(Number(d.latitude),Number(d.longitude),'Approximate IP location');setStep('map','done');setProgress(100);say('TRACE COMPLETE — APPROXIMATE IP LOCATION ONLY');
-    }catch(e){say(e.message||'IP TRACE FAILED');setStep('lookup','error');}
+      say('LOADING APPROXIMATE IP LOCATION MAP…');
+      await draw(Number(d.latitude),Number(d.longitude),'Approximate IP location');say('IP LOOKUP COMPLETE — APPROXIMATE NETWORK LOCATION ONLY');
+    }catch(e){say(e.message||'IP LOOKUP FAILED');}
     finally{busy=false;ipBtn.disabled=false;ipBtn.textContent='START IP TRACE';}
   });
 })();
