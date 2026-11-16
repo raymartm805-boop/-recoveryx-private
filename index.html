@@ -36,7 +36,7 @@
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
   </nav>
   <div class="sidebar-card"><span class="shield">◇</span><strong>Private cloud sync when signed in</strong><span>Recovery records sync securely to your own account. Never store passwords or OTPs.</span></div>
-  <div class="sidebar-bottom"><span class="status-dot"></span> LOCAL WORKSPACE <span class="version">v3.1</span></div>
+  <div class="sidebar-bottom"><span class="status-dot"></span> WORKSPACE <span class="version">v3.1</span></div>
 </aside>
 <main class="main-content">
 <header class="topbar">
@@ -126,10 +126,10 @@
 </section>
 
 <section class="page-section" id="email-sim">
-  <div class="page-heading"><div><span class="eyebrow">LOCAL SECURITY LAB</span><h1>Email Security Review</h1><p>Check email address formatting and prepare practical account-protection recommendations. No email-provider sign-in is performed.</p></div></div>
+  <div class="page-heading"><div><span class="eyebrow">EMAIL SECURITY</span><h1>Email Security Review</h1><p>Check email address formatting and prepare practical account-protection recommendations. No email-provider sign-in is performed.</p></div></div>
   <div class="email-sim-wrap">
     <section class="email-sim-panel">
-      <div class="email-sim-title"><div><span class="eyebrow">SECURITY REVIEW</span><h2>EMAIL ADDRESS REVIEW</h2></div><span class="email-sim-chip">LOCAL REVIEW · SECURITY GUIDANCE</span></div>
+      <div class="email-sim-title"><div><span class="eyebrow">SECURITY REVIEW</span><h2>EMAIL ADDRESS REVIEW</h2></div><span class="email-sim-chip">SECURITY GUIDANCE</span></div>
       <form class="email-sim-form" id="emailSimForm">
         <label for="emailSimAddress">Email address</label>
         <input id="emailSimAddress" type="email" maxlength="254" autocomplete="off" required placeholder="example@gmail.com">
@@ -165,19 +165,19 @@
       <a href="https://accounts.google.com/signin/recovery" target="_blank" rel="noopener noreferrer">Google Account Recovery ↗</a>
       <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer">Google Security Checkup ↗</a>
     </div>
-    <small class="gmail-hacked-note">Google handles account sign-in and security verification on its official pages. Do not share your password or verification codes with anyone.</small>
+
   </section>
   <section class="panel"><div class="panel-heading"><div><span class="eyebrow">SECURE YOUR ACCOUNT</span><h2>Recommended steps</h2></div></div>
     <ol><li>Use Google's official account recovery page if you cannot sign in.</li><li>After regaining access, change your password to a unique one.</li><li>Review recent security activity and devices, then sign out unfamiliar sessions.</li><li>Check recovery email, phone number, forwarding rules, and app access.</li><li>Enable two-step verification and save backup codes somewhere private.</li></ol>
   </section>
 </section>
 \n<section class="page-section" id="activity">
-  <div class="page-heading"><div><span class="eyebrow">LOCAL AUDIT TRAIL</span><h1>Activity history</h1><p>Recent changes recorded in this browser.</p></div><button class="button button-secondary" id="clearActivityBtn">Clear history</button></div>
+  <div class="page-heading"><div><span class="eyebrow">ACTIVITY HISTORY</span><h1>Activity history</h1><p>Recent changes in this workspace.</p></div><button class="button button-secondary" id="clearActivityBtn">Clear history</button></div>
   <section class="panel"><div id="activityList" class="activity-list"></div></section>
 </section>
 
 <section class="page-section" id="settings">
-  <div class="page-heading"><div><span class="eyebrow">PREFERENCES & DATA</span><h1>Settings</h1><p>Manage your local workspace and personal data.</p></div></div>
+  <div class="page-heading"><div><span class="eyebrow">PREFERENCES & DATA</span><h1>Settings</h1><p>Manage your workspace and personal data.</p></div></div>
   <div class="settings-grid">
     <section class="panel settings-card"><span class="eyebrow">BACKUP & RESTORE</span><h2>Your workspace data</h2><p>Export a JSON backup to keep a copy of your records, or restore a backup file on this device.</p><div class="settings-actions"><button class="button button-primary" id="exportBtn">↓ Export backup</button><label class="button button-secondary file-button">↑ Restore backup<input id="importFile" type="file" accept="application/json,.json"></label></div><small class="field-hint">Backups may contain personal notes. Keep the file private.</small></section>
     <section class="panel settings-card"><span class="eyebrow">INSTALL APP</span><h2>Install on this device</h2><p>Add BYPASSING TOOLS to your Android home screen for an app-like experience. Works offline after the first successful load where supported.</p><button class="button button-secondary" id="installAppBtn" disabled>＋ Install app</button><small class="field-hint" id="installHint">Use your browser menu → Add to Home screen if no install prompt appears.</small></section>
@@ -190,7 +190,7 @@
       <div class="settings-actions"><button class="button button-secondary" id="cloudSyncNow" type="button" hidden>↻ Sync now</button></div>
       <small class="field-hint" id="cloudStatus" role="status" aria-live="polite">Not signed in. Create a cloud account or sign in to enable backup.</small>
     </section>
-    <section class="panel settings-card"><span class="eyebrow">LOCAL DATA</span><h2>Clear this workspace</h2><p>Remove locally stored records, deletion requests, checklist progress, and activity history from this browser.</p><button class="button button-danger" id="clearAllBtn">Clear all local data</button><small class="field-hint">This cannot be undone unless you have an exported backup.</small></section>
+    <section class="panel settings-card"><span class="eyebrow">WORKSPACE DATA</span><h2>Clear this workspace</h2><p>Remove saved records, deletion requests, checklist progress, and activity history from this browser.</p><button class="button button-danger" id="clearAllBtn">Clear all data</button><small class="field-hint">This cannot be undone unless you have an exported backup.</small></section>
     <section class="panel settings-card"><span class="eyebrow">ABOUT</span><h2>BYPASSING TOOLS</h2><p>A personal organizer for account recovery and data privacy requests. It does not connect to Meta, Google, TikTok, lenders, or other provider systems.</p><small class="field-hint">Version 3.1 · Recovery records can sync to your private cloud account.</small></section>
   </div>
 </section>
