@@ -45,3 +45,14 @@
 #location-tracing .location-result-item span{color:#fff;font-size:.94rem}
 #location-tracing .location-disclosure{padding:10px 12px;border-left:2px solid #d72a43;background:rgba(80,10,25,.16)}
 @media(max-width:680px){#location-tracing .trace-steps{grid-template-columns:repeat(2,minmax(0,1fr))}#location-tracing .trace-map{height:340px}#location-tracing .location-tracing-panel{padding:14px}}
+
+
+/* Coordinate target input controls */
+#location-tracing .coordinate-target-panel{margin:16px 0;padding:16px;border:1px solid #8c1b2d;border-radius:11px;background:linear-gradient(110deg,#17090e,#0b080b)}
+#location-tracing .coordinate-target-heading{margin-bottom:12px;color:#ff7c89;font-size:.76rem;font-weight:900;letter-spacing:.14em}
+#location-tracing .coordinate-target-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+#location-tracing .coordinate-target-panel .field{display:flex;flex-direction:column;gap:7px;color:#f5eeee;font-size:.8rem;font-weight:800}
+#location-tracing .coordinate-target-panel input{box-sizing:border-box;width:100%;min-height:48px;padding:11px;border:1px solid #6e4a52;border-radius:8px;background:#080709;color:#fff;font-size:1rem}
+#location-tracing .coordinate-target-panel input:focus{outline:2px solid #e72a42;border-color:#ff5668}
+#location-tracing .coordinate-target-hint{margin:10px 0 0;color:#cbbfc1;font-size:.76rem;line-height:1.5}
+@media(max-width:520px){#location-tracing .coordinate-target-fields{grid-template-columns:1fr}}
