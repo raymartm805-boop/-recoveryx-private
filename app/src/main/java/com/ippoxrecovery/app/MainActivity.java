@@ -2,15 +2,19 @@ package com.ippoxrecovery.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.Manifest;
+import android.webkit.GeolocationPermissions;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.JavascriptInterface;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient.FileChooserParams;
-import android.content.Intent;
-import android.net.Uri;
+
+import androidx.webkit.WebViewAssetLoader;
 
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -20,23 +24,32 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 public class MainActivity extends Activity {
     private static final int OCR_PICK_IMAGE = 4107;
     private static final int WEB_FILE_PICKER = 4108;
+    private static final int LOCATION_PERMISSION_REQUEST = 4109;
     private WebView webView;
     private TextRecognizer textRecognizer;
     private ValueCallback<Uri[]> pendingFileCallback;
+    private GeolocationPermissions.Callback pendingGeoCallback;
+    private String pendingGeoOrigin;
+    private WebViewAssetLoader assetLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        assetLoader = new WebViewAssetLoader.Builder()
+            .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+            .build();
+
         webView = new WebView(this);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setGeolocationEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
-        // Required for WebView to read the content:// URI returned by Android's photo picker.
         webView.getSettings().setAllowContentAccess(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(false);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(false);
         webView.addJavascriptInterface(new OcrBridge(), "AndroidOcr");
+
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePathCallback,
@@ -58,20 +71,60 @@ public class MainActivity extends Activity {
                 }
                 return true;
             }
+
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                boolean fine = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                boolean coarse = checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                if (fine || coarse) {
+                    callback.invoke(origin, true, false);
+                    return;
+                }
+                if (pendingGeoCallback != null) pendingGeoCallback.invoke(pendingGeoOrigin, false, false);
+                pendingGeoOrigin = origin;
+                pendingGeoCallback = callback;
+                requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST
+                );
+            }
         });
+
         webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public android.webkit.WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
-                if ("https".equalsIgnoreCase(uri.getScheme()) || "http".equalsIgnoreCase(uri.getScheme())) {
+                if (request.isForMainFrame() &&
+                    ("https".equalsIgnoreCase(uri.getScheme()) || "http".equalsIgnoreCase(uri.getScheme())) &&
+                    !"appassets.androidplatform.net".equalsIgnoreCase(uri.getHost())) {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
                     return true;
                 }
                 return false;
             }
         });
+
         setContentView(webView);
-        webView.loadUrl("file:///android_asset/public/index.html");
+        // WebViewAssetLoader serves local app files from a secure HTTPS origin,
+        // which is required by modern Chromium geolocation APIs.
+        webView.loadUrl("https://appassets.androidplatform.net/assets/public/index.html");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST && pendingGeoCallback != null) {
+            boolean granted = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+            pendingGeoCallback.invoke(pendingGeoOrigin, granted, false);
+            pendingGeoCallback = null;
+            pendingGeoOrigin = null;
+        }
     }
 
     private class OcrBridge {
@@ -139,6 +192,11 @@ public class MainActivity extends Activity {
         if (pendingFileCallback != null) {
             pendingFileCallback.onReceiveValue(null);
             pendingFileCallback = null;
+        }
+        if (pendingGeoCallback != null) {
+            pendingGeoCallback.invoke(pendingGeoOrigin, false, false);
+            pendingGeoCallback = null;
+            pendingGeoOrigin = null;
         }
         if (textRecognizer != null) {
             textRecognizer.close();
