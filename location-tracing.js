@@ -32,7 +32,12 @@
     if(!window.L){await new Promise((ok,no)=>{const c=document.createElement('link');c.rel='stylesheet';c.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.append(c);const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=ok;s.onerror=()=>no(Error('Map could not load. Check internet connection.'));document.head.append(s);});}
     mapBox.replaceChildren();
     if(!map){map=L.map(mapBox).setView([lat,lon],11);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);}else map.setView([lat,lon],11);
-    if(marker)marker.remove();marker=L.marker([lat,lon]).addTo(map).bindPopup(label).openPopup();setTimeout(()=>map.invalidateSize(),100);
+    if(marker)marker.remove();
+    const pulseIcon=L.divIcon({className:'trace-pulse-icon',html:'<span class="trace-pulse-core"></span><span class="trace-pulse-ring"></span>',iconSize:[34,34],iconAnchor:[17,17]});
+    marker=L.marker([lat,lon],{icon:pulseIcon}).addTo(map).bindPopup(label).openPopup();
+    let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';liveTag.textContent='LIVE MAP DISPLAY · APPROXIMATE IP POINT';mapBox.append(liveTag);}
+    let sweep=mapBox.querySelector('.trace-map-sweep');if(!sweep){sweep=document.createElement('div');sweep.className='trace-map-sweep';sweep.setAttribute('aria-hidden','true');mapBox.append(sweep);}
+    setTimeout(()=>map.invalidateSize(),100);
   }
   ipBtn.addEventListener('click',async()=>{
     if(busy)return;
