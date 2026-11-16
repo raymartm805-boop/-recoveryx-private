@@ -3,20 +3,21 @@
   const email = document.getElementById('gmailHackedEmail');
   const status = document.getElementById('gmailHackedStatus');
   const details = document.getElementById('gmailHackedDetails');
-  const clear = document.getElementById('gmailHackedResolve');
-  if (!form || !email || !status || !details || !clear) return;
-  status.textContent = 'READY';
-  details.textContent = 'Enter your Gmail address and continue to Google security.';
-  clear.hidden = true;
+  if (!form || !email || !status || !details) return;
+  status.textContent = 'READY TO RECOVER';
+  details.textContent = 'Your recovery steps will be handled securely by Google.';
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    if (!/^[^\s@]+@gmail\.com$/i.test(email.value.trim())) {
-      status.textContent = 'INVALID GMAIL ADDRESS';
-      details.textContent = 'Enter a valid Gmail address.';
+    const address = email.value.trim();
+    if (!/^[^\s@]+@gmail\.com$/i.test(address)) {
+      status.textContent = 'CHECK GMAIL ADDRESS';
+      details.textContent = 'Enter a valid Gmail address ending in @gmail.com.';
       return;
     }
-    status.textContent = 'OPENING GOOGLE SECURITY';
-    details.textContent = 'Complete sign-in and security checks directly with Google.';
-    window.open('https://myaccount.google.com/security', '_blank', 'noopener,noreferrer');
+    status.textContent = 'OPENING GOOGLE RECOVERY';
+    details.textContent = 'Follow the instructions on Google’s official recovery page.';
+    const url = new URL('https://accounts.google.com/signin/recovery');
+    url.searchParams.set('email', address);
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
   });
 })();
