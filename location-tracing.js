@@ -30,14 +30,27 @@
   codeInput.addEventListener('input',()=>codeInput.setCustomValidity(''));
   async function draw(lat,lon,label){
     if(!window.L){await new Promise((ok,no)=>{const c=document.createElement('link');c.rel='stylesheet';c.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.append(c);const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=ok;s.onerror=()=>no(Error('Map could not load. Check internet connection.'));document.head.append(s);});}
-    mapBox.replaceChildren();
-    if(!map){map=L.map(mapBox).setView([lat,lon],11);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);}else map.setView([lat,lon],11);
+    if(!map){
+      // Clear the initial placeholder only when creating Leaflet for the first time.
+      // Clearing mapBox on later searches would detach Leaflet's panes and leave a blank map.
+      mapBox.replaceChildren();
+      map=L.map(mapBox,{preferCanvas:true}).setView([lat,lon],11);
+      const tiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19,
+        attribution:'© OpenStreetMap contributors'
+      });
+      tiles.on('tileerror',()=>say('MAP TILE ERROR — CHECK INTERNET CONNECTION OR TRY AGAIN'));
+      tiles.addTo(map);
+    }else{
+      map.setView([lat,lon],11);
+      map.invalidateSize(true);
+    }
     if(marker)marker.remove();
     const pulseIcon=L.divIcon({className:'trace-pulse-icon',html:'<span class="trace-pulse-core"></span><span class="trace-pulse-ring"></span>',iconSize:[34,34],iconAnchor:[17,17]});
     marker=L.marker([lat,lon],{icon:pulseIcon}).addTo(map).bindPopup(label).openPopup();
     let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';liveTag.textContent='LIVE MAP DISPLAY · APPROXIMATE IP POINT';mapBox.append(liveTag);}
     let sweep=mapBox.querySelector('.trace-map-sweep');if(!sweep){sweep=document.createElement('div');sweep.className='trace-map-sweep';sweep.setAttribute('aria-hidden','true');mapBox.append(sweep);}
-    setTimeout(()=>map.invalidateSize(),100);
+    setTimeout(()=>{if(map){map.invalidateSize(true);}},250);
   }
 
   // Coordinate target: show a real OpenStreetMap view for coordinates supplied by the user.
