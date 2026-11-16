@@ -53,6 +53,8 @@
     <article class="stat-card"><div class="stat-top"><span class="stat-label">DELETE REQUESTS</span><span class="stat-icon purple">⌫</span></div><strong class="stat-value" id="deletionCount">0</strong><small>Privacy requests you've logged</small></article>
     <article class="stat-card"><div class="stat-top"><span class="stat-label">CONFIRMED CLOSED</span><span class="stat-icon green">✓</span></div><strong class="stat-value" id="closedCount">0</strong><small>Marked complete by you</small></article>
   </div>
+        <section class="account-status-card" aria-labelledby="accountStatusTitle"><div class="account-status-head"><h3 id="accountStatusTitle">MY ACCOUNT SECURITY STATUS</h3><span class="account-status-badge" id="accountStatusBadge" role="status" aria-live="polite">NO ISSUE REPORTED</span></div><p class="account-status-copy">If this is your own account and you believe someone has accessed it without permission, record its status here.</p><div class="account-status-actions"><button class="button button-danger" id="markAccountHacked" type="button">⚠ MARK MY ACCOUNT AS HACKED</button><button class="button button-secondary" id="markAccountResolved" type="button" hidden>MARK AS RESOLVED</button></div><small class="account-status-note">The status is saved only in this browser and reflects your report. It does not access the email account or verify an intrusion.</small></section>
+
   <div class="dashboard-grid">
     <section class="panel"><div class="panel-heading"><div><span class="eyebrow">LATEST UPDATES</span><h2>Recent activity</h2></div><button class="text-button" data-go="activity">View all →</button></div><div id="dashboardActivity" class="activity-list"><div class="empty-state">No activity yet. Add a record to get started.</div></div></section>
     <section class="panel quick-panel"><div class="panel-heading"><div><span class="eyebrow">GET STARTED</span><h2>Quick actions</h2></div></div>
@@ -140,7 +142,7 @@
 [SYSTEM] Enter an email address to begin.</pre>
       <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET REVIEW</button></div>
       <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
-      <section class="account-status-card" aria-labelledby="accountStatusTitle"><div class="account-status-head"><h3 id="accountStatusTitle">MY ACCOUNT SECURITY STATUS</h3><span class="account-status-badge" id="accountStatusBadge" role="status" aria-live="polite">NO ISSUE REPORTED</span></div><p class="account-status-copy">If this is your own account and you believe someone has accessed it without permission, record its status here.</p><div class="account-status-actions"><button class="button button-danger" id="markAccountHacked" type="button">⚠ MARK MY ACCOUNT AS HACKED</button><button class="button button-secondary" id="markAccountResolved" type="button" hidden>MARK AS RESOLVED</button></div><small class="account-status-note">The status is saved only in this browser and reflects your report. It does not access the email account or verify an intrusion.</small></section>
+
     </section>
   </div>
 </section>
