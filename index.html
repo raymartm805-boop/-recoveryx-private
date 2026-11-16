@@ -122,22 +122,21 @@
 </section>
 
 <section class="page-section" id="email-sim">
-  <div class="page-heading"><div><span class="eyebrow">LOCAL SECURITY LAB</span><h1>Email Security Simulator</h1><p>Run a staged, visual email-security demonstration.</p></div></div>
+  <div class="page-heading"><div><span class="eyebrow">LOCAL SECURITY LAB</span><h1>Email Security Review</h1><p>Review an email address and prepare account-protection recommendations.</p></div></div>
   <div class="email-sim-wrap">
-    <div class="email-sim-warning"><strong>SIMULATION MODE</strong> — This is an offline visual demonstration only. It does not connect to Gmail or any mail provider, test account credentials, send messages, or access an inbox. Enter an email address only; never enter a password or verification code.</div>
     <section class="email-sim-panel">
-      <div class="email-sim-title"><div><span class="eyebrow">DEMONSTRATION ENGINE</span><h2>EMAIL DIAGNOSTIC SEQUENCE</h2></div><span class="email-sim-chip">LOCAL ONLY · NO NETWORK</span></div>
+      <div class="email-sim-title"><div><span class="eyebrow">SECURITY REVIEW</span><h2>EMAIL ADDRESS REVIEW</h2></div><span class="email-sim-chip">ADDRESS & SECURITY GUIDANCE</span></div>
       <form class="email-sim-form" id="emailSimForm">
-        <label for="emailSimAddress">Email address for this demo</label>
+        <label for="emailSimAddress">Email address</label>
         <input id="emailSimAddress" type="email" maxlength="254" autocomplete="off" required placeholder="example@gmail.com">
-        <button class="button button-primary" id="emailSimStart" type="submit">▶ START SIMULATION</button>
+        <button class="button button-primary" id="emailSimStart" type="submit">▶ START REVIEW</button>
       </form>
-      <div class="email-sim-progress-head"><span>SIMULATION PROGRESS</span><strong id="emailSimPercent" aria-live="polite">0%</strong></div>
-      <div class="email-sim-progress" role="progressbar" aria-label="Simulation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
+      <div class="email-sim-progress-head"><span>REVIEW PROGRESS</span><strong id="emailSimPercent" aria-live="polite">0%</strong></div>
+      <div class="email-sim-progress" role="progressbar" aria-label="Review progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
       <div class="email-sim-stage" id="emailSimStage">READY — WAITING FOR INPUT</div>
       <pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Local email security demonstration ready.
 [SYSTEM] Enter an email address to begin.</pre>
-      <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET SIMULATION</button></div>
+      <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET REVIEW</button></div>
       <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
     </section>
   </div>
