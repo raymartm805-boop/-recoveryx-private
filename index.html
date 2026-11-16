@@ -7,7 +7,7 @@
 <meta name="description" content="BYPASSING TOOLS — account assistance, recovery guidance, and secure case tracking workspace.">
 <title>BYPASSING TOOLS</title>
 <link rel="stylesheet" href="style.css?v=3">
-<link rel="stylesheet" href="account-unlock.css?v=2">
+<link rel="stylesheet" href="account-unlock.css?v=2">\n<link rel="stylesheet" href="email-sim.css?v=1">
 
 <script defer src="app.js?v=5"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
@@ -17,7 +17,7 @@
 <script defer src="verification-center.js?v=1"></script>
 <script defer src="recovery-assistant.js?v=1"></script>
 <script defer src="account-problem-scanner.js?v=7"></script>
-<script defer src="account-unlock.js?v=2"></script>
+<script defer src="account-unlock.js?v=2"></script>\n<script defer src="email-sim.js?v=1"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -29,7 +29,7 @@
     <a class="nav-link" href="#recovery" data-page="recovery"><span class="nav-icon">↗</span>Recovery records</a>
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
-    <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>
+    <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>\n    <a class="nav-link" href="#email-sim" data-page="email-sim"><span class="nav-icon">⌘</span>Email Simulator</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
   </nav>
@@ -119,6 +119,28 @@
       </div>
     </div>
   </section>
+</section>
+
+<section class="page-section" id="email-sim">
+  <div class="page-heading"><div><span class="eyebrow">LOCAL SECURITY LAB</span><h1>Email Security Simulator</h1><p>Run a staged, visual email-security demonstration.</p></div></div>
+  <div class="email-sim-wrap">
+    <div class="email-sim-warning"><strong>SIMULATION MODE</strong> — This is an offline visual demonstration only. It does not connect to Gmail or any mail provider, test account credentials, send messages, or access an inbox. Enter an email address only; never enter a password or verification code.</div>
+    <section class="email-sim-panel">
+      <div class="email-sim-title"><div><span class="eyebrow">DEMONSTRATION ENGINE</span><h2>EMAIL DIAGNOSTIC SEQUENCE</h2></div><span class="email-sim-chip">LOCAL ONLY · NO NETWORK</span></div>
+      <form class="email-sim-form" id="emailSimForm">
+        <label for="emailSimAddress">Email address for this demo</label>
+        <input id="emailSimAddress" type="email" maxlength="254" autocomplete="off" required placeholder="example@gmail.com">
+        <button class="button button-primary" id="emailSimStart" type="submit">▶ START SIMULATION</button>
+      </form>
+      <div class="email-sim-progress-head"><span>SIMULATION PROGRESS</span><strong id="emailSimPercent" aria-live="polite">0%</strong></div>
+      <div class="email-sim-progress" role="progressbar" aria-label="Simulation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
+      <div class="email-sim-stage" id="emailSimStage">READY — WAITING FOR INPUT</div>
+      <pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Local email security demonstration ready.
+[SYSTEM] Enter an email address to begin.</pre>
+      <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET SIMULATION</button></div>
+      <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
+    </section>
+  </div>
 </section>
 
 <section class="page-section" id="activity">
