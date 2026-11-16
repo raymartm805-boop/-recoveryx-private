@@ -54,12 +54,29 @@
       (!latInput.value.trim()||!Number.isFinite(lat)||lat < -90||lat > 90?latInput:lonInput).focus();
       return;
     }
+    if(busy)return;
+    busy=true;
+    const coordinateButton=coordPanel.querySelector('#showCoordinateMap');
+    coordinateButton.disabled=true;
+    coordinateButton.textContent='LOADING MAP…';
+    resetSteps();
     try{
-      say('LOADING USER-SUPPLIED COORDINATE…');
+      const started=Date.now();
+      setStep('validate','active');say('VALIDATING TARGET COORDINATES…');setProgress(12);
+      await wait(700);setStep('validate','done');
+      setStep('lookup','active');say('PREPARING MAP REQUEST…');setProgress(38);
+      await wait(900);setStep('lookup','done');
+      setStep('coordinates','active');say('SETTING MAP CENTER…');setProgress(68);
       fields({'TARGET LATITUDE':lat,'TARGET LONGITUDE':lon,'MAP RESULT':'User-supplied coordinates','LOCATION SOURCE':'Coordinates entered manually'});
+      await wait(700);setStep('coordinates','done');
+      setStep('map','active');say('LOADING REAL MAP TILES…');setProgress(86);
       await draw(lat,lon,'User-supplied target coordinates');
+      const remaining=4000-(Date.now()-started);
+      if(remaining>0)await wait(remaining);
+      setStep('map','done');setProgress(100);
       say('MAP READY — SHOWING THE ENTERED COORDINATE');
-    }catch(e){say(e.message||'MAP COULD NOT LOAD');}
+    }catch(e){say(e.message||'MAP COULD NOT LOAD');setStep('map','error');}
+    finally{busy=false;coordinateButton.disabled=false;coordinateButton.textContent='SHOW TARGET ON MAP';}
   });
 
   ipBtn.addEventListener('click',async()=>{
