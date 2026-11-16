@@ -153,11 +153,18 @@
 <label class="field">Phone number<input id="tracePhone" type="tel" inputmode="tel" maxlength="20" placeholder="+63 9XX XXX XXXX"><small>Format check only. A phone number cannot reveal live location.</small></label>
 <label class="field">IP address<input id="traceIp" type="text" inputmode="decimal" maxlength="45" placeholder="Enter IPv4 or IPv6 address"></label>
 </div>
-<div class="location-actions"><button class="button button-primary" id="traceIpButton" type="button">LOOK UP IP LOCATION</button><button class="button button-secondary" id="traceGpsButton" type="button">SHARE MY DEVICE LOCATION</button></div>
-<div class="location-status" id="traceStatus" role="status" aria-live="polite">READY — ENTER AN IP ADDRESS OR SHARE YOUR LOCATION</div>
+<div class="map-activation" id="mapActivation">
+<label class="field" for="mapAccessCode">MAP ACTIVATION PASSWORD<input id="mapAccessCode" type="password" autocomplete="off" maxlength="32" placeholder="Enter activation code"></label>
+<button class="button button-primary" id="mapActivateButton" type="button">ACTIVATE TRACKING MAP</button>
+<p class="map-activation-hint">Enter the activation code to enable the IP location map.</p>
+</div>
+<div class="location-map-tools" id="locationMapTools" hidden>
+<div class="location-actions"><button class="button button-primary" id="traceIpButton" type="button">LOOK UP IP LOCATION</button></div>
+<div class="location-status" id="traceStatus" role="status" aria-live="polite">MAP ACTIVATED — ENTER AN IP ADDRESS</div>
 <div class="location-results" id="traceResults" aria-live="polite"></div>
-<div id="traceMap" class="trace-map" role="region" aria-label="Location map"><p>Map appears after a location is available.</p></div>
-<p class="location-disclosure">IP locations are approximate and may show an ISP gateway. Device location appears only after you approve the browser permission prompt. This tool does not trace phone numbers.</p>
+<div id="traceMap" class="trace-map" role="region" aria-label="IP location map"><p>Map appears after a manual IP lookup.</p></div>
+</div>
+<p class="location-disclosure">Only a manually entered IP address is checked. IP locations are approximate and cannot identify an exact home or live phone location. Phone numbers are not traceable here.</p>
 </section></section>
 
 <section class="page-section" id="activity">
