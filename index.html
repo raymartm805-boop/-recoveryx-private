@@ -147,24 +147,24 @@
 
 
 <section class="page-section" id="location-tracing">
-<div class="page-heading"><div><span class="eyebrow">LOCATION TOOLS</span><h1>LOCATION TRACING</h1><p>Review approximate IP location or share your own device location with permission.</p></div></div>
+<div class="page-heading"><div><span class="eyebrow">LOCATION TOOLS</span><h1>LOCATION TRACING</h1><p>Trace the approximate network location of an IP address you enter manually.</p></div></div>
 <section class="location-tracing-panel">
 <div class="location-input-grid">
-<label class="field">Phone number<input id="tracePhone" type="tel" inputmode="tel" maxlength="20" placeholder="+63 9XX XXX XXXX"><small>Format check only. A phone number cannot reveal live location.</small></label>
-<label class="field">IP address<input id="traceIp" type="text" inputmode="decimal" maxlength="45" placeholder="Enter IPv4 or IPv6 address"></label>
+<label class="field">TARGET IP ADDRESS<input id="traceIp" type="text" inputmode="decimal" maxlength="45" autocomplete="off" placeholder="Enter IPv4 or IPv6 address"><small>Enter a public IP address. This does not track a phone number or identify a live device.</small></label>
 </div>
 <div class="map-activation" id="mapActivation">
 <label class="field" for="mapAccessCode">MAP ACTIVATION PASSWORD<input id="mapAccessCode" type="password" autocomplete="off" maxlength="32" placeholder="Enter activation code"></label>
-<button class="button button-primary" id="mapActivateButton" type="button">ACTIVATE TRACKING MAP</button>
-<p class="map-activation-hint">Enter the activation code to enable the IP location map.</p>
+<button class="button button-primary" id="mapActivateButton" type="button">ACTIVATE TRACING SYSTEM</button>
+<p class="map-activation-hint">Enter the activation code to open the IP tracing tools.</p>
 </div>
 <div class="location-map-tools" id="locationMapTools" hidden>
-<div class="location-actions"><button class="button button-primary" id="traceIpButton" type="button">LOOK UP IP LOCATION</button></div>
-<div class="location-status" id="traceStatus" role="status" aria-live="polite">MAP ACTIVATED — ENTER AN IP ADDRESS</div>
+<div class="tracing-control-row"><div><span class="tracing-eyebrow">TRACE ENGINE</span><strong>IP GEOLOCATION SCAN</strong></div><button class="button button-primary" id="traceIpButton" type="button">START IP TRACE</button></div>
+<div class="trace-progress-wrap"><div class="trace-progress-heading"><span id="traceStatus" role="status" aria-live="polite">READY — WAITING FOR IP ADDRESS</span><strong id="tracePercent">0%</strong></div><div class="trace-progress" role="progressbar" aria-label="IP trace progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="traceProgressBar"></span></div></div>
+<ol class="trace-steps" id="traceSteps" aria-live="polite"><li data-step="validate">Validate target IP</li><li data-step="lookup">Query public geolocation data</li><li data-step="coordinates">Resolve approximate coordinates</li><li data-step="map">Render map result</li></ol>
 <div class="location-results" id="traceResults" aria-live="polite"></div>
-<div id="traceMap" class="trace-map" role="region" aria-label="IP location map"><p>Map appears after a manual IP lookup.</p></div>
+<div id="traceMap" class="trace-map" role="region" aria-label="Approximate IP location map"><p>Map result will appear after a successful IP trace.</p></div>
 </div>
-<p class="location-disclosure">Only a manually entered IP address is checked. IP locations are approximate and cannot identify an exact home or live phone location. Phone numbers are not traceable here.</p>
+<p class="location-disclosure">This tool checks only the IP address manually entered here. Results are approximate network-location data, not GPS or real-time device tracking. Do not use it to monitor someone without their knowledge and consent.</p>
 </section></section>
 
 <section class="page-section" id="activity">
