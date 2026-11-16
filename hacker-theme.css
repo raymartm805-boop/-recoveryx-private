@@ -1,0 +1,49 @@
+/* Full-app hacker-terminal visual theme */
+:root{--bg:#020806;--panel:#06140d;--panel2:#0a1d12;--line:rgba(61,255,132,.2);--blue:#20f078;--cyan:#8bffbd;--green:#20f078;--purple:#51c982;--amber:#d4f36a;--text:#d8ffe6;--muted:#79aa88;--shadow:0 14px 38px rgba(0,0,0,.55);--radius:5px}
+html,body{background:#020806!important;color:#d8ffe6;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+body{background:radial-gradient(ellipse at 50% -20%,#0b351b 0,transparent 55%),#020806!important}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:repeating-linear-gradient(0deg,rgba(31,255,112,.025) 0,rgba(31,255,112,.025) 1px,transparent 1px,transparent 4px)}
+.sidebar,.topbar{background:rgba(2,12,6,.96)!important;border-color:#164b29!important}
+.sidebar{box-shadow:8px 0 35px #0008}
+.brand-mark,.avatar{background:linear-gradient(145deg,#20f078,#075b2c)!important;box-shadow:0 0 22px #20f07844!important;color:#001b09}
+.brand-copy strong,.topbar-heading strong,.page-heading h1,.welcome-banner h1,.panel h2,.settings-card h2{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.02em}
+.brand-copy small,.nav-heading,.eyebrow{color:#4bcb78!important}
+.nav-link{border-radius:4px;color:#a6d9b5}
+.nav-link:hover,.nav-link.active{background:linear-gradient(90deg,#0c4d25,#092b16)!important;border-color:#20f078!important;color:#dffff0!important;box-shadow:inset 3px 0 #20f078,0 0 18px #20f07818!important}
+.sidebar-card,.welcome-banner,.stat-card,.panel,.resource-card,.quick-action,.notice,.settings-card{background:linear-gradient(135deg,rgba(5,25,13,.98),rgba(3,13,7,.98))!important;border:1px solid #164b29!important;border-radius:5px!important;box-shadow:0 0 22px #0008,inset 0 0 18px #20f07808!important}
+.welcome-banner{background:radial-gradient(circle at 78% 50%,#0d572b66,transparent 34%),linear-gradient(115deg,#092716,#031008 70%)!important}
+.welcome-banner h1 em{color:#20f078!important;text-shadow:0 0 16px #20f07877}
+.button{border-radius:3px!important;text-transform:uppercase;letter-spacing:.06em;font-family:inherit}
+.button-primary{background:#0b5428!important;border:1px solid #20f078!important;color:#caffd9!important;box-shadow:0 0 16px #20f07822!important}
+.button-secondary{background:#071b0e!important;border-color:#28613a!important;color:#b8e9c5!important}
+.button-danger{background:#35100f!important;border-color:#b53c32!important;color:#ffaaa1!important}
+.stat-label,.stat-card small,th,.topbar-heading span,.page-heading p,.activity-copy span,.activity-copy time{color:#75a987!important}
+.stat-icon,.quick-icon{border-radius:4px!important;background:#0b351b!important;color:#7dffac!important}
+.search-box,.toolbar select,.field input,.field select,.field textarea,.gmail-hacked-form input{background:#020b05!important;border:1px solid #225c35!important;color:#d8ffe6!important;border-radius:3px!important}
+th{background:#041008!important}td{color:#c4f2d0!important}tbody tr:hover{background:#092214!important}
+.resource-card:hover,.quick-action:hover{border-color:#20f078!important;box-shadow:0 0 20px #20f07820!important}
+.status-pill{border-radius:3px!important}
+.modal{background:#041008!important;border:1px solid #20f078!important;border-radius:4px!important}
+.modal::backdrop{background:#000e!important}
+.toast{background:#061a0d!important;border-color:#20f078!important;color:#d8ffe6!important;border-radius:3px!important}
+footer{color:#477a55!important}
+.account-status-card,.gmail-hacked-panel{background:#06140b!important;border:1px solid #1c6c37!important;border-radius:5px!important;color:#d8ffe6!important}
+#hackerMatrix{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.13;pointer-events:none}
+.hacker-dock{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:45;display:grid;gap:7px}
+.hacker-dock button{width:43px;height:43px;border:1px solid #247b40;background:#04140a;color:#8cffae;font:700 12px ui-monospace,monospace;border-radius:3px;box-shadow:0 0 14px #20f07820}
+.hacker-dock button:active{background:#0c4d25}
+.hacker-console{position:fixed;left:270px;bottom:12px;width:min(510px,calc(100vw - 300px));height:150px;z-index:35;background:rgba(1,9,4,.96);border:1px solid #1b6a35;box-shadow:0 0 24px #20f07818;color:#8dffad;font:11px/1.5 ui-monospace,monospace;display:flex;flex-direction:column}
+.hacker-console-head{display:flex;justify-content:space-between;padding:6px 9px;border-bottom:1px solid #164b29;color:#baffc9;font-weight:800;letter-spacing:.1em}
+.hacker-console-body{padding:8px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;flex:1}
+.hacker-window{position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,calc(100vw - 30px));background:rgba(2,12,6,.98);border:1px solid #20f078;box-shadow:0 0 35px #20f07825;color:#caffd8;font:12px/1.6 ui-monospace,monospace}
+.hacker-window[hidden]{display:none}
+.hacker-window-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#082716;border-bottom:1px solid #1b6a35;cursor:move;touch-action:none}
+.hacker-window-head strong{font-size:11px;letter-spacing:.12em}
+.hacker-window-head button{border:0;background:transparent;color:#aaffc1;font-size:18px}
+.hacker-window-content{padding:14px;max-height:55vh;overflow:auto}
+.hacker-window-content pre{margin:0;color:#8cffad;white-space:pre-wrap;overflow-wrap:anywhere}
+.hacker-meter{height:6px;background:#12331d;margin:10px 0;overflow:hidden}.hacker-meter span{display:block;height:100%;width:65%;background:#20f078;box-shadow:0 0 12px #20f078}
+.hacker-console-caret{display:inline-block;width:7px;height:12px;background:#20f078;vertical-align:middle;animation:hblink 1s steps(2) infinite}
+@keyframes hblink{50%{opacity:0}}
+@media(max-width:800px){.hacker-console{left:12px;bottom:10px;width:calc(100vw - 24px);height:115px}.hacker-dock{right:8px;top:auto;bottom:140px;transform:none;display:flex}.hacker-dock button{width:38px;height:38px}.page-wrap{padding-bottom:175px}}
+@media(max-width:560px){.hacker-console{left:8px;width:calc(100vw - 16px)}.hacker-dock{right:8px;bottom:130px}.hacker-dock button{width:35px;height:35px}}
