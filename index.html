@@ -53,7 +53,7 @@
     <article class="stat-card"><div class="stat-top"><span class="stat-label">DELETE REQUESTS</span><span class="stat-icon purple">⌫</span></div><strong class="stat-value" id="deletionCount">0</strong><small>Privacy requests you've logged</small></article>
     <article class="stat-card"><div class="stat-top"><span class="stat-label">CONFIRMED CLOSED</span><span class="stat-icon green">✓</span></div><strong class="stat-value" id="closedCount">0</strong><small>Marked complete by you</small></article>
   </div>
-        <section class="account-status-card" aria-labelledby="accountStatusTitle"><div class="account-status-head"><h3 id="accountStatusTitle">MY ACCOUNT SECURITY STATUS</h3><span class="account-status-badge" id="accountStatusBadge" role="status" aria-live="polite">NO ISSUE REPORTED</span></div><p class="account-status-copy">If this is your own account and you believe someone has accessed it without permission, record its status here.</p><div class="account-status-actions"><button class="button button-danger" id="markAccountHacked" type="button">⚠ MARK MY ACCOUNT AS HACKED</button><button class="button button-secondary" id="markAccountResolved" type="button" hidden>MARK AS RESOLVED</button></div><small class="account-status-note">The status is saved only in this browser and reflects your report. It does not access the email account or verify an intrusion.</small></section>
+        <section class="account-status-card" aria-labelledby="accountStatusTitle"><div class="account-status-head"><h3 id="accountStatusTitle">MY ACCOUNT SECURITY STATUS</h3><span class="account-status-badge" id="accountStatusBadge" role="status" aria-live="polite">READY</span></div><p class="account-status-copy">If this is your own account and you believe someone has accessed it without permission, record its status here.</p><div class="account-status-actions"><button class="button button-danger" id="markAccountHacked" type="button">⚠ MARK MY ACCOUNT AS HACKED</button><button class="button button-secondary" id="markAccountResolved" type="button" hidden>MARK AS RESOLVED</button></div><small class="account-status-note">The status is saved only in this browser and reflects your report. It does not access the email account or verify an intrusion.</small></section>
 
   <div class="dashboard-grid">
     <section class="panel"><div class="panel-heading"><div><span class="eyebrow">LATEST UPDATES</span><h2>Recent activity</h2></div><button class="text-button" data-go="activity">View all →</button></div><div id="dashboardActivity" class="activity-list"><div class="empty-state">No activity yet. Add a record to get started.</div></div></section>
@@ -149,23 +149,23 @@
 
 
 <section class="page-section" id="gmail-hacked">
-  <div class="page-heading"><div><span class="eyebrow">GMAIL ACCOUNT SECURITY</span><h1>GMAIL HACKED ACCOUNT</h1><p>Record a suspected compromise of your own Gmail account and follow Google's official recovery process.</p></div></div>
+  <div class="page-heading"><div><span class="eyebrow">GMAIL ACCOUNT SECURITY</span><h1>GMAIL HACKED</h1><p>Gmail account security tools and direct access to Google security settings.</p></div></div>
   <section class="gmail-hacked-panel">
-    <span class="eyebrow">ACCOUNT SECURITY REPORT</span>
-    <h2>Report a compromised Gmail account</h2>
-    <p>Enter your own Gmail address to save a local report and open the official recovery resources.</p>
+    <span class="eyebrow">GMAIL ACCOUNT CONTROL</span>
+    <h2>GMAIL HACKED ACCOUNT</h2>
+    <p>Enter your Gmail address to continue to Google account security.</p>
     <form class="gmail-hacked-form" id="gmailHackedForm">
       <input id="gmailHackedEmail" type="email" maxlength="254" autocomplete="email" required placeholder="yourname@gmail.com" aria-label="Your Gmail address">
-      <button class="button button-danger" type="submit">⚠ REPORT GMAIL AS HACKED</button>
+      <button class="button button-danger" type="submit">OPEN GOOGLE SECURITY</button>
     </form>
     <div class="gmail-hacked-status" id="gmailHackedStatus" role="status" aria-live="polite">NO ISSUE REPORTED</div>
-    <p id="gmailHackedDetails">No Gmail compromise has been reported in this browser.</p>
-    <button class="button button-secondary" id="gmailHackedResolve" type="button" hidden>MARK REPORT AS RESOLVED</button>
+    <p id="gmailHackedDetails">Enter your Gmail address and continue to Google security.</p>
+    <button class="button button-secondary" id="gmailHackedResolve" type="button" hidden>CLEAR</button>
     <div class="gmail-hacked-links">
       <a href="https://accounts.google.com/signin/recovery" target="_blank" rel="noopener noreferrer">Google Account Recovery ↗</a>
       <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer">Google Security Checkup ↗</a>
     </div>
-    <small class="gmail-hacked-note">Your report is stored only in this browser. It does not sign in to Gmail, detect an intrusion, retrieve passwords, or bypass two-step verification. Never enter your password or verification code here.</small>
+    <small class="gmail-hacked-note">Google handles account sign-in and security verification on its official pages. Do not share your password or verification codes with anyone.</small>
   </section>
   <section class="panel"><div class="panel-heading"><div><span class="eyebrow">SECURE YOUR ACCOUNT</span><h2>Recommended steps</h2></div></div>
     <ol><li>Use Google's official account recovery page if you cannot sign in.</li><li>After regaining access, change your password to a unique one.</li><li>Review recent security activity and devices, then sign out unfamiliar sessions.</li><li>Check recovery email, phone number, forwarding rules, and app access.</li><li>Enable two-step verification and save backup codes somewhere private.</li></ol>
