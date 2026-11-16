@@ -8,6 +8,7 @@
   const activateBtn=document.getElementById('mapActivateButton');
   const activation=document.getElementById('mapActivation');
   const tools=document.getElementById('locationMapTools');
+  const activationStatus=document.getElementById('mapActivationStatus');
   const progressBar=document.getElementById('traceProgressBar');
   const percent=document.getElementById('tracePercent');
   const progress=document.querySelector('.trace-progress');
@@ -15,19 +16,30 @@
   if(!ip||!mapBox||!ipBtn||!codeInput||!activateBtn||!activation||!tools)return;
   const ACCESS_CODE='MAP-7264';
   let map,marker,busy=false;
-  const say=s=>{if(status)status.textContent=s;};
+  const say=s=>{if(status)status.textContent=s;if(activationStatus&&activation.hidden===false)activationStatus.textContent=s;};
   const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
   function setProgress(value){if(progressBar)progressBar.style.width=value+'%';if(percent)percent.textContent=value+'%';if(progress)progress.setAttribute('aria-valuenow',String(value));}
   function setStep(name,state){const item=steps?.querySelector('[data-step="'+name+'"]');if(!item)return;item.classList.remove('is-active','is-done','is-error');if(state)item.classList.add('is-'+state);}
   function resetSteps(){['validate','lookup','coordinates','map'].forEach(n=>setStep(n,''));setProgress(0);}
   function fields(data){results.replaceChildren();Object.entries(data).forEach(([k,v])=>{if(v==null||v==='')return;const d=document.createElement('div'),b=document.createElement('strong'),s=document.createElement('span');d.className='location-result-item';b.textContent=k;s.textContent=String(v);d.append(b,s);results.append(d);});}
   function activate(){
-    if(codeInput.value.trim()!==ACCESS_CODE){say('INVALID ACTIVATION CODE');codeInput.setCustomValidity('Incorrect activation code.');codeInput.reportValidity();return;}
-    codeInput.setCustomValidity('');activation.hidden=true;tools.hidden=false;say('TRACING SYSTEM READY — ENTER AN IP ADDRESS');
+    const entered=codeInput.value.trim().toUpperCase();
+    if(entered!==ACCESS_CODE){
+      if(activationStatus)activationStatus.textContent='INVALID ACTIVATION CODE — CHECK THE CODE AND TRY AGAIN.';
+      codeInput.setAttribute('aria-invalid','true');
+      codeInput.focus();
+      return;
+    }
+    codeInput.removeAttribute('aria-invalid');
+    if(activationStatus)activationStatus.textContent='ACCESS GRANTED — OPENING LOCATION TOOLS…';
+    activation.hidden=true;
+    tools.hidden=false;
+    say('TRACING SYSTEM READY — ENTER AN IP ADDRESS');
+    tools.scrollIntoView?.({behavior:'smooth',block:'start'});
   }
   activateBtn.addEventListener('click',activate);
   codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();activate();}});
-  codeInput.addEventListener('input',()=>codeInput.setCustomValidity(''));
+  codeInput.addEventListener('input',()=>{codeInput.removeAttribute('aria-invalid');if(activationStatus)activationStatus.textContent='ENTER THE ACTIVATION CODE TO CONTINUE.';});
   async function draw(lat,lon,label){
     if(!window.L){await new Promise((ok,no)=>{const c=document.createElement('link');c.rel='stylesheet';c.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.append(c);const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';s.onload=ok;s.onerror=()=>no(Error('Map could not load. Check internet connection.'));document.head.append(s);});}
     if(!map){
