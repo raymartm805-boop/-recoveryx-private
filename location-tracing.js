@@ -58,6 +58,30 @@
   coordPanel.className='coordinate-target-panel';
   coordPanel.innerHTML='<div class="coordinate-target-heading">TARGET COORDINATES</div><div class="coordinate-target-fields"><label class="field">LATITUDE<input id="targetLatitude" type="number" min="-90" max="90" step="any" inputmode="decimal" placeholder="e.g. 14.5995"></label><label class="field">LONGITUDE<input id="targetLongitude" type="number" min="-180" max="180" step="any" inputmode="decimal" placeholder="e.g. 120.9842"></label></div><button class="button button-primary" id="showCoordinateMap" type="button">SHOW TARGET ON MAP</button><p class="coordinate-target-hint">Enter coordinates shared with you by the device owner. The map shows that coordinate, not a phone's live location.</p>';
   tools.insertBefore(coordPanel,tools.firstChild);
+
+  // Consent-based location sharing for a device owner using social media or phone contact.
+  // A social handle or phone number is never queried for a person's location.
+  const sharePanel=document.createElement('section');
+  sharePanel.className='coordinate-target-panel';
+  sharePanel.innerHTML='<div class="coordinate-target-heading">SOCIAL MEDIA / PHONE LOCATION SHARING</div><p class="coordinate-target-hint">For a person who has agreed to share their location: ask them to open this app on their own device and tap the button below. Their browser will request location permission. A username or phone number alone cannot reveal live GPS.</p><label class="field">SHARING CHANNEL<select id="locationShareChannel"><option value="Messenger">Facebook Messenger</option><option value="WhatsApp">WhatsApp</option><option value="Instagram">Instagram</option><option value="SMS">Phone call / SMS</option><option value="Google Maps">Google Maps</option></select></label><button class="button button-primary" id="getSharedDeviceLocation" type="button">SHARE THIS DEVICE LOCATION</button><p class="coordinate-target-hint" id="sharedLocationStatus" role="status" aria-live="polite">The device owner must approve the location permission prompt.</p>';
+  tools.insertBefore(sharePanel,coordPanel.nextSibling);
+  sharePanel.querySelector('#getSharedDeviceLocation').addEventListener('click',()=>{
+    const out=sharePanel.querySelector('#sharedLocationStatus');
+    const btn=sharePanel.querySelector('#getSharedDeviceLocation');
+    if(!navigator.geolocation){out.textContent='LOCATION PERMISSION IS NOT AVAILABLE IN THIS APP OR BROWSER. Ask the device owner to share a Google Maps location link instead.';return;}
+    btn.disabled=true;out.textContent='WAITING FOR THE DEVICE OWNER TO APPROVE LOCATION ACCESS…';
+    navigator.geolocation.getCurrentPosition(async position=>{
+      const lat=position.coords.latitude,lon=position.coords.longitude;
+      latInput.value=lat.toFixed(6);lonInput.value=lon.toFixed(6);
+      out.textContent='LOCATION RECEIVED WITH DEVICE OWNER PERMISSION. Tap SHOW TARGET ON MAP to display it.';
+      btn.disabled=false;
+      say('CONSENTED DEVICE LOCATION RECEIVED — READY TO DISPLAY');
+    },error=>{
+      const messages={1:'LOCATION PERMISSION DENIED. The device owner must allow location access.',2:'DEVICE LOCATION IS UNAVAILABLE. Check GPS and try again.',3:'LOCATION REQUEST TIMED OUT. Try again.'};
+      out.textContent=messages[error.code]||'COULD NOT GET LOCATION. Ask the device owner to share it manually.';
+      btn.disabled=false;
+    },{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+  });
   const latInput=coordPanel.querySelector('#targetLatitude');
   const lonInput=coordPanel.querySelector('#targetLongitude');
   coordPanel.querySelector('#showCoordinateMap').addEventListener('click',async()=>{
