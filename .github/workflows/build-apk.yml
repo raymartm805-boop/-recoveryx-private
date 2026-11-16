@@ -16,8 +16,8 @@ on:
       - 'verification-center.js'
       - 'recovery-assistant.js'
       - 'account-problem-scanner.js'
-      - 'gmail-hacked.js'
-      - 'gmail-hacked.css'
+      - 'location-tracing.js'
+      - 'location-tracing.css'
       - 'verification-center.js'
       - 'dashboard-accounts.js'
       - 'icon-192.png'
@@ -56,7 +56,7 @@ jobs:
       - name: Prepare app web assets
         run: |
           mkdir -p app/src/main/assets/public
-          cp index.html style.css hacker-theme.css hacker-theme.js account-unlock.css account-unlock.js gmail-hacked.css gmail-hacked.js app.js cloud-sync.js dashboard-accounts.js meta-connection.js verification-center.js recovery-assistant.js account-problem-scanner.js sw.js app/src/main/assets/public/
+          cp index.html style.css hacker-theme.css hacker-theme.js account-unlock.css account-unlock.js location-tracing.css location-tracing.js app.js cloud-sync.js dashboard-accounts.js meta-connection.js verification-center.js recovery-assistant.js account-problem-scanner.js sw.js app/src/main/assets/public/
           cp manifest.webmanifest icon-192.png icon-512.png app/src/main/assets/public/
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
