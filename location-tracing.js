@@ -23,6 +23,7 @@
   function resetSteps(){['validate','lookup','coordinates','map'].forEach(n=>setStep(n,''));setProgress(0);}
   function fields(data){results.replaceChildren();Object.entries(data).forEach(([k,v])=>{if(v==null||v==='')return;const d=document.createElement('div'),b=document.createElement('strong'),s=document.createElement('span');d.className='location-result-item';b.textContent=k;s.textContent=String(v);d.append(b,s);results.append(d);});}
   function activate(){
+    if(activation.hidden)return;
     const entered=codeInput.value.trim().toUpperCase();
     if(entered!==ACCESS_CODE){
       if(activationStatus)activationStatus.textContent='INVALID ACTIVATION CODE — CHECK THE CODE AND TRY AGAIN.';
@@ -32,12 +33,20 @@
     }
     codeInput.removeAttribute('aria-invalid');
     if(activationStatus)activationStatus.textContent='ACCESS GRANTED — OPENING LOCATION TOOLS…';
+    activateBtn.disabled=true;
     activation.hidden=true;
     tools.hidden=false;
     say('TRACING SYSTEM READY — ENTER AN IP ADDRESS');
     tools.scrollIntoView?.({behavior:'smooth',block:'start'});
   }
-  activateBtn.addEventListener('click',activate);
+  // Use both the native click path and pointer/touch fallbacks for Android WebViews.
+  // The hidden-state guard makes the handler safe if a device dispatches more than one event.
+  activateBtn.type='button';
+  activateBtn.style.pointerEvents='auto';
+  activateBtn.onclick=activate;
+  activateBtn.addEventListener('click',e=>{e.preventDefault();activate();},{capture:true});
+  activateBtn.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();activate();}},{passive:false});
+  activateBtn.addEventListener('touchend',e=>{e.preventDefault();activate();},{passive:false});
   codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();activate();}});
   codeInput.addEventListener('input',()=>{codeInput.removeAttribute('aria-invalid');if(activationStatus)activationStatus.textContent='ENTER THE ACTIVATION CODE TO CONTINUE.';});
   async function draw(lat,lon,label){
