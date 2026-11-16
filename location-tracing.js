@@ -71,7 +71,7 @@
       await wait(700);setStep('coordinates','done');
       setStep('map','active');say('LOADING REAL MAP TILES…');setProgress(86);
       await draw(lat,lon,'User-supplied target coordinates');
-      const remaining=15000-(Date.now()-started);
+      const remaining=30000-(Date.now()-started);
       if(remaining>0)await wait(remaining);
       setStep('map','done');setProgress(100);
       say('MAP READY — SHOWING THE ENTERED COORDINATE');
