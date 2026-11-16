@@ -1,1 +1,29 @@
-.email-sim-wrap{display:grid;gap:16px}.email-sim-warning{padding:12px 15px;border:1px solid #8b2633;border-radius:10px;background:#26090f;color:#ffd7db;font-size:11px;line-height:1.6}.email-sim-panel{padding:20px;border:1px solid #69202b;border-radius:16px;background:linear-gradient(145deg,#18080d,#0b0407);box-shadow:0 14px 38px #0007}.email-sim-title{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.email-sim-title h2{margin:5px 0;font-size:18px}.email-sim-chip{padding:6px 9px;border:1px solid #8e2634;border-radius:20px;color:#ff9ca5;font-size:9px;font-weight:800;letter-spacing:1px}.email-sim-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:18px}.email-sim-form label{grid-column:1/-1;color:#eac6ca;font-size:11px;font-weight:700}.email-sim-form input{width:100%;min-width:0;padding:13px;border:1px solid #61212c;border-radius:9px;background:#090407;color:#fff;outline:none}.email-sim-form input:focus{border-color:#ff4657;box-shadow:0 0 0 3px #ed202820}.email-sim-progress-head{display:flex;justify-content:space-between;gap:12px;margin:22px 0 9px;color:#f2cbd0;font-size:11px}.email-sim-progress{height:13px;overflow:hidden;border:1px solid #59202a;border-radius:20px;background:#270b12}.email-sim-progress>div{width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#8e0c20,#ff5365);box-shadow:0 0 16px #f22b48;transition:width .2s linear}.email-sim-stage{margin-top:10px;color:#ff929d;font-size:10px;font-weight:800;letter-spacing:1px;min-height:16px}.email-sim-terminal{height:300px;overflow:auto;margin-top:18px;padding:15px;border:1px solid #4c1a24;border-radius:10px;background:#050305;color:#ff7d8a;font:11px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.email-sim-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.email-sim-result{display:grid;gap:7px;margin-top:14px;padding:16px;border:1px solid #6d2935;border-radius:10px;background:#210a11;color:#ffe1e4;font-size:12px}.email-sim-result strong{color:#ff7b88;letter-spacing:1px}.email-sim-result small{color:#d4aeb4;line-height:1.6}.email-sim-form button:disabled{opacity:.55;cursor:wait}@media(max-width:560px){.email-sim-form{grid-template-columns:1fr}.email-sim-terminal{height:250px}}
+.email-sim-wrap{display:grid;gap:16px;max-width:1100px;margin-inline:auto}
+.email-sim-panel{position:relative;isolation:isolate;overflow:hidden;padding:clamp(18px,3vw,30px);border:1px solid #1d6848;border-radius:20px;background:radial-gradient(ellipse at 88% 0%,#0b442b66,transparent 42%),linear-gradient(145deg,#071810 0%,#06110d 52%,#030906 100%);box-shadow:0 20px 60px #0008,0 0 34px #00ff7410}
+.email-sim-panel:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.14;background-image:linear-gradient(#36ff8a18 1px,transparent 1px),linear-gradient(90deg,#36ff8a18 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.email-sim-title{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding-bottom:17px;border-bottom:1px solid #17452f}
+.email-sim-title h2{margin:5px 0 0;color:#e5ffef;font-size:clamp(19px,3vw,25px);letter-spacing:1.2px}
+.email-sim-title .eyebrow{color:#58e99a}
+.email-sim-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #287d50;border-radius:30px;background:#092819;color:#8df5b6;font-size:9px;font-weight:900;letter-spacing:1px}
+.email-sim-chip:before{content:"";width:7px;height:7px;border-radius:50%;background:#39ef87;box-shadow:0 0 10px #39ef87}
+.email-sim-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:22px}
+.email-sim-form label{grid-column:1/-1;color:#c5f5d7;font-size:11px;font-weight:800;letter-spacing:.6px}
+.email-sim-form input{width:100%;min-width:0;padding:14px 15px;border:1px solid #245b3c;border-radius:10px;background:#020a06;color:#effff4;outline:none;font:inherit;transition:border-color .2s,box-shadow .2s}
+.email-sim-form input::placeholder{color:#62816e}
+.email-sim-form input:focus{border-color:#3bea87;box-shadow:0 0 0 3px #24ef7822,0 0 22px #24ef7812}
+.email-sim-form button{min-height:48px}
+.email-sim-progress-head{display:flex;justify-content:space-between;gap:12px;margin:24px 0 9px;color:#b8e9ca;font-size:10px;font-weight:900;letter-spacing:1.2px}
+#emailSimPercent{color:#62f39d;font-variant-numeric:tabular-nums}
+.email-sim-progress{height:10px;overflow:hidden;border:1px solid #245b3c;border-radius:20px;background:#06190e}
+.email-sim-progress>div{width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#0a9b4d,#53ff9a);box-shadow:0 0 18px #20ff80aa;transition:width .2s linear}
+.email-sim-stage{display:flex;align-items:center;gap:8px;margin-top:12px;color:#70f5a6;font-size:10px;font-weight:900;letter-spacing:1px;min-height:18px}
+.email-sim-stage:before{content:"";width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#42f18b;box-shadow:0 0 9px #42f18b}
+.email-sim-terminal{height:290px;overflow:auto;margin-top:17px;padding:17px;border:1px solid #19472e;border-radius:12px;background:#010603;color:#82e8a9;font:11px/1.85 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:inset 0 0 30px #00ff7408}
+.email-sim-terminal::selection{background:#176c3e;color:white}
+.email-sim-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.email-sim-result{display:grid;gap:8px;margin-top:16px;padding:17px;border:1px solid #287d50;border-radius:12px;background:linear-gradient(120deg,#082416,#07150d);color:#d9ffe6;font-size:12px}
+.email-sim-result strong{color:#6dffa7;letter-spacing:1.1px}
+.email-sim-result small{color:#a5cfb4;line-height:1.65}
+.email-sim-form button:disabled{opacity:.6;cursor:wait}
+@media(max-width:560px){.email-sim-form{grid-template-columns:1fr}.email-sim-terminal{height:250px;padding:13px;font-size:10px}.email-sim-title{align-items:flex-start}.email-sim-chip{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.email-sim-progress>div,.email-sim-form input{transition:none}}
