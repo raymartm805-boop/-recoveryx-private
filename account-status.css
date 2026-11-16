@@ -1,0 +1,11 @@
+.account-status-card{margin-top:18px;padding:18px;border:1px solid #245b3c;border-radius:14px;background:linear-gradient(145deg,#081b11,#050c08);color:#e8fff0}
+.account-status-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.account-status-head h3{margin:0;color:#dfffea;font-size:15px;letter-spacing:.8px}
+.account-status-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #286b43;border-radius:30px;background:#0b2416;color:#9af7b8;font-size:11px;font-weight:900;letter-spacing:1px}
+.account-status-badge.is-hacked{border-color:#a52e3b;background:#310b11;color:#ff8b98;box-shadow:0 0 18px #ff203322}
+.account-status-badge:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 9px currentColor}
+.account-status-copy{margin:12px 0;color:#a9cdb5;font-size:12px;line-height:1.6}
+.account-status-actions{display:flex;gap:9px;flex-wrap:wrap}
+.account-status-actions button{min-height:42px}
+.account-status-note{display:block;margin-top:11px;color:#759783;font-size:10px;line-height:1.5}
+@media(max-width:560px){.account-status-actions{display:grid}.account-status-actions button{width:100%}}
