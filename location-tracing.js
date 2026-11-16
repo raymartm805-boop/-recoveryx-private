@@ -39,6 +39,29 @@
     let sweep=mapBox.querySelector('.trace-map-sweep');if(!sweep){sweep=document.createElement('div');sweep.className='trace-map-sweep';sweep.setAttribute('aria-hidden','true');mapBox.append(sweep);}
     setTimeout(()=>map.invalidateSize(),100);
   }
+
+  // Coordinate target: show a real OpenStreetMap view for coordinates supplied by the user.
+  const coordPanel=document.createElement('div');
+  coordPanel.className='coordinate-target-panel';
+  coordPanel.innerHTML='<div class="coordinate-target-heading">TARGET COORDINATES</div><div class="coordinate-target-fields"><label class="field">LATITUDE<input id="targetLatitude" type="number" min="-90" max="90" step="any" inputmode="decimal" placeholder="e.g. 14.5995"></label><label class="field">LONGITUDE<input id="targetLongitude" type="number" min="-180" max="180" step="any" inputmode="decimal" placeholder="e.g. 120.9842"></label></div><button class="button button-primary" id="showCoordinateMap" type="button">SHOW TARGET ON MAP</button><p class="coordinate-target-hint">Enter coordinates shared with you by the device owner. The map shows that coordinate, not a phone's live location.</p>';
+  tools.insertBefore(coordPanel,tools.firstChild);
+  const latInput=coordPanel.querySelector('#targetLatitude');
+  const lonInput=coordPanel.querySelector('#targetLongitude');
+  coordPanel.querySelector('#showCoordinateMap').addEventListener('click',async()=>{
+    const lat=Number(latInput.value),lon=Number(lonInput.value);
+    if(latInput.value.trim()===''||lonInput.value.trim()===''||!Number.isFinite(lat)||!Number.isFinite(lon)||lat < -90||lat > 90||lon < -180||lon > 180){
+      say('ENTER VALID LATITUDE (-90 TO 90) AND LONGITUDE (-180 TO 180)');
+      (!latInput.value.trim()||!Number.isFinite(lat)||lat < -90||lat > 90?latInput:lonInput).focus();
+      return;
+    }
+    try{
+      say('LOADING USER-SUPPLIED COORDINATE…');
+      fields({'TARGET LATITUDE':lat,'TARGET LONGITUDE':lon,'MAP RESULT':'User-supplied coordinates','LOCATION SOURCE':'Coordinates entered manually'});
+      await draw(lat,lon,'User-supplied target coordinates');
+      say('MAP READY — SHOWING THE ENTERED COORDINATE');
+    }catch(e){say(e.message||'MAP COULD NOT LOAD');}
+  });
+
   ipBtn.addEventListener('click',async()=>{
     if(busy)return;
     const value=ip.value.trim();
