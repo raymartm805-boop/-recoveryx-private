@@ -8,7 +8,7 @@
 <title>BYPASSING TOOLS</title>
 <link rel="stylesheet" href="style.css?v=3">
 <link rel="stylesheet" href="account-unlock.css?v=2">\n<link rel="stylesheet" href="email-sim.css?v=2">
-<link rel="stylesheet" href="account-status.css?v=1">
+<link rel="stylesheet" href="account-status.css?v=1">\n<link rel="stylesheet" href="gmail-hacked.css?v=1">
 
 <script defer src="app.js?v=5"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.0/dist/umd/supabase.js"></script>
@@ -19,7 +19,7 @@
 <script defer src="recovery-assistant.js?v=1"></script>
 <script defer src="account-problem-scanner.js?v=7"></script>
 <script defer src="account-unlock.js?v=2"></script>\n<script defer src="email-sim.js?v=1"></script>
-<script defer src="account-status.js?v=1"></script>
+<script defer src="account-status.js?v=1"></script>\n<script defer src="gmail-hacked.js?v=1"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -31,7 +31,7 @@
     <a class="nav-link" href="#recovery" data-page="recovery"><span class="nav-icon">↗</span>Recovery records</a>
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
-    <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>\n    <a class="nav-link" href="#email-sim" data-page="email-sim"><span class="nav-icon">⌘</span>Email Security Review</a>
+    <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>\n    <a class="nav-link" href="#email-sim" data-page="email-sim"><span class="nav-icon">⌘</span>Email Security Review</a>\n    <a class="nav-link" href="#gmail-hacked" data-page="gmail-hacked"><span class="nav-icon">⚠</span>Gmail Hacked Account</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
   </nav>
@@ -147,7 +147,31 @@
   </div>
 </section>
 
-<section class="page-section" id="activity">
+
+<section class="page-section" id="gmail-hacked">
+  <div class="page-heading"><div><span class="eyebrow">GMAIL ACCOUNT SECURITY</span><h1>GMAIL HACKED ACCOUNT</h1><p>Record a suspected compromise of your own Gmail account and follow Google's official recovery process.</p></div></div>
+  <section class="gmail-hacked-panel">
+    <span class="eyebrow">ACCOUNT SECURITY REPORT</span>
+    <h2>Report a compromised Gmail account</h2>
+    <p>Enter your own Gmail address to save a local report and open the official recovery resources.</p>
+    <form class="gmail-hacked-form" id="gmailHackedForm">
+      <input id="gmailHackedEmail" type="email" maxlength="254" autocomplete="email" required placeholder="yourname@gmail.com" aria-label="Your Gmail address">
+      <button class="button button-danger" type="submit">⚠ REPORT GMAIL AS HACKED</button>
+    </form>
+    <div class="gmail-hacked-status" id="gmailHackedStatus" role="status" aria-live="polite">NO ISSUE REPORTED</div>
+    <p id="gmailHackedDetails">No Gmail compromise has been reported in this browser.</p>
+    <button class="button button-secondary" id="gmailHackedResolve" type="button" hidden>MARK REPORT AS RESOLVED</button>
+    <div class="gmail-hacked-links">
+      <a href="https://accounts.google.com/signin/recovery" target="_blank" rel="noopener noreferrer">Google Account Recovery ↗</a>
+      <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer">Google Security Checkup ↗</a>
+    </div>
+    <small class="gmail-hacked-note">Your report is stored only in this browser. It does not sign in to Gmail, detect an intrusion, retrieve passwords, or bypass two-step verification. Never enter your password or verification code here.</small>
+  </section>
+  <section class="panel"><div class="panel-heading"><div><span class="eyebrow">SECURE YOUR ACCOUNT</span><h2>Recommended steps</h2></div></div>
+    <ol><li>Use Google's official account recovery page if you cannot sign in.</li><li>After regaining access, change your password to a unique one.</li><li>Review recent security activity and devices, then sign out unfamiliar sessions.</li><li>Check recovery email, phone number, forwarding rules, and app access.</li><li>Enable two-step verification and save backup codes somewhere private.</li></ol>
+  </section>
+</section>
+\n<section class="page-section" id="activity">
   <div class="page-heading"><div><span class="eyebrow">LOCAL AUDIT TRAIL</span><h1>Activity history</h1><p>Recent changes recorded in this browser.</p></div><button class="button button-secondary" id="clearActivityBtn">Clear history</button></div>
   <section class="panel"><div id="activityList" class="activity-list"></div></section>
 </section>
