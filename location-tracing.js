@@ -62,7 +62,7 @@
     if(marker)marker.remove();
     const pulseIcon=L.divIcon({className:'trace-pulse-icon',html:'<span class="trace-pulse-core"></span><span class="trace-pulse-ring"></span>',iconSize:[34,34],iconAnchor:[17,17]});
     marker=L.marker([lat,lon],{icon:pulseIcon}).addTo(map).bindPopup(label).openPopup();
-    let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';liveTag.textContent=label.toLowerCase().includes('live location')?'LIVE DEVICE GPS · OWNER CONSENT':'MAP DISPLAY · '+label.toUpperCase();mapBox.append(liveTag);}
+    let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';mapBox.append(liveTag);}liveTag.textContent=label.toLowerCase().includes('live location')?'LIVE DEVICE GPS · OWNER CONSENT':'MAP DISPLAY · '+label.toUpperCase();
     let sweep=mapBox.querySelector('.trace-map-sweep');if(!sweep){sweep=document.createElement('div');sweep.className='trace-map-sweep';sweep.setAttribute('aria-hidden','true');mapBox.append(sweep);}
     setTimeout(()=>{if(map){map.invalidateSize(true);}},250);
   }
@@ -104,7 +104,7 @@
         liveStart.textContent='LIVE LOCATION ACTIVE';
         liveStop.disabled=false;
         say('LIVE DEVICE LOCATION — CONSENTED GPS UPDATE RECEIVED');
-      }catch(error){liveStatus.textContent=error.message||'MAP COULD NOT LOAD. Location permission remains active until stopped.';liveStart.disabled=false;liveStart.textContent='RETRY MAP DISPLAY';}
+      }catch(error){liveStatus.textContent=(error.message||'MAP COULD NOT LOAD.')+' GPS sharing is still active; stop it when finished.';liveStart.disabled=true;liveStart.textContent='LIVE LOCATION ACTIVE';liveStop.disabled=false;}
     },error=>{
       const messages={1:'LOCATION PERMISSION DENIED. The device owner must allow location access.',2:'DEVICE LOCATION IS UNAVAILABLE. Check GPS and try again.',3:'LOCATION REQUEST TIMED OUT. Waiting for another GPS update may help.'};
       liveStatus.textContent=messages[error.code]||'COULD NOT GET DEVICE LOCATION.';
