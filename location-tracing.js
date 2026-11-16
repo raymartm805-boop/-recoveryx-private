@@ -70,7 +70,7 @@
     if(marker)marker.remove();
     const pulseIcon=L.divIcon({className:'trace-pulse-icon',html:'<span class="trace-pulse-core"></span><span class="trace-pulse-ring"></span>',iconSize:[34,34],iconAnchor:[17,17]});
     marker=L.marker([lat,lon],{icon:pulseIcon}).addTo(map).bindPopup(label).openPopup();
-    let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';liveTag.textContent='LIVE MAP DISPLAY · APPROXIMATE IP POINT';mapBox.append(liveTag);}
+    let liveTag=mapBox.querySelector('.trace-live-tag');if(!liveTag){liveTag=document.createElement('div');liveTag.className='trace-live-tag';liveTag.textContent=label.toLowerCase().includes('live location')?'LIVE DEVICE GPS · OWNER CONSENT':'MAP DISPLAY · '+label.toUpperCase();mapBox.append(liveTag);}
     let sweep=mapBox.querySelector('.trace-map-sweep');if(!sweep){sweep=document.createElement('div');sweep.className='trace-map-sweep';sweep.setAttribute('aria-hidden','true');mapBox.append(sweep);}
     setTimeout(()=>{if(map){map.invalidateSize(true);}},250);
   }
@@ -85,24 +85,40 @@
   // A social handle or phone number is never queried for a person's location.
   const sharePanel=document.createElement('section');
   sharePanel.className='coordinate-target-panel';
-  sharePanel.innerHTML='<div class="coordinate-target-heading">SOCIAL MEDIA / PHONE LOCATION SHARING</div><p class="coordinate-target-hint">For a person who has agreed to share their location: ask them to open this app on their own device and tap the button below. Their browser will request location permission. A username or phone number alone cannot reveal live GPS.</p><label class="field">SHARING CHANNEL<select id="locationShareChannel"><option value="Messenger">Facebook Messenger</option><option value="WhatsApp">WhatsApp</option><option value="Instagram">Instagram</option><option value="SMS">Phone call / SMS</option><option value="Google Maps">Google Maps</option></select></label><button class="button button-primary" id="getSharedDeviceLocation" type="button">SHARE THIS DEVICE LOCATION</button><p class="coordinate-target-hint" id="sharedLocationStatus" role="status" aria-live="polite">The device owner must approve the location permission prompt.</p>';
+  sharePanel.innerHTML='<div class="coordinate-target-heading">CONSENT-BASED LIVE DEVICE LOCATION</div><p class="coordinate-target-hint">Use this only on the device whose owner is sharing its location. Press START LIVE LOCATION and approve the browser location prompt. The map marker updates as that device moves. Phone numbers and social usernames cannot be used to locate someone.</p><button class="button button-primary" id="getSharedDeviceLocation" type="button">START LIVE LOCATION</button><button class="button button-secondary" id="stopSharedDeviceLocation" type="button" disabled>STOP SHARING</button><p class="coordinate-target-hint" id="sharedLocationStatus" role="status" aria-live="polite">NOT SHARING — DEVICE OWNER PERMISSION REQUIRED.</p>';
   tools.insertBefore(sharePanel,coordPanel.nextSibling);
-  sharePanel.querySelector('#getSharedDeviceLocation').addEventListener('click',()=>{
-    const out=sharePanel.querySelector('#sharedLocationStatus');
-    const btn=sharePanel.querySelector('#getSharedDeviceLocation');
-    if(!navigator.geolocation){out.textContent='LOCATION PERMISSION IS NOT AVAILABLE IN THIS APP OR BROWSER. Ask the device owner to share a Google Maps location link instead.';return;}
-    btn.disabled=true;out.textContent='WAITING FOR THE DEVICE OWNER TO APPROVE LOCATION ACCESS…';
-    navigator.geolocation.getCurrentPosition(async position=>{
+  const liveStart=sharePanel.querySelector('#getSharedDeviceLocation');
+  const liveStop=sharePanel.querySelector('#stopSharedDeviceLocation');
+  const liveStatus=sharePanel.querySelector('#sharedLocationStatus');
+  let liveWatchId=null;
+  liveStop.addEventListener('click',()=>{
+    if(liveWatchId!==null)navigator.geolocation.clearWatch(liveWatchId);
+    liveWatchId=null;liveStart.disabled=false;liveStart.textContent='START LIVE LOCATION';liveStop.disabled=true;
+    liveStatus.textContent='LIVE LOCATION SHARING STOPPED ON THIS DEVICE.';
+    say('LIVE LOCATION SHARING STOPPED');
+  });
+  liveStart.addEventListener('click',()=>{
+    if(!navigator.geolocation){liveStatus.textContent='LOCATION PERMISSION IS NOT AVAILABLE. Use a supported browser over HTTPS.';return;}
+    if(liveWatchId!==null)return;
+    liveStart.disabled=true;liveStart.textContent='WAITING FOR PERMISSION…';
+    liveStatus.textContent='WAITING FOR THE DEVICE OWNER TO APPROVE LOCATION ACCESS…';
+    liveWatchId=navigator.geolocation.watchPosition(async position=>{
       const lat=position.coords.latitude,lon=position.coords.longitude;
       latInput.value=lat.toFixed(6);lonInput.value=lon.toFixed(6);
-      out.textContent='LOCATION RECEIVED WITH DEVICE OWNER PERMISSION. Tap SHOW TARGET ON MAP to display it.';
-      btn.disabled=false;
-      say('CONSENTED DEVICE LOCATION RECEIVED — READY TO DISPLAY');
+      try{
+        await draw(lat,lon,'Live location shared by this device');
+        fields({'LOCATION SOURCE':'Live GPS — device owner permission','LATITUDE':lat.toFixed(6),'LONGITUDE':lon.toFixed(6),'GPS ACCURACY':Math.round(position.coords.accuracy)+' meters','LAST UPDATED':new Date(position.timestamp).toLocaleTimeString()});
+        liveStatus.textContent='● LIVE — THIS DEVICE IS SHARING ITS LOCATION. GPS accuracy: about '+Math.round(position.coords.accuracy)+' m. Last update: '+new Date(position.timestamp).toLocaleTimeString()+'.';
+        liveStart.textContent='LIVE LOCATION ACTIVE';
+        liveStop.disabled=false;
+        say('LIVE DEVICE LOCATION — CONSENTED GPS UPDATE RECEIVED');
+      }catch(error){liveStatus.textContent=error.message||'MAP COULD NOT LOAD. Location permission remains active until stopped.';liveStart.disabled=false;liveStart.textContent='RETRY MAP DISPLAY';}
     },error=>{
-      const messages={1:'LOCATION PERMISSION DENIED. The device owner must allow location access.',2:'DEVICE LOCATION IS UNAVAILABLE. Check GPS and try again.',3:'LOCATION REQUEST TIMED OUT. Try again.'};
-      out.textContent=messages[error.code]||'COULD NOT GET LOCATION. Ask the device owner to share it manually.';
-      btn.disabled=false;
-    },{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+      const messages={1:'LOCATION PERMISSION DENIED. The device owner must allow location access.',2:'DEVICE LOCATION IS UNAVAILABLE. Check GPS and try again.',3:'LOCATION REQUEST TIMED OUT. Waiting for another GPS update may help.'};
+      liveStatus.textContent=messages[error.code]||'COULD NOT GET DEVICE LOCATION.';
+      if(liveWatchId!==null)navigator.geolocation.clearWatch(liveWatchId);
+      liveWatchId=null;liveStart.disabled=false;liveStart.textContent='START LIVE LOCATION';liveStop.disabled=true;
+    },{enableHighAccuracy:true,timeout:25000,maximumAge:0});
   });
   const latInput=coordPanel.querySelector('#targetLatitude');
   const lonInput=coordPanel.querySelector('#targetLongitude');
