@@ -9,3 +9,39 @@
 @keyframes tracePulse{0%{transform:scale(.45);opacity:1}100%{transform:scale(1.8);opacity:0}}
 @keyframes traceMapSweep{0%{background-position:120% 0}100%{background-position:-120% 0}}
 @media(prefers-reduced-motion:reduce){.trace-map-sweep,.trace-pulse-ring{animation:none}}
+
+
+/* Full-width red tactical map layout */
+#location-tracing .page-heading .eyebrow{color:#ff666f;letter-spacing:.2em}
+#location-tracing .page-heading h1{color:#fff;text-shadow:0 0 22px rgba(255,25,55,.28)}
+#location-tracing .location-tracing-panel{position:relative;overflow:hidden;padding:clamp(15px,2.4vw,28px);border:1px solid #b91e32;border-radius:14px;background:radial-gradient(ellipse at 50% 0%,rgba(105,9,24,.3),transparent 48%),linear-gradient(145deg,#090609,#16080d 58%,#080609);box-shadow:0 0 28px rgba(230,20,48,.13),inset 0 0 35px rgba(255,20,50,.035)}
+#location-tracing .location-tracing-panel:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#ff263f,transparent);opacity:.9}
+#location-tracing .location-input-grid{grid-template-columns:minmax(0,1fr)}
+#location-tracing .location-tracing-panel .field{font-size:.85rem;letter-spacing:.035em}
+#location-tracing .location-tracing-panel .field input{min-height:54px;border:1px solid #6e4a52;border-radius:9px;background:#080709;box-shadow:inset 0 0 16px rgba(0,0,0,.7);font-size:1.05rem}
+#location-tracing .location-tracing-panel .field input:focus{outline:2px solid #e72a42;border-color:#ff5668}
+#location-tracing .map-activation{border-color:#8c1b2d;background:linear-gradient(110deg,#17090e,#0b080b)}
+#location-tracing .button-primary{background:linear-gradient(110deg,#8d1024,#ed203c);border:1px solid #ff5365;box-shadow:0 0 16px rgba(255,20,55,.2);color:#fff}
+#location-tracing .button-primary:hover{filter:brightness(1.15)}
+#location-tracing .tracing-control-row{padding:14px 16px;border:1px solid #7c1c2c;border-radius:10px;background:linear-gradient(90deg,#1b090e,#0a080a)}
+#location-tracing .tracing-eyebrow{color:#ff6575}
+#location-tracing .trace-progress-wrap{border-color:#6b1c2b;background:#10090d}
+#location-tracing .trace-progress{height:7px;background:#3b1720}
+#location-tracing .trace-progress span{background:linear-gradient(90deg,#9f1027,#ff263f,#ff8991);box-shadow:0 0 12px #f22}
+#location-tracing .trace-steps{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#location-tracing .trace-steps li{min-height:54px;border-color:#54202b;background:#10090d;color:#d4bfc4}
+#location-tracing .trace-steps li.is-active{border-color:#ff3e55;box-shadow:0 0 14px rgba(255,30,60,.18)}
+#location-tracing .trace-steps li.is-done:before{color:#37e36d}
+#location-tracing .trace-map{height:clamp(300px,52vw,520px);border:1px solid #d3243d;border-radius:12px;background-color:#090709;box-shadow:0 0 22px rgba(255,20,50,.16)}
+#location-tracing .trace-map .leaflet-tile{filter:grayscale(1) sepia(.75) hue-rotate(300deg) saturate(3.2) brightness(.66) contrast(1.18)}
+#location-tracing .trace-map .leaflet-container{background:#10070b}
+#location-tracing .trace-map .leaflet-popup-content-wrapper,#location-tracing .trace-map .leaflet-popup-tip{background:#170a0f;color:#fff;border:1px solid #a91e34}
+#location-tracing .trace-map .leaflet-control-zoom a{background:#12090d;color:#ff8996;border-color:#762033}
+#location-tracing .trace-live-tag{border-color:#ff344f;background:rgba(20,4,9,.94);color:#ffb4bd;box-shadow:0 0 18px rgba(255,20,50,.35)}
+#location-tracing .trace-map-sweep{background:linear-gradient(110deg,transparent 35%,rgba(255,25,55,.04) 46%,rgba(255,40,65,.26) 50%,rgba(255,25,55,.04) 54%,transparent 65%);background-size:220% 100%}
+#location-tracing .location-results{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px}
+#location-tracing .location-result-item{border-color:#61202d;background:linear-gradient(140deg,#190b10,#0b080b);box-shadow:inset 0 0 14px rgba(255,20,50,.035)}
+#location-tracing .location-result-item strong{color:#ff7c89;letter-spacing:.1em}
+#location-tracing .location-result-item span{color:#fff;font-size:.94rem}
+#location-tracing .location-disclosure{padding:10px 12px;border-left:2px solid #d72a43;background:rgba(80,10,25,.16)}
+@media(max-width:680px){#location-tracing .trace-steps{grid-template-columns:repeat(2,minmax(0,1fr))}#location-tracing .trace-map{height:340px}#location-tracing .location-tracing-panel{padding:14px}}
