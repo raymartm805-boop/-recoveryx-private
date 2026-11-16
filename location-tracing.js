@@ -39,14 +39,15 @@
     say('TRACING SYSTEM READY — ENTER AN IP ADDRESS');
     tools.scrollIntoView?.({behavior:'smooth',block:'start'});
   }
-  // Use both the native click path and pointer/touch fallbacks for Android WebViews.
-  // The hidden-state guard makes the handler safe if a device dispatches more than one event.
+  // A single native click handler supports mouse, Android touch and keyboard activation.
+  // Expose a named fallback so the button can still invoke activation if WebView event
+  // delegation behaves differently; the hidden-state guard prevents duplicate activation.
   activateBtn.type='button';
+  activateBtn.disabled=false;
   activateBtn.style.pointerEvents='auto';
+  activateBtn.style.touchAction='manipulation';
+  window.activateMapAccess=activate;
   activateBtn.onclick=activate;
-  activateBtn.addEventListener('click',e=>{e.preventDefault();activate();},{capture:true});
-  activateBtn.addEventListener('pointerup',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){e.preventDefault();activate();}},{passive:false});
-  activateBtn.addEventListener('touchend',e=>{e.preventDefault();activate();},{passive:false});
   codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();activate();}});
   codeInput.addEventListener('input',()=>{codeInput.removeAttribute('aria-invalid');if(activationStatus)activationStatus.textContent='ENTER THE ACTIVATION CODE TO CONTINUE.';});
   async function draw(lat,lon,label){
