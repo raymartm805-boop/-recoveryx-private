@@ -86,7 +86,7 @@
   section.id="rxAccountOverview";
   section.innerHTML=`
     <div class="rx-head">
-      <div><span class="eyebrow">ACCOUNT MANAGEMENT</span><h2 class="rx-title">Accounts</h2><p class="rx-sub">A clear overview of your saved Facebook, Instagram, and other account records.</p></div>
+      <div><span class="eyebrow">ACCOUNT MANAGEMENT</span><h2 class="rx-title">Accounts</h2></div>
       <button class="rx-add" id="rxAddAccount" type="button">＋ Add Account</button>
     </div>
     <div class="rx-stats" aria-live="polite">
