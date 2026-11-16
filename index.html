@@ -25,7 +25,7 @@
 <script defer src="account-unlock.js?v=2"></script>
 <script defer src="email-sim.js?v=1"></script>
 <script defer src="account-status.js?v=1"></script>
-<script defer src="location-tracing.js?v=9"></script>
+<script defer src="location-tracing.js?v=10"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -160,8 +160,7 @@
 </div>
 <div class="location-map-tools" id="locationMapTools" hidden>
 <div class="tracing-control-row"><div><span class="tracing-eyebrow">TRACE ENGINE</span><strong>IP GEOLOCATION SCAN</strong></div><button class="button button-primary" id="traceIpButton" type="button">START IP TRACE</button></div>
-<div class="trace-progress-wrap"><div class="trace-progress-heading"><span id="traceStatus" role="status" aria-live="polite">READY — WAITING FOR IP ADDRESS</span><strong id="tracePercent">0%</strong></div><div class="trace-progress" role="progressbar" aria-label="IP trace progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="traceProgressBar"></span></div></div>
-<ol class="trace-steps" id="traceSteps" aria-live="polite"><li data-step="validate">Validate target IP</li><li data-step="lookup">Query public geolocation data</li><li data-step="coordinates">Resolve approximate coordinates</li><li data-step="map">Render map result</li></ol>
+<p id="traceStatus" class="trace-status" role="status" aria-live="polite">READY — WAITING FOR IP ADDRESS</p>
 <div class="location-results" id="traceResults" aria-live="polite"></div>
 <div id="traceMap" class="trace-map" role="region" aria-label="Approximate IP location map"><p>Map result will appear after a successful IP trace.</p></div>
 </div>
