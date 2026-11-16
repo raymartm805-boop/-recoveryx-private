@@ -28,7 +28,7 @@ th{background:#041008!important}td{color:#c4f2d0!important}tbody tr:hover{backgr
 .toast{background:#061a0d!important;border-color:#20f078!important;color:#d8ffe6!important;border-radius:3px!important}
 footer{color:#477a55!important}
 .account-status-card,.gmail-hacked-panel{background:#06140b!important;border:1px solid #1c6c37!important;border-radius:5px!important;color:#d8ffe6!important}
-#hackerMatrix{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.13;pointer-events:none}
+#hackerMatrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.13;pointer-events:none}.app-shell,footer{position:relative;z-index:1}
 .hacker-dock{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:45;display:grid;gap:7px}
 .hacker-dock button{width:43px;height:43px;border:1px solid #247b40;background:#04140a;color:#8cffae;font:700 12px ui-monospace,monospace;border-radius:3px;box-shadow:0 0 14px #20f07820}
 .hacker-dock button:active{background:#0c4d25}
