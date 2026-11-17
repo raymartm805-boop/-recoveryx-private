@@ -5,11 +5,7 @@
   const results = document.getElementById('traceResults');
   if (!tools || !mapBox || !status || !results) return;
 
-  let map = null;
-  let marker = null;
-  let tileLayer = null;
   let busy = false;
-
   const say = message => { status.textContent = message; };
 
   function showCoordinates(lat, lon) {
@@ -31,72 +27,34 @@
     });
   }
 
-  function loadCss() {
-    if (document.querySelector('link[data-location-leaflet-css]')?.sheet) return Promise.resolve();
-    const urls = [
-      'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css',
-      'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
-    ];
-    return urls.reduce((chain, url) => chain.catch(() => new Promise((resolve, reject) => {
-      const old = document.querySelector('link[data-location-leaflet-css]');
-      if (old) old.remove();
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = url;
-      link.dataset.locationLeafletCss = 'true';
-      link.onload = resolve;
-      link.onerror = () => { link.remove(); reject(new Error('Map styles could not load. Check your internet connection.')); };
-      document.head.append(link);
-    })), Promise.reject());
-  }
+  function showMap(lat, lon) {
+    const latitudeSpan = 0.0035;
+    const longitudeSpan = 0.0040;
+    const bbox = [
+      (lon - longitudeSpan).toFixed(6),
+      (lat - latitudeSpan).toFixed(6),
+      (lon + longitudeSpan).toFixed(6),
+      (lat + latitudeSpan).toFixed(6)
+    ].join(',');
 
-  function loadScript() {
-    if (window.L) return Promise.resolve();
-    const urls = [
-      'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js',
-      'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
-    ];
-    return urls.reduce((chain, url) => chain.catch(() => new Promise((resolve, reject) => {
-      const old = document.querySelector('script[data-location-leaflet-js]');
-      if (old) old.remove();
-      const script = document.createElement('script');
-      script.src = url;
-      script.dataset.locationLeafletJs = 'true';
-      script.onload = resolve;
-      script.onerror = () => { script.remove(); reject(new Error('Map library could not load. Check your internet connection.')); };
-      document.head.append(script);
-    })), Promise.reject());
-  }
+    const frame = document.createElement('iframe');
+    frame.className = 'street-map-frame';
+    frame.title = 'OpenStreetMap street map at entered coordinates';
+    frame.loading = 'eager';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.allowFullscreen = true;
+    frame.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' +
+      encodeURIComponent(bbox) + '&layer=mapnik&marker=' +
+      encodeURIComponent(lat.toFixed(6) + ',' + lon.toFixed(6));
+    frame.addEventListener('load', () => {
+      say('STREET MAP FRAME LOADED — CHECK THE MAP AND MARKER.');
+    });
+    frame.addEventListener('error', () => {
+      say('MAP DID NOT LOAD. CHECK INTERNET, THEN USE OPEN STREET MAP IN BROWSER.');
+    });
 
-  async function loadLeaflet() {
-    if (window.L) return;
-    await Promise.all([loadCss(), loadScript()]);
-    if (!window.L) throw new Error('Map library did not initialize. Please reload the app and try again.');
-  }
-
-  async function showMap(lat, lon) {
-    await loadLeaflet();
-    if (!map) {
-      mapBox.replaceChildren();
-      mapBox.style.display = 'block';
-      map = L.map(mapBox, { zoomControl: true, preferCanvas: true }).setView([lat, lon], 18);
-      tileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        minZoom: 3,
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
-      });
-      tileLayer.on('tileerror', () => say('MAP TILE ERROR — CHECK INTERNET CONNECTION. You can open the same coordinates in OpenStreetMap below.'));
-      tileLayer.on('load', () => say('STREET MAP LOADED — MARKER PLACED AT THE ENTERED COORDINATES.'));
-      tileLayer.addTo(map);
-      L.control.scale({ imperial: false, metric: true }).addTo(map);
-    } else {
-      map.setView([lat, lon], 18);
-      map.invalidateSize(true);
-    }
-    if (marker) marker.remove();
-    marker = L.marker([lat, lon]).addTo(map)
-      .bindPopup('Entered coordinates<br>' + lat.toFixed(6) + ', ' + lon.toFixed(6))
-      .openPopup();
+    mapBox.replaceChildren(frame);
+    mapBox.style.display = 'block';
 
     let external = document.getElementById('openOsmFallback');
     if (!external) {
@@ -110,8 +68,9 @@
       external.style.margin = '0 0 12px';
       mapBox.insertAdjacentElement('afterend', external);
     }
-    external.href = 'https://www.openstreetmap.org/?mlat=' + encodeURIComponent(lat) + '&mlon=' + encodeURIComponent(lon) + '#map=18/' + encodeURIComponent(lat) + '/' + encodeURIComponent(lon);
-    requestAnimationFrame(() => map && map.invalidateSize(true));
+    external.href = 'https://www.openstreetmap.org/?mlat=' + encodeURIComponent(lat) +
+      '&mlon=' + encodeURIComponent(lon) + '#map=18/' +
+      encodeURIComponent(lat) + '/' + encodeURIComponent(lon);
   }
 
   const panel = document.createElement('section');
@@ -123,11 +82,12 @@
     '</div><button class="button button-primary" id="showCoordinateMap" type="button">SHOW ON STREET MAP</button>' +
     '<p class="coordinate-target-hint">This map displays only the coordinates you enter. It does not locate or track another person or device.</p>';
   tools.replaceChildren(panel);
+
   const latitude = panel.querySelector('#targetLatitude');
   const longitude = panel.querySelector('#targetLongitude');
   const button = panel.querySelector('#showCoordinateMap');
 
-  button.addEventListener('click', async () => {
+  button.addEventListener('click', () => {
     const latText = latitude.value.trim();
     const lonText = longitude.value.trim();
     const lat = Number(latText);
@@ -141,14 +101,14 @@
     if (busy) return;
     busy = true;
     button.disabled = true;
-    button.textContent = 'LOADING STREET MAP…';
+    button.textContent = 'OPENING STREET MAP…';
     try {
-      say('CONNECTING TO OPENSTREETMAP…');
+      say('OPENING OPENSTREETMAP…');
       showCoordinates(lat, lon);
-      await showMap(lat, lon);
-      say('MAP READY — WAITING FOR STREET TILES.');
+      showMap(lat, lon);
+      say('MAP REQUEST SENT — WAIT FOR STREET MAP TO LOAD.');
     } catch (error) {
-      say(error.message || 'THE MAP COULD NOT LOAD. CHECK YOUR INTERNET CONNECTION.');
+      say('MAP ERROR: ' + (error.message || 'PLEASE CHECK YOUR INTERNET CONNECTION.'));
     } finally {
       busy = false;
       button.disabled = false;
@@ -159,11 +119,4 @@
   [latitude, longitude].forEach(input => input.addEventListener('keydown', event => {
     if (event.key === 'Enter') button.click();
   }));
-
-  window.addEventListener('hashchange', () => {
-    if (location.hash === '#location-tracing' && map) requestAnimationFrame(() => map.invalidateSize(true));
-  });
-  window.addEventListener('resize', () => {
-    if (map) map.invalidateSize(true);
-  });
 })();
