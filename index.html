@@ -25,7 +25,7 @@
 <script defer src="account-unlock.js?v=2"></script>
 <script defer src="email-sim.js?v=1"></script>
 <script defer src="account-status.js?v=1"></script>
-<script defer src="location-tracing.js?v=11"></script>
+<script defer src="location-tracing.js?v=12"></script>
 </head>
 <body>
 <div class="app-shell">
@@ -147,24 +147,14 @@
 
 
 <section class="page-section" id="location-tracing">
-<div class="page-heading"><div><span class="eyebrow">LOCATION TOOLS</span><h1>LOCATION TRACING</h1><p>Trace the approximate network location of an IP address you enter manually.</p></div></div>
+<div class="page-heading"><div><span class="eyebrow">LOCATION TOOLS</span><h1>STREET MAP</h1><p>Enter latitude and longitude to show the coordinate on OpenStreetMap.</p></div></div>
 <section class="location-tracing-panel">
-<div class="location-input-grid">
-<label class="field">TARGET IP ADDRESS<input id="traceIp" type="text" inputmode="decimal" maxlength="45" autocomplete="off" placeholder="Enter IPv4 or IPv6 address"><small>Enter a public IP address. This does not track a phone number or identify a live device.</small></label>
-</div>
-<div class="map-activation" id="mapActivation">
-<label class="field" for="mapAccessCode">MAP ACTIVATION PASSWORD<input id="mapAccessCode" type="password" autocomplete="off" maxlength="32" placeholder="Enter activation code"></label>
-<button class="button button-primary" id="mapActivateButton" type="button">ACTIVATE TRACING SYSTEM</button>
-<p class="map-activation-hint">Enter the activation code to open the IP tracing tools.</p>
-<p class="map-activation-hint" id="mapActivationStatus" role="status" aria-live="polite">ENTER THE ACTIVATION CODE TO CONTINUE.</p>
-</div>
-<div class="location-map-tools" id="locationMapTools" hidden>
-<div class="tracing-control-row"><div><span class="tracing-eyebrow">TRACE ENGINE</span><strong>IP GEOLOCATION SCAN</strong></div><button class="button button-primary" id="traceIpButton" type="button">START IP TRACE</button></div>
-<p id="traceStatus" class="trace-status" role="status" aria-live="polite">READY — WAITING FOR IP ADDRESS</p>
+<div class="location-map-tools" id="locationMapTools">
+<p id="traceStatus" class="trace-status" role="status" aria-live="polite">READY — ENTER LATITUDE AND LONGITUDE.</p>
 <div class="location-results" id="traceResults" aria-live="polite"></div>
-<div id="traceMap" class="trace-map" role="region" aria-label="Approximate IP location map"><p>Map result will appear after a successful IP trace.</p></div>
+<div id="traceMap" class="trace-map" role="region" aria-label="OpenStreetMap street map"><p>Enter latitude and longitude to display the map.</p></div>
 </div>
-<p class="location-disclosure">This tool checks only the IP address manually entered here. Results are approximate network-location data, not GPS or real-time device tracking. Do not use it to monitor someone without their knowledge and consent.</p>
+<p class="location-disclosure">The marker shows only the latitude and longitude entered. Street detail depends on OpenStreetMap coverage and the accuracy of the coordinates supplied. This tool does not discover or track a person or device.</p>
 </section></section>
 
 <section class="page-section" id="activity">
