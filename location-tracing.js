@@ -76,9 +76,9 @@
 
   async function showMap(lat, lon) {
     await loadLeaflet();
-    mapBox.replaceChildren();
-    mapBox.style.display = 'block';
     if (!map) {
+      mapBox.replaceChildren();
+      mapBox.style.display = 'block';
       map = L.map(mapBox, { zoomControl: true, preferCanvas: true }).setView([lat, lon], 18);
       tileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 3,
