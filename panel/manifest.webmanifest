@@ -1,0 +1,10 @@
+{
+  "name": "MALWARE BYPASSING TOOLS — Location Console",
+  "short_name": "MBT Console",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050907",
+  "theme_color": "#050907",
+  "description": "Consent-based GPS utility for the current device.",
+  "icons": []
+}
