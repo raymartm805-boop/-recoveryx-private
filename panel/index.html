@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050907">
-<meta name="description" content="MALWARE BYPASSING TOOLS — consent-based device location dashboard.">
+<meta name="description" content="MALWARE BYPASSING TOOLS — consent-based device location dashboard.">\n<link rel="manifest" href="./manifest.webmanifest">
 <title>MALWARE BYPASSING TOOLS | Location Console</title>
 <style>
 :root{color-scheme:dark;--bg:#050907;--panel:#0a1410;--line:#173b2a;--green:#49ff91;--muted:#8aa997;--red:#ff5e6c}
@@ -31,7 +31,7 @@ main{max-width:1120px;margin:auto;padding:26px clamp(14px,4vw,34px) 48px}.hero{d
 <footer>MBT // PRIVACY-FIRST GPS TOOL // USE ONLY ON DEVICES YOU OWN OR WITH EXPLICIT CONSENT</footer>
 </main>
 <script>
-(()=>{const $=id=>document.getElementById(id);let watchId=null,last=null;
+if('serviceWorker' in navigator && location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{});}\n(()=>{const $=id=>document.getElementById(id);let watchId=null,last=null;
 function log(msg,kind=''){ $('log').innerHTML='<span class="'+kind+'">[SYSTEM] '+msg.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))+'</span>'; }
 function render(lat,lon,accuracy){last={lat,lon,accuracy};$('lat').textContent=lat.toFixed(6);$('lon').textContent=lon.toFixed(6);$('accuracy').textContent=Math.round(accuracy)+' m';$('updated').textContent=new Date().toLocaleTimeString();$('map').src='https://www.openstreetmap.org/export/embed.html?bbox='+(lon-.012)+'%2C'+(lat-.008)+'%2C'+(lon+.012)+'%2C'+(lat+.008)+'&layer=mapnik&marker='+lat+'%2C'+lon;$('mapPlaceholder').classList.add('hidden');$('mapState').textContent='GPS POSITION LOADED';$('copy').disabled=false;$('openMap').disabled=false;}
 function fail(e){const messages={1:'Location permission denied. Allow location access in browser settings.',2:'Position unavailable. Check GPS and network.',3:'Location request timed out.'};log(messages[e.code]||'Unable to get location.','err');$('mapState').textContent='GPS UNAVAILABLE';}
