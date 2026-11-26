@@ -1,15 +1,16 @@
-# Device Monitoring Dashboard (Authorized)
+# Device Monitor
 
-A responsive, dark-themed device inventory and security-console UI.
+Responsive device inventory dashboard with owner-entered device and account records.
 
-## Scope
-- Manual inventory records and sample status display.
-- No live tracking, spying, or device data collection.
-- Live telemetry would require separately installed/visible agent enrollment and explicit consent.
+## Features
+- Add and remove device inventory records
+- Record account labels supplied by device owners
+- Search inventory
+- Browser-local persistence using local storage
+- Session activity list
 
-## Files
-- index.html — dashboard layout
-- style.css — responsive styling
-- app.js — manual inventory interaction
+## Limitations
+This is an inventory dashboard only. It does not remotely inspect devices, verify logged-in sessions, or receive live telemetry/location. Records are stored in the browser used to access the page and are not synchronized to a server.
 
-Deploy as a static site or open index.html in a browser.
+## Deploy
+Static site. Publish the `device-monitor` directory.
