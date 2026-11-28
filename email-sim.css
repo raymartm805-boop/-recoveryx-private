@@ -27,3 +27,6 @@
 .email-sim-form button:disabled{opacity:.6;cursor:wait}
 @media(max-width:560px){.email-sim-form{grid-template-columns:1fr}.email-sim-terminal{height:250px;padding:13px;font-size:10px}.email-sim-title{align-items:flex-start}.email-sim-chip{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.email-sim-progress>div,.email-sim-form input{transition:none}}
+
+.email-sim-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+#emailSimAddress{font-family:ui-monospace,monospace}
