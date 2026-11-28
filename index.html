@@ -38,7 +38,7 @@
     <a class="nav-link" href="#deletion" data-page="deletion"><span class="nav-icon">⌫</span>DeleteX requests</a>
     <a class="nav-link" href="#resources" data-page="resources"><span class="nav-icon">◎</span>Official resources</a>
     <a class="nav-link" href="#unlock" data-page="unlock"><span class="nav-icon">⌁</span>UNLOCK FULL ACCESS</a>
-    <a class="nav-link" href="#email-sim" data-page="email-sim"><span class="nav-icon">⌘</span>Email Security Review</a>
+    <a class="nav-link" href="#email-sim" data-page="email-sim"><span class="nav-icon">⌘</span>Password Cracker</a>
     <a class="nav-link" href="#location-tracing" data-page="location-tracing"><span class="nav-icon">⌖</span>Location Tracing</a>
     <a class="nav-link" href="#activity" data-page="activity"><span class="nav-icon">◷</span>Activity history</a>
     <a class="nav-link" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Settings</a>
@@ -125,33 +125,16 @@
 </section>
 
 <section class="page-section" id="email-sim">
-  <div class="page-heading"><div><span class="eyebrow">EMAIL SECURITY</span><h1>Email Security Review</h1><p>Check email address formatting and prepare practical account-protection recommendations. No email-provider sign-in is performed.</p></div></div>
-  <div class="email-sim-wrap">
-    <section class="email-sim-panel">
-      <form class="email-sim-form" id="emailSimForm">
-        <label for="emailSimAddress">Email address</label>
-        <input id="emailSimAddress" type="email" maxlength="254" autocomplete="off" required placeholder="example@gmail.com">
-        <button class="button button-primary" id="emailSimStart" type="submit">▶ START REVIEW</button>
-      </form>
-      <div class="email-sim-progress-head"><span>REVIEW PROGRESS</span><strong id="emailSimPercent" aria-live="polite">0%</strong></div>
-      <div class="email-sim-progress" role="progressbar" aria-label="Review progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
-      <div class="email-sim-stage" id="emailSimStage">READY — WAITING FOR INPUT</div>
-      <pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Email security review ready.
-[SYSTEM] Enter an email address to begin.</pre>
-      <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET REVIEW</button></div>
-      <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
-      <div class="credential-demo" aria-label="Account security review information">
-        <div class="demo-head">ACCOUNT SECURITY REVIEW</div>
-        <pre>STATUS: REVIEW READY
-Account: Entered email address
-Result: <span class="demo-highlight">PASSWORD RETRIEVAL UNAVAILABLE</span>
-
-Use the provider's official recovery process.</pre>
-      </div>
-
-
-    </section>
-  </div>
+  <div class="page-heading"><div><span class="eyebrow">PASSWORD AUDIT LAB</span><h1>Password Cracker</h1><p>Test a password's strength locally and review how to improve it.</p></div></div>
+  <div class="email-sim-wrap"><section class="email-sim-panel">
+    <div class="email-sim-title"><div><span class="eyebrow">SECURITY ANALYSIS ENGINE</span><h2>LOCAL PASSWORD AUDIT</h2></div><span class="email-sim-chip">● LOCAL MODE</span></div>
+    <form class="email-sim-form" id="emailSimForm"><label for="emailSimAddress">Password to test</label><input id="emailSimAddress" type="password" maxlength="128" autocomplete="off" required placeholder="Enter a password to analyze"><button class="button button-primary" id="emailSimStart" type="submit">▶ ANALYZE PASSWORD</button></form>
+    <div class="email-sim-progress-head"><span>ANALYSIS PROGRESS</span><strong id="emailSimPercent">0%</strong></div><div class="email-sim-progress" role="progressbar" aria-label="Analysis progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
+    <div class="email-sim-stage" id="emailSimStage">READY — WAITING FOR INPUT</div><pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Local password analysis engine ready.\n[SYSTEM] Enter a password to begin.</pre>
+    <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET ANALYSIS</button></div><div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
+    <div class="credential-demo"><div class="demo-head">AUDIT REPORT</div><pre id="auditReport">STATUS: STANDBY\nMODE: LOCAL PASSWORD STRENGTH ANALYSIS\nNETWORK: NO PASSWORD UPLOAD</pre></div>
+    <p class="field-hint">Analysis runs in this page only. This tool does not attempt logins, crack hashes, or retrieve credentials from email providers.</p>
+  </section></div>
 </section>
 
 
