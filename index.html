@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="style.css?v=3">
 <link rel="stylesheet" href="hacker-theme.css?v=1">
 <link rel="stylesheet" href="account-unlock.css?v=2">
-<link rel="stylesheet" href="email-sim.css?v=2">
+<link rel="stylesheet" href="email-sim.css?v=2">\n<link rel="stylesheet" href="credential-demo.css?v=1">
 <link rel="stylesheet" href="account-status.css?v=1">
 <link rel="stylesheet" href="location-tracing.css?v=5">
 
@@ -140,6 +140,16 @@
 [SYSTEM] Enter an email address to begin.</pre>
       <div class="email-sim-actions"><button class="button button-secondary" id="emailSimReset" type="button" hidden>↻ RESET REVIEW</button></div>
       <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
+      <div class="credential-demo" aria-label="Illustrative terminal result, not a real credential scan">
+        <div class="demo-head">DEMO OUTPUT · SIMULATED</div>
+        <pre>STATUS: Example review complete
+Account: example@example.com
+Result: <span class="demo-highlight">NO PASSWORD ACCESS</span>
+
+This workspace cannot retrieve account passwords.</pre>
+        <div class="demo-disclaimer">Illustrative display only. No credentials are collected, checked, or revealed.</div>
+      </div>
+
 
     </section>
   </div>
