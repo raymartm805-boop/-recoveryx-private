@@ -125,15 +125,23 @@
 </section>
 
 <section class="page-section" id="email-sim">
-  <div class="page-heading"><div><span class="eyebrow">PASSWORD TOOLS</span><h1>PASSWORD CRACKER</h1><p>Password strength testing and password generation tools.</p></div></div>
+  <div class="page-heading"><div><span class="eyebrow">ACCOUNT TOOLS</span><h1>PASSWORD CRACKER</h1><p>Create a strong password for an account and review its strength.</p></div></div>
   <div class="email-sim-wrap"><section class="email-sim-panel">
-    <div class="email-sim-title"><div><span class="eyebrow">PASSWORD CRACKER</span><h2>PASSWORD ANALYSIS</h2></div><span class="email-sim-chip">● LOCAL</span></div>
-    <form class="email-sim-form" id="emailSimForm"><label for="emailSimAddress">Password</label><input id="emailSimAddress" type="text" maxlength="128" autocomplete="off" value="MASTERKEY0010110" placeholder="Generate or enter a password"><button class="button button-primary" id="emailSimStart" type="submit">▶ CHECK STRENGTH</button></form>
-    <div class="email-sim-actions"><button class="button button-secondary" id="generatePassword" type="button">✦ GENERATE STRONG PASSWORD</button><button class="button button-secondary" id="copyPassword" type="button">▣ COPY PASSWORD</button></div>
-    <div class="email-sim-progress-head"><span>STRENGTH SCORE</span><strong id="emailSimPercent">0%</strong></div><div class="email-sim-progress" role="progressbar" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
-    <div class="email-sim-stage" id="emailSimStage">READY</div><pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Password toolkit ready.</pre>
+    <div class="email-sim-title"><div><span class="eyebrow">ACCOUNT PASSWORD SETUP</span><h2>PASSWORD SETUP</h2></div><span class="email-sim-chip">● READY</span></div>
+    <form class="email-sim-form" id="emailSimForm">
+      <label for="passwordPlatform">Select platform</label>
+      <select id="passwordPlatform" required><option value="">Choose platform</option><option>Facebook</option><option>Instagram</option><option>Google / Gmail</option><option>TikTok</option><option>Other</option></select>
+      <label for="passwordAccount">Account identifier</label>
+      <input id="passwordAccount" type="text" maxlength="120" autocomplete="off" placeholder="Username or email (optional)">
+      <label for="emailSimAddress">Password</label>
+      <input id="emailSimAddress" type="text" maxlength="128" autocomplete="off" value="" placeholder="Create or enter a password">
+      <button class="button button-primary" id="emailSimStart" type="submit">CHECK PASSWORD</button>
+    </form>
+    <div class="email-sim-actions"><button class="button button-secondary" id="generatePassword" type="button">✦ CREATE PASSWORD</button><button class="button button-secondary" id="copyPassword" type="button">▣ COPY PASSWORD</button></div>
+    <div class="email-sim-progress-head"><span>PASSWORD STRENGTH</span><strong id="emailSimPercent">0%</strong></div><div class="email-sim-progress" role="progressbar" aria-label="Password strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="emailSimBar"></div></div>
+    <div class="email-sim-stage" id="emailSimStage">READY</div><pre class="email-sim-terminal" id="emailSimTerminal" aria-live="polite">[SYSTEM] Choose a platform and create a password.</pre>
     <div class="email-sim-result" id="emailSimResult" role="status" hidden></div>
-    <div class="credential-demo"><div class="demo-head">PASSWORD REPORT</div><pre id="auditReport">STATUS: READY\nMODE: LOCAL PASSWORD CHECK</pre></div>
+    <div class="credential-demo"><div class="demo-head">PASSWORD DETAILS</div><pre id="auditReport">STATUS: READY\nMODE: PASSWORD CREATION</pre></div>
   </section></div>
 </section>
 
